@@ -15,3 +15,13 @@ body {
 main {
     flex: 1 0 auto;
 }
+
+.title-sort {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.fixed-btn {
+    bottom: 100px;
+    right: 50px;
+}

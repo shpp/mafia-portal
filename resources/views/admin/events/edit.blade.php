@@ -14,15 +14,15 @@
 
             <div class="row">
                 <div class="input-field ">
-                    {!! Form::label('name', 'Name') !!}
-                    {!! Form::text('name', NULL, array('class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
+                    {!! Form::label('type', 'Type') !!}
+                    {!! Form::text('type', NULL, array('class' => 'validate' . ($errors->has('type')?' invalid':''))) !!}
                 </div>
             </div>
 
             <div class="row">
                 <div class="input-field ">
-                    {!! Form::label('type', 'Type') !!}
-                    {!! Form::text('type', NULL, array('class' => 'validate' . ($errors->has('type')?' invalid':''))) !!}
+                    {!! Form::label('name', 'Name') !!}
+                    {!! Form::text('name', NULL, array('class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
                 </div>
             </div>
 

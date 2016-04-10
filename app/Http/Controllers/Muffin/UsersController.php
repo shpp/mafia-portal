@@ -7,15 +7,42 @@ use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Response;
 
 class UsersController extends Controller
 {
 
-	public function index(  ) {
-		//  Find all users
-		$users = User::notDeleted()->get();
-//		dd($users);
-		return view('admin.users.index', compact('users'));
+	public function index( Request $request ) {
+		$order_by = $request->input('orderBy', 'name');
+		$order = $request->input('order', 'asc');
+		$search = $request->input('search', false);
+
+		$isOrderNicknameDesc = $order_by == 'nickname' && $order == 'desc';
+		$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
+
+		if (!$request->ajax()) {
+			return view('admin.users.index', compact('isOrderNicknameDesc', 'isOrderNameDesc', 'search'));
+		}
+
+		//  Find users
+		$users = User::notDeleted()
+			->when($search, function ($query) use ($search) {
+				$query->where(function($query) use ($search) {
+						$query
+							->where('nickname', 'like', $search)
+							->orWhere('name', 'like', $search);
+					});
+			})
+			->when($order_by, function ($query) use ($order, $order_by) {
+				$query->orderBy($order_by, $order);
+			})
+			->get();
+
+
+		return Response::json([
+			'success' => 'true',
+			'data' => $users
+		]);
 	}
 
 	public function create(  )
@@ -30,7 +57,7 @@ class UsersController extends Controller
 			'nickname' => 'required|max:255|unique:users',
 			'phone' => 'required|numeric|unique:users',
 			'role' => 'required',
-			'email' => 'required|email',
+			'email' => 'required|email|unique:users',
 			'gender' => 'required',
 			'vk_link' => 'max:255',
 		]);

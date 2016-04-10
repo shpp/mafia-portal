@@ -79,12 +79,15 @@
         </div>
     </footer>
 
-    @yield('footer')
+    @yield('after-footer')
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('after-footer-scripts')
+
 </body>
 </html>

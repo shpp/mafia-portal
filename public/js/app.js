@@ -10,7 +10,7 @@ $(document).ready(function() {
 
 
     $('#delete-user').closeModal();
-    $('.delete-form-modal').click(function (e) {
+    $('body').on('click', '.delete-form-modal', function (e) {
         e.preventDefault();
         $('#delete-user').openModal();
         var url = $(this).data('delete-url');
@@ -18,27 +18,6 @@ $(document).ready(function() {
             window.location = url;
         })
     });
-
-
-    //$('#user-edit').submit(function(){
-    //    event.preventDefault();
-    //    var form = $( this );
-    //    $.ajax({
-    //        type: 'post',
-    //        url: form.attr('action'),
-    //        data: form.serializeArray(),
-    //        dataType: 'json',
-    //        success: function(data){
-    //            console.log( data );
-    //        },
-    //        error: function(data){
-    //            console.log(data);
-    //            var errors = data.responseJSON;
-    //            console.log(errors);
-    //            // Render the errors with js ...
-    //        }
-    //    });
-    //});
 
 
 });
