@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\Response;
 
 class UsersController extends Controller
 {
+	const RECORD_PER_PAGE = 15;
 
 	public function index( Request $request ) {
-		$order_by = $request->input('orderBy', 'name');
+		$order_by = $request->input('orderBy', 'nickname');
 		$order = $request->input('order', 'asc');
 		$search = $request->input('search', false);
 
-		$isOrderNicknameDesc = $order_by == 'nickname' && $order == 'desc';
-		$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
-
 		if (!$request->ajax()) {
+			$isOrderNicknameDesc = $order_by == 'nickname' && $order == 'desc';
+			$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
 			return view('admin.users.index', compact('isOrderNicknameDesc', 'isOrderNameDesc', 'search'));
 		}
 
@@ -36,7 +36,7 @@ class UsersController extends Controller
 			->when($order_by, function ($query) use ($order, $order_by) {
 				$query->orderBy($order_by, $order);
 			})
-			->get();
+			->paginate(self::RECORD_PER_PAGE);
 
 
 		return Response::json([

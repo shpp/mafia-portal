@@ -87,7 +87,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 
-    @yield('after-footer-scripts')
+    @stack('footer-scripts')
 
 </body>
 </html>
