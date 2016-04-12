@@ -136,6 +136,13 @@ main {
 .login-page .login .login__form :focus:-ms-input-placeholder {
   color: transparent;
 }
+.login-page .login .login__form #cin_error {
+  width: 100%;
+  padding: 0.2rem;
+  text-align: center;
+  font-size: 0.8em;
+  color: #cf253a;
+}
 .login-page .login .login__form .login__help {
   text-align: right;
 }

@@ -15,7 +15,8 @@
     </div>
     {!! Form::open(array( 'url' => ['/muffin/login'], 'class' => 'login__form')) !!}
       {!! Form::text('phone', NULL, array('placeholder' => 'Phone','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
-      {!! Form::password('password', array('placeholder' => 'Password','class' => 'validate' . ($errors->has('password')?' invalid':'')))!!}       
+      {!! Form::password('password', array('placeholder' => 'Password','class' => 'validate' . ($errors->has('password')?' invalid':'')))!!}
+      <p id="cin_error"></p>
       <button type="submit" class="login__submit">Sign in</button>
     {!! Form::close() !!}
   </div>
