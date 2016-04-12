@@ -4,7 +4,26 @@ var $ = require('gulp-load-plugins')({lazy:true});
 var config = require('./gulp.config')();
 var del = require('del');
 var browserSync = require("browser-sync");
-var port = 8080;
+var php = require('gulp-connect-php');
+
+// --------------------------------------------------------------------
+// Task: Server
+// --------------------------------------------------------------------
+
+var reload  = browserSync.reload;
+
+gulp.task('php', function() {
+    php.server({ base: 'public', port: 8010, keepalive: true});
+});
+
+gulp.task('browser-sync',['php'], function() {
+    browserSync({
+        proxy: '127.0.0.1:8010',
+        port: 8080,
+        open: true,
+        notify: false
+    });
+});
 
 // Task for js-code analysis files
 gulp.task('vet', function() {
@@ -26,8 +45,7 @@ gulp.task('styles', ['clean-styles'], function() {
     .pipe($.plumber())
     .pipe($.less())
     .pipe($.autoprefixer({browsers:['last 2 version','> 5%']}))
-    .pipe(gulp.dest(config.css_dest))
-    .pipe(browserSync.reload({stream: true}));
+    .pipe(gulp.dest(config.css_dest));
 });
 
 // Task for clean folders
@@ -36,17 +54,11 @@ gulp.task('clean-styles', function() {
   clean(files);
 });
 
-// Task for watch less
-gulp.task('less-watcher', function() {
-  gulp.watch([config.less_src], ['styles']);
-})
-
 // Function for clean
 function clean(path) {
   log('cleaning:' + $.util.colors.blue(path));
   del(path);
 }
-
 
 // Function loging
 function log(msg) {
@@ -61,4 +73,20 @@ function log(msg) {
     }
 }
 
+// --------------------------------------------------------------------
+// Task: Watch
+// --------------------------------------------------------------------
 
+gulp.task('watch', function () {
+  gulp.watch(config.css_src, [reload]);
+  gulp.watch(config.php_src, [reload]);
+  gulp.watch(config.alljs, [reload]);
+  gulp.watch( config.root_js, [reload]);
+  gulp.watch(config.less_src, ['styles']);
+});
+
+// --------------------------------------------------------------------
+// Task: Default
+// --------------------------------------------------------------------
+
+gulp.task('default', ['browser-sync', 'styles', 'watch']);
