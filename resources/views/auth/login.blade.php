@@ -1,11 +1,15 @@
 @extends('layouts.admin')
 
+@push('footer-scripts')
+    <script src="{{ asset('js/login.js') }}"></script>
+@endpush
+
 @section('content')
 <div class="container">
     <div class="row">
         <h1>Login</h1>
 
-        {!! Form::open(array( 'url' => ['/muffin/login'] )) !!}
+        {!! Form::open(array( 'url' => ['/muffin/login'], 'class' => 'my-class' )) !!}
 
             <div class="row">
                 <div class="input-field ">

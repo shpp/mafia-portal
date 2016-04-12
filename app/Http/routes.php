@@ -15,10 +15,9 @@
 
 Route::get('/', 'LandingController@index');
 
+Route::get('muffin', 'Auth\AuthController@getLogin');
 Route::get('/register', 'Auth\AuthController@getUserRegister');
 Route::post('/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postUserRegister']);
-
-
 Route::group([ 'prefix' => 'muffin', ], function () {
 	Route::auth();
 });

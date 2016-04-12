@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -98,5 +99,28 @@ class AuthController extends Controller
 		User::create($request->all());
 
 		return redirect(url('home'));
+	}
+
+	/**
+	 * Get the failed login response instance.
+	 *
+	 * @param \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	protected function sendFailedLoginResponse(Request $request)
+	{
+		return Response::json([
+			'success' => 'false',
+			'data' => $request->only($this->loginUsername(), 'remember'),
+		    'errors' => [ $this->loginUsername() => $this->getFailedLoginMessage() ]
+		]);
+	}
+
+	public function authenticated()
+	{
+		return Response::json([
+			'success' => 'true',
+			'url' => url($this->redirectPath()),
+		]);
 	}
 }
