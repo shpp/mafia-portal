@@ -18,4 +18,4 @@ $(document).ready(function () {
             // Render the errors with js ...
         });
     })
-})
+});

@@ -14,7 +14,7 @@ var Request = {
     prepareSearchQuery: function() {
         this.searchQuery = location.pathname + '?' + jQuery.param(this.object);
     },
-    updateSearchQuery: function(search) {
+    updateSearchQuery: function() {
         history.pushState(null, null, this.searchQuery);
     }
 };

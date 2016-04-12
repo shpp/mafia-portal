@@ -1,10 +1,45 @@
 {
-  "private": true,
-  "devDependencies": {
-    "gulp": "^3.8.8"
+  "name": "Mafia_portal",
+  "version": "0.1.0",
+  "description": "Mafia portal",
+  "authors": [
+    "Xablyk Grebenko"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/johnpapa/pluralsight-gulp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnpapa/pluralsight-gulp.git"
+  },
+  "scripts": {
+    "init": "npm install",
+    "install": "bower install",
+    "start": "node src/server/app.js"
   },
   "dependencies": {
-    "laravel-elixir": "^4.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "body-parser": "^1.8.2",
+    "compression": "^1.1.0",
+    "cors": "^2.2.0",
+    "express": "^4.9.3",
+    "morgan": "^1.1.1",
+    "serve-favicon": "^2.0.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.12.1",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-if": "^2.0.0",
+    "gulp-jscs": "^3.0.2",
+    "gulp-jshint": "^2.0.0",
+    "gulp-less": "^3.0.5",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-nodemon": "^2.0.6",
+    "gulp-plumber": "^1.1.0",
+    "gulp-print": "^2.0.1",
+    "gulp-util": "^3.0.7",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0",
+    "yargs": "^4.6.0"
   }
 }

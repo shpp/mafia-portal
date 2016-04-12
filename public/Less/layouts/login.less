@@ -1,0 +1,77 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:700);
+.login-page {
+  width:100%;
+  height: 100%;
+  font-family:@base_font;
+  background-color:@body_bg_color;
+  .login {
+    width: 300px;
+  background-color: @form_bg_color;
+  /* .box_sizing;  */
+  padding: 2rem 1rem;
+  margin: 0 auto;
+  margin-top: 10vh;
+  @media @mobile {
+    width: @mobile_area;
+  }
+
+    .login__header {
+      .login__logo {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        color:@lite_gray_color;
+    }
+    h5 {
+    color: @lite_gray_color;
+    text-align: center;
+    font-size: 0.8em;
+}
+margin-bottom: 2rem;
+}
+
+.login__form {
+    input {
+        width: 100%;
+        display: block;
+        .box_sizing;
+        border: none;
+        padding: .7rem .5rem;
+        margin-bottom: .2rem;
+        border: 0;
+        outline: none;
+        display: block;
+        color: @white_color;
+        background-color: @dark_gray_color;
+    }
+
+    .placeholder_color(@lite_gray_color);
+    .placeholder_hover;
+
+    .login__help {
+        text-align: right;
+        a {
+          font-size: 0.8em;
+          color:@lite_gray_color;
+          &:hover {
+            color:@red_color;
+          }
+        }
+    }
+
+    button {
+        background-color: @red_color;
+        color: white;
+        display: block;
+        border: none;
+        width: 100%;
+        margin-top: 2rem;
+        padding: .7rem .5rem;
+        cursor: pointer;
+        &:hover {
+          background-color: lighten(@red_color, 10%);
+        }
+      }
+    }
+  }
+}

@@ -57,6 +57,8 @@ $(document).ready(function () {
             return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
         }
 
+        var url = location.href;
+
         var content = '';
         for (var key in users) {
             var index = key * 1 + 1;
@@ -70,13 +72,13 @@ $(document).ready(function () {
                     <td>n/a</td>\
                     <td>0</td>\
                     <td>\
-                        <a href="{{ url()->current() }}/' + user['_id'] + '/edit" class="">\
+                        <a href="' + url + '/' + user['_id'] + '/edit" class="">\
                             <i class="material-icons">create</i>\
                         </a>\
                     </td>\
                     <td>\
                         <a class="delete-form-modal"\
-                            data-delete-url="{{ url()->current() }}/' + user['_id'] + '/destroy" \
+                            data-delete-url="' + url + '/' + user['_id'] + '/destroy" \
                             href="">\
                                 <i class="material-icons">clear</i>\
                         </a>\
