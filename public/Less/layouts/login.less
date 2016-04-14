@@ -1,41 +1,40 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:900);
-@import url(https://fonts.googleapis.com/css?family=Roboto:700,400);
+
 .login-page {
   width:100%;
   height: 100%;
   font-family:@base_font;
   background-color:@body_bg_color;
+  display: flex;
   .login {
     width: 300px;
-  background-color: @form_bg_color;
-  /* .box_sizing;  */
-  padding: 2rem 1rem;
-  margin: 0 auto;
-  margin-top: 10vh;
-  @media @mobile {
-    width: @mobile_area;
-  }
+    background-color: @form_bg_color;
+    padding: 4rem 2rem;
+    margin-top: 20vh;
+    margin: auto;
+    @media @mobile {
+      width: @mobile_area;
+    }
 
     .login__header {
       .login__logo {
         text-align: center;
         margin-bottom: 1rem;
-        font-size: 2rem;
         color:@lite_gray_color;
+      }
+      h5 {
+        color: @lite_gray_color;
+        text-align: center;
+        font-size: 0.8em;
+      }
+      margin-bottom: 2rem;
     }
-    h5 {
-    color: @lite_gray_color;
-    text-align: center;
-    font-size: 0.8em;
-}
-margin-bottom: 2rem;
-}
 
-.login__form {
-    input {
+    .login__form {
+      input {
         width: 100%;
         display: block;
-        font-family:@base_font;
+        font-family: @base_font;
         font-size:1em;
         .box_sizing;
         border: none;
@@ -46,21 +45,25 @@ margin-bottom: 2rem;
         display: block;
         color: @white_color;
         background-color: @dark_gray_color;
-    }
+        &:last-of-type {
+          margin-top: 1rem;
+        }
+      }
 
-    .placeholder_color(@lite_gray_color);
-    .placeholder_hover;
+      .placeholder_color(@lite_gray_color);
+      .placeholder_hover;
 
-    #cin_error {
-      width: 100%;
-      font-family: @cirilic_font;
-      padding: 0.2rem;
-      text-align: center;
-      font-size: 0.7em;
-      color:@red_color;
-    }
+      #cin_error {
+        width: 100%;
+        font-family: @cirilic_font;
+        padding: 0.2rem;
+        .box_sizing;
+        text-align: center;
+        font-size: 0.7em;
+        color:@red_color;
+      }
 
-    .login__help {
+      .login__help {
         text-align: right;
         a {
           font-size: 0.8em;
@@ -69,17 +72,18 @@ margin-bottom: 2rem;
             color:@red_color;
           }
         }
-    }
+      }
 
-    button {
+      button {
         background-color: @red_color;
         font-family:@base_font;
         font-size: 1em;
         color: white;
         display: block;
-        border: none;
+        border: 0;
+        outline: none;
         width: 100%;
-        margin-top: 2rem;
+        margin-top: 1rem;
         padding: .7rem .5rem;
         cursor: pointer;
         &:hover {

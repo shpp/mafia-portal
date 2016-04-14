@@ -9,7 +9,7 @@
   <div class="login">
     <div class="login__header">
       <div class="login__logo">
-        <i class="fa fa-user-secret" aria-hidden="true"></i>
+        <i class="fa fa-3x fa-user-secret" aria-hidden="true"></i>
       </div>
       <h5>Kirovohrad is falling asleep...</h5>
     </div>
