@@ -10,22 +10,33 @@ var php = require('gulp-connect-php');
 // Task: Server
 // --------------------------------------------------------------------
 
-var reload  = browserSync.reload;
-
 gulp.task('php', function() {
-    php.server({ base: 'public', port: 8010, keepalive: true});
+  php.server({
+    base: 'public',
+    port: 8010,
+    keepalive: true
+  });
 });
 
 gulp.task('browser-sync',['php'], function() {
-    browserSync({
-        proxy: '127.0.0.1:8010',
-        port: 8080,
-        open: true,
-        notify: false
-    });
+  browserSync({
+    // Settings browser-sync
+    proxy: '127.0.0.1:8010',
+    port: 8080,
+    open: true,
+    notify: false,
+    reloadDelay: 1000
+  });
 });
 
+gulp.task('reload', function () {
+  log('browserSync reload');
+  browserSync.reload();
+});
+
+// --------------------------------------------------------------------
 // Task for js-code analysis files
+// --------------------------------------------------------------------
 gulp.task('vet', function() {
   log('Analyzing source with JSHint and JSCS');
   return gulp
@@ -37,7 +48,9 @@ gulp.task('vet', function() {
     .pipe($.jshint.reporter('fail'));
 });
 
+// --------------------------------------------------------------------
 // Task for compilation less to css
+// --------------------------------------------------------------------
 gulp.task('styles', ['clean-styles'], function() {
   log('Compiling Less --> CSS');
   return gulp
@@ -54,23 +67,27 @@ gulp.task('clean-styles', function() {
   clean(files);
 });
 
-// Function for clean
+// --------------------------------------------------------------------
+// Function to clean the file according to a predetermined path
+// --------------------------------------------------------------------
 function clean(path) {
   log('cleaning:' + $.util.colors.blue(path));
   del(path);
 }
 
-// Function loging
+// --------------------------------------------------------------------
+// Task: Function log
+// --------------------------------------------------------------------
 function log(msg) {
-    if(typeof(msg) === 'object') {
-        for (var item in msg ) {
-            if (msg.hasOwnProperty(item)) {
-                $.util.log($.util.colors.blue(msg[item]));
-            }
-        }
-    } else {
-        $.util.log($.util.colors.blue(msg));
+  if(typeof(msg) === 'object') {
+    for (var item in msg ) {
+      if (msg.hasOwnProperty(item)) {
+        $.util.log($.util.colors.blue(msg[item]));
+      }
     }
+  } else {
+    $.util.log($.util.colors.blue(msg));
+  }
 }
 
 // --------------------------------------------------------------------
@@ -78,10 +95,9 @@ function log(msg) {
 // --------------------------------------------------------------------
 
 gulp.task('watch', function () {
-  gulp.watch(config.css_src, [reload]);
-  gulp.watch(config.php_src, [reload]);
-  gulp.watch(config.alljs, [reload]);
-  gulp.watch( config.root_js, [reload]);
+  gulp.watch('./public/css/*.css', ['reload']);
+  gulp.watch('./resources/views/**/*.blade.php', ['reload']);
+  gulp.watch(config.alljs, ['vet','reload']);
   gulp.watch(config.less_src, ['styles']);
 });
 
@@ -89,4 +105,4 @@ gulp.task('watch', function () {
 // Task: Default
 // --------------------------------------------------------------------
 
-gulp.task('default', ['browser-sync', 'styles', 'watch']);
+gulp.task('default', ['browser-sync','watch']);
