@@ -79,7 +79,7 @@ $(document).ready(function () {
                     <td>\
                         <a class="delete-form-modal"\
                             data-delete-url="' + url + '/' + user['_id'] + '/destroy" \
-                            href="">\
+                            href="#delete-user">\
                                 <i class="material-icons">clear</i>\
                         </a>\
                     </td>\
