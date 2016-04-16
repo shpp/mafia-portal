@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -102,6 +103,45 @@ class AuthController extends Controller
 	}
 
 	/**
+	 * Handle a login request to the application.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function login(Request $request)
+	{
+		$this->validateLogin($request);
+
+		// If the class is using the ThrottlesLogins trait, we can automatically throttle
+		// the login attempts for this application. We'll key this by the username and
+		// the IP address of the client making these requests into this application.
+		$throttles = $this->isUsingThrottlesLoginsTrait();
+
+		if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+			$this->fireLockoutEvent($request);
+
+			return $this->sendLockoutResponse($request);
+		}
+
+		$credentials = $this->getCredentials($request);
+
+		$isLogin = $request->ajax() ? false : true;
+
+		if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'), $isLogin)) {
+			return $this->handleUserWasAuthenticated($request, $throttles);
+		}
+
+		// If the login attempt was unsuccessful we will increment the number of attempts
+		// to login and redirect the user back to the login form. Of course, when this
+		// user surpasses their maximum number of attempts they will get locked out.
+		if ($throttles && ! $lockedOut) {
+			$this->incrementLoginAttempts($request);
+		}
+
+		return $this->sendFailedLoginResponse($request);
+	}
+
+	/**
 	 * Get the failed login response instance.
 	 *
 	 * @param \Illuminate\Http\Request  $request
@@ -116,11 +156,14 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function authenticated()
+	public function authenticated(Request $request)
 	{
-		return Response::json([
-			'success' => 'true',
-			'url' => url($this->redirectPath()),
-		]);
+		if ( $request->ajax() ) {
+			return Response::json( [
+				'success' => 'true'
+			] );
+		}
+
+		return redirect()->intended($this->redirectPath());
 	}
 }

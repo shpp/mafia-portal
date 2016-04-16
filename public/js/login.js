@@ -1,7 +1,10 @@
 $(document).ready(function () {
-    $('form').submit(function(e){
-        e.preventDefault();
+    $('form').submit(function(){
         var self = $(this);
+        if (self.hasClass('validated')) {
+            return true;
+        }
+
         var data = self.serializeArray();
 
         $.ajax({
@@ -12,10 +15,11 @@ $(document).ready(function () {
         }).done(function (response) {
             //console.log(response);
             if (response.success == 'true') {
-                window.location = response.url;
+                self.addClass('validated');
+                self.submit();
             }
-        }).fail(function (data) {
-            // Render the errors with js ...
         });
+
+        return false;
     })
 });

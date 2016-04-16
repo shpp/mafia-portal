@@ -42,6 +42,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'get',
             url: url,
+            cache: false,
             dataType: 'json'
         }).done(function (response) {
             if (response.success == 'true') {
