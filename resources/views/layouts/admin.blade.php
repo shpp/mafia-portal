@@ -17,7 +17,7 @@
 </head>
 <body>
 
-    <nav>
+    <nav class="grey lighten-1">
         <div class="nav-wrapper container">
             <a href="{{ url('/') }}" class="brand-logo">Mafia</a>
 
@@ -71,7 +71,7 @@
 
     </main>
 
-    <footer class="page-footer">
+    <footer class="page-footer grey lighten-1">
         <div class="footer-copyright">
             <div class="container">
                 © {{ date('Y') }} Mafia

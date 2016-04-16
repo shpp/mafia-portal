@@ -27,7 +27,7 @@
         </div>
 
         <div class="row">
-            <table class="striped highlight">
+            <table class="striped highlight responsive-table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -54,7 +54,7 @@
             </table>
 
             <div class="fixed-action-btn fixed-btn">
-                <a href="{{ url('/muffin/users/create') }}" class="btn-floating btn-large waves-effect waves-light red add-form-modal">
+                <a href="#add-user" class="btn-floating btn-large waves-effect waves-light  red lighten-1 add-form-modal modal-trigger">
                     <i class="material-icons right">add</i>
                 </a>
             </div>
@@ -71,7 +71,8 @@
             <h5>Are you sure you want to deactivate a user?</h5>
         </div>
         <div class="modal-footer">
-            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat delete-form">Agree</a>
+            <a href="" class="modal-action modal-close waves-effect waves-red btn-flat disagree_delete-form" >Disagree</a>
+            <a href="" class="modal-action modal-close waves-effect waves-green btn-flat delete-form">Agree</a>
         </div>
     </div>
 
@@ -84,28 +85,28 @@
                     <div class="row">
                         <div class="input-field">
                             {!! Form::label('name', 'Name') !!}
-                            {!! Form::text('name', NULL, array('class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
+                            {!! Form::text('name', NULL, array('required','type' => 'text','class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
                             {!! Form::label('nickname', 'Nickname') !!}
-                            {!! Form::text('nickname', NULL, array('class' => 'validate' . ($errors->has('nickname')?' invalid':''))) !!}
+                            {!! Form::text('nickname', NULL, array('autocomplete' => 'on','required','type' => 'text','class' => 'validate' . ($errors->has('nickname')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
                             {!! Form::label('phone', 'Phone') !!}
-                            {!! Form::text('phone', NULL, array('class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
+                            {!! Form::text('phone', NULL, array('autocomplete' => 'on','required','pattern' => '[0-9]{10}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
                             {!! Form::label('email', 'Email') !!}
-                            {!! Form::email('email', NULL, array('class' => 'validate' . ($errors->has('email')?' invalid':''))) !!}
+                            {!! Form::email('email', NULL, array('autocomplete' => 'on','required','type' => 'email','class' => 'validate' . ($errors->has('email')?' invalid':''))) !!}
                         </div>
                     </div>
 
@@ -115,7 +116,7 @@
                                 'role',
                                 array('gamer' => 'gamer', 'host' => 'host', 'admin' => 'admin'),
                                 null,
-                                ['placeholder' => 'Pick a role...']
+                                ['required','placeholder' => 'Pick a role...']
                             ) !!}
                             {!! Form::label('role', 'Role') !!}
                         </div>
@@ -127,7 +128,7 @@
                                 'gender',
                                 array('m' => 'male', 'f' => 'female'),
                                 null,
-                                ['placeholder' => 'Pick a gender...']
+                                ['required','placeholder' => 'Pick a gender...']
                             ) !!}
                             {!! Form::label('gender', 'Gender') !!}
                         </div>
@@ -146,15 +147,14 @@
 
                     @include('errors.list')
 
-                    {!! Form::submit('Edit', array('class' => 'btn btn-default')) !!}
+                    {!! Form::submit('Add', array('class' => 'btn btn-default add-user grey lighten-1')) !!}
 
                     {!! Form::close() !!}
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat delete-form">Agree</a>
-        </div>
     </div>
+
+
 
 @endsection
