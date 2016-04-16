@@ -29,5 +29,7 @@ $(document).ready(function () {
           $cin_error.text("These credentials do not match our records.");
         }
       });
+
+        return false;
     })
 });
