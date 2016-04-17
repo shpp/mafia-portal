@@ -118,12 +118,12 @@ $(document).ready(function() {
         e.preventDefault();
         var self = $(this);
         var data = self.serializeArray();
-        var $input_nickname = $('#nickname');
-        var $input_phone = $('#phone');
-        var $input_email = $('#email');
-        var nickname = $input_nickname.val();
-        var phone = $input_phone.val();
-        var email = $input_email.val();
+        var $error_nickname = $('#error_nickname');
+        var $error_phone = $('#error_phone');
+        var $error_email = $('#error_email');
+        var nickname = $('#nickname').val();
+        var phone = $('#phone').val();
+        var email = $('#email').val();
 
         $.ajax({
           type: 'post',
@@ -140,13 +140,13 @@ $(document).ready(function() {
           error: function(data){
             var response = data.responseJSON;
             if(response.nickname != undefined) {
-              $input_nickname.val( "This field value  \"" +  nickname + "\"  already exists.");
+              $error_nickname.text( "This nickname  \"" +  nickname + "\"  already exists.");
             }
             if (response.phone != undefined) {
-              $input_phone.val("This field value  \"" +  phone + "\"  already exists.");
+              $error_phone.text("This phone  \"" +  phone + "\"  already exists.");
             }
             if (response.email != undefined) {
-              $input_email.val("This field value  \"" +  email + "\"  already exists.")
+              $error_email.text("This email  \"" +  email + "\"  already exists.")
             }
             return false;
           }

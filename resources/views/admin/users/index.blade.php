@@ -91,6 +91,7 @@
 
                     <div class="row">
                         <div class="input-field">
+                            <p class="error_mesage" id="error_nickname"></p>
                             {!! Form::label('nickname', 'Nickname') !!}
                             {!! Form::text('nickname', NULL, array('autocomplete' => 'on','required','type' => 'text','class' => 'validate' . ($errors->has('nickname')?' invalid':''))) !!}
                         </div>
@@ -98,13 +99,15 @@
 
                     <div class="row">
                         <div class="input-field">
+                            <p class="error_mesage" id="error_phone"></p>
                             {!! Form::label('phone', 'Phone') !!}
-                            {!! Form::text('phone', NULL, array('autocomplete' => 'on','required','pattern' => '[0-9]{10}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
+                            {!! Form::text('phone', NULL, array('autocomplete' => 'on','required','pattern' => '[0-9]{8,12}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
+                            <p class="error_mesage" id="error_email"></p>
                             {!! Form::label('email', 'Email') !!}
                             {!! Form::email('email', NULL, array('autocomplete' => 'on','required','type' => 'email','class' => 'validate' . ($errors->has('email')?' invalid':''))) !!}
                         </div>

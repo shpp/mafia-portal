@@ -185,3 +185,6 @@ main {
 #delete-user {
   width: 40%;
 }
+.error_mesage {
+  color: #cf253a;
+}
