@@ -29,8 +29,8 @@ class UsersController extends Controller
 			->when($search, function ($query) use ($search) {
 				$query->where(function($query) use ($search) {
 						$query
-							->where('nickname', 'like', $search)
-							->orWhere('name', 'like', $search);
+							->where('nickname', 'like', $search . '%')
+							->orWhere('name', 'like', $search . '%');
 					});
 			})
 			->when($order_by, function ($query) use ($order, $order_by) {
