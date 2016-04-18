@@ -73,8 +73,17 @@ $(document).ready(function () {
                     <td>n/a</td>\
                     <td>0</td>\
                     <td>\
-                        <a href="' + url + '/' + user['_id'] + '/edit" class="">\
-                            <i class="material-icons">create</i>\
+                        <a class="edit-form-modal" \
+                        data-edit-url="' + url + '/' + user['_id'] + '/edit" \
+                        data-user-name="'+ user['name'] +'"\
+                        data-user-nickname="'+ user['nickname'] +'"\
+                        data-user-phone="'+ user['phone'] +'"\
+                        data-user-email="'+ user['email'] +'"\
+                        data-user-role="'+ user['role'] +'"\
+                        data-user-gender="'+ user['gender'] +'"\
+                        data-user-vk_link="'+ user['vk_link'] +'"\
+                        href="" >\
+                          <i class="material-icons">create</i>\
                         </a>\
                     </td>\
                     <td>\

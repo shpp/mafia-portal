@@ -55,7 +55,16 @@ $(document).ready(function() {
             <td>n/a</td>\
             <td>0</td>\
             <td>\
-              <a href="' + url + '/' + user['_id'] + '/edit" class="">\
+              <a class="edit-form-modal" \
+              data-edit-url="' + url + '/' + user['_id'] + '/edit" \
+              data-user-name="'+ user['name'] +'"\
+              data-user-nickname="'+ user['nickname'] +'"\
+              data-user-phone="'+ user['phone'] +'"\
+              data-user-email="'+ user['email'] +'"\
+              data-user-role="'+ user['role'] +'"\
+              data-user-gender="'+ user['gender'] +'"\
+              data-user-vk_link="'+ user['vk_link'] +'"\
+              href="" >\
                 <i class="material-icons">create</i>\
               </a>\
             </td>\
@@ -154,5 +163,23 @@ $(document).ready(function() {
       })
     });
 
+    $('#edit-user').closeModal();
+    body.on('click', '.edit-form-modal', function (e) {
+      e.preventDefault();
+      $('#edit-user').openModal();
+      $('#user_name').val($(this).data('user-name'));
+      $('#user_nickname').val($(this).data('user-nickname'));
+      $('#user_phone').val($(this).data('user-phone'));
+      $('#user_email').val($(this).data('user-email'));
+      $('#user_role').val($(this).data('user-role'));
+      $('#user_gender').val($(this).data('user-gender'));
+      $('#user_vk_link').val($(this).data('user-vk_link'));
+
+      var url = $(this).data('edit-url');
+      $('#user-edit').submit(function(e){
+        e.preventDefault();
+        $('#edit-user').closeModal();
+      });
+    });
 
 });
