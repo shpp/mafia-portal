@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Muffin;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use Illuminate\Support\Facades\Response;
+
 
 class UsersController extends Controller
 {
@@ -72,9 +72,12 @@ class UsersController extends Controller
 		return redirect(route('admin.users'));
 	}
 
-	public function edit(User $user)
+	public function edit(User $user )
 	{
-		return view('admin.users.edit', compact('user'));
+		$user->_token = csrf_token();
+		return Response::json( [
+			'data' => $user
+		] );
 	}
 
 	public function update(User $user, Request $request)
@@ -90,7 +93,12 @@ class UsersController extends Controller
 		]);
 
 		$user->update($request->all());
-		return redirect(route('admin.users.edit', $user->id));
+
+		return Response::json( [
+			'success' => 'true'
+		] );
+
+//		return redirect(route('admin.users.edit', $user->id));
 	}
 
 	public function destroy( User $user ) {
