@@ -17,11 +17,20 @@ class UsersController extends Controller
 		$order_by = $request->input('orderBy', 'nickname');
 		$order = $request->input('order', 'asc');
 		$search = $request->input('search', false);
+		$hide_guest = $request->input('hide_guest', 0);
 
 		if (!$request->ajax()) {
 			$isOrderNicknameDesc = $order_by == 'nickname' && $order == 'desc';
 			$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
-			return view('admin.users.index', compact('isOrderNicknameDesc', 'isOrderNameDesc', 'search'));
+			return view(
+				'admin.users.index',
+				compact(
+					'isOrderNicknameDesc',
+					'isOrderNameDesc',
+					'search',
+					'hide_guest'
+				)
+			);
 		}
 
 		//  Find users
@@ -35,6 +44,9 @@ class UsersController extends Controller
 			})
 			->when($order_by, function ($query) use ($order, $order_by) {
 				$query->orderBy($order_by, $order);
+			})
+			->when($hide_guest, function ($query) use ($hide_guest) {
+				$query->whereNotNull('clubId');         //  todo: fix!!!
 			})
 			->paginate(self::RECORD_PER_PAGE);
 

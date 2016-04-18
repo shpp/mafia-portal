@@ -20,7 +20,7 @@
                     {!! Form::label('club', 'Клуб') !!}
                 </div>
                 <p class="col s12 m4">
-                    {!! Form::checkbox('hide_guest', '0', null, ['id' => 'hide_guest']) !!}
+                    {!! Form::checkbox('hide_guest', '1', $hide_guest, ['id' => 'hide_guest']) !!}
                     {!! Form::label('hide_guest', 'Спрятать гостей') !!}
                 </p>
             {!! Form::close() !!}

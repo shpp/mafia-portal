@@ -8,7 +8,7 @@ $(document).ready(function () {
         if (searchPhrase) {
             Request.object.search = searchPhrase;
         } else {
-            delete Request.object.search;
+            Request.deleteSearchParam('search');
         }
 
         Request.prepareSearchQuery();
@@ -38,6 +38,21 @@ $(document).ready(function () {
         loadDataByAjax(Request.searchQuery);
     });
 
+    $('#hide_guest').change(function () {
+        var self = $(this);
+
+        Request.toObject();
+        if (self.is(':checked')) {
+            Request.object.hide_guest = 1;
+        } else {
+            Request.deleteSearchParam('hide_guest');
+        }
+
+        Request.prepareSearchQuery();
+        Request.updateSearchQuery();
+        loadDataByAjax(Request.searchQuery);
+    });
+
     function loadDataByAjax(url) {
         $.ajax({
             type: 'get',
@@ -48,8 +63,6 @@ $(document).ready(function () {
             if (response.success == 'true') {
                 $('#table-content').html(prepareContent(response.data.data));
             }
-        }).fail(function (data) {
-            // Render the errors with js ...
         });
     }
 
@@ -59,10 +72,9 @@ $(document).ready(function () {
         }
 
         var url = location.href;
-
         var content = '';
         for (var key in users) {
-            var index = key * 1 + 1;
+            var index = parseInt(key) + 1;
             var user = users[key];
             content += '\
                 <tr>\
