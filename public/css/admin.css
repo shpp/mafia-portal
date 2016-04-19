@@ -182,11 +182,9 @@ main {
 .login-page .login .login__form button:hover {
   background-color: #de495b;
 }
-
 #delete-user {
   width: 40%;
 }
-
 .error_mesage {
   color: #cf253a;
 }

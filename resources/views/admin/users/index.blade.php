@@ -84,54 +84,54 @@
 
                     <div class="row">
                         <div class="input-field">
-                            {!! Form::label('name', 'Name') !!}
-                            {!! Form::text('name', NULL, array('required','type' => 'text','class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
+                            {!! Form::label('name', 'Name', array('class' => 'input-label')) !!}
+                            {!! Form::text('name', NULL, array('required','id' => 'name','type' => 'text','class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
-                            <p class="error_mesage" id="error_nickname"></p>
-                            {!! Form::label('nickname', 'Nickname') !!}
-                            {!! Form::text('nickname', NULL, array('autocomplete' => 'on','required','type' => 'text','class' => 'validate' . ($errors->has('nickname')?' invalid':''))) !!}
+                            <p class="error-mesage" id="errorNickname"></p>
+                            {!! Form::label('nickname', 'Nickname', array('class' => 'input-label')) !!}
+                            {!! Form::text('nickname', NULL, array('autocomplete' => 'on','id' => 'nickname','required','type' => 'text','class' => 'validate' . ($errors->has('nickname')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
-                            <p class="error_mesage" id="error_phone"></p>
-                            {!! Form::label('phone', 'Phone') !!}
-                            {!! Form::text('phone', NULL, array('autocomplete' => 'on','required','pattern' => '[0-9]{8,12}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
+                            <p class="error-mesage" id="errorPhone"></p>
+                            {!! Form::label('phone', 'Phone',  array('class' => 'input-label')) !!}
+                            {!! Form::text('phone', NULL, array('autocomplete' => 'on','id' => 'phone','required','pattern' => '[0-9]{8,12}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
-                            <p class="error_mesage" id="error_email"></p>
-                            {!! Form::label('email', 'Email') !!}
-                            {!! Form::email('email', NULL, array('autocomplete' => 'on','required','type' => 'email','class' => 'validate' . ($errors->has('email')?' invalid':''))) !!}
+                            <p class="error-mesage" id="errorEmail"></p>
+                            {!! Form::label('email', 'Email',  array('class' => 'input-label') ) !!}
+                            {!! Form::email('email', NULL, array('autocomplete' => 'on','id' => 'email','required','type' => 'email','class' => 'validate' . ($errors->has('email')?' invalid':''))) !!}
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="input-field">
+                        <div class="input-field role">
                             {!! Form::select(
                                 'role',
                                 array('gamer' => 'gamer', 'host' => 'host', 'admin' => 'admin'),
                                 null,
-                                ['required','placeholder' => 'Pick a role...']
+                                array('id' => 'role','required')
                             ) !!}
                             {!! Form::label('role', 'Role') !!}
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="input-field">
+                        <div class="input-field gender">
                             {!! Form::select(
                                 'gender',
                                 array('m' => 'male', 'f' => 'female'),
                                 null,
-                                ['required','placeholder' => 'Pick a gender...']
+                                array('id' => 'gender','required')
                             ) !!}
                             {!! Form::label('gender', 'Gender') !!}
                         </div>
@@ -157,8 +157,5 @@
             </div>
         </div>
     </div>
-
-    @include('admin.users.edit')
-
 
 @endsection

@@ -1,87 +1,4 @@
 $(document).ready(function() {
-    //var Request = {
-    //  object: {},
-    //  searchQuery: '',
-    //  toObject: function() {
-    //    this.object = {};
-    //    var pairs = location.search.substring(1).split('&');
-    //    for (var i = 0; i < pairs.length; i++) {
-    //      var pair = pairs[i].split('=');
-    //      this.object[pair[0]] = pair[1];
-    //    }
-    //
-    //    return this.object;
-    //  },
-    //  prepareSearchQuery: function() {
-    //    this.searchQuery = location.pathname + '?' + jQuery.param(this.object);
-    //  },
-    //  updateSearchQuery: function() {
-    //    history.pushState(null, null, this.searchQuery);
-    //  }
-    //};
-
-
-    //function loadDataByAjax(url) {
-    //  $.ajax({
-    //    type: 'get',
-    //    url: url,
-    //    dataType: 'json'
-    //  }).done(function (response) {
-    //      //callBack(response);
-    //    if (response.success == 'true') {
-    //        $('#table-content').html(prepareContent(response.data.data));
-    //    }
-    //  }).fail(function (data) {
-    //    // Render the errors with js ...
-    //  });
-    //}
-    //
-    //function prepareContent(users) {
-    //  if (!users.length) {
-    //      return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
-    //  }
-    //
-    //  var url = location.href;
-    //
-    //  var content = '';
-    //  for (var key in users) {
-    //    var index = key * 1 + 1;
-    //    var user = users[key];
-    //    content += '\
-    //      <tr>\
-    //        <td>' + index + '</td>\
-    //        <td>' + user['nickname'] + '</td>\
-    //        <td>' + user['name'] + '</td>\
-    //        <td>' + user['phone'] + '</td>\
-    //        <td>n/a</td>\
-    //        <td>0</td>\
-    //        <td>\
-    //          <a class="edit-form-modal" \
-    //          data-edit-url="' + url + '/' + user['_id'] + '/edit" \
-    //          data-user-name="'+ user['name'] +'"\
-    //          data-user-nickname="'+ user['nickname'] +'"\
-    //          data-user-phone="'+ user['phone'] +'"\
-    //          data-user-email="'+ user['email'] +'"\
-    //          data-user-role="'+ user['role'] +'"\
-    //          data-user-gender="'+ user['gender'] +'"\
-    //          data-user-vk_link="'+ user['vk_link'] +'"\
-    //          href="" >\
-    //            <i class="material-icons">create</i>\
-    //          </a>\
-    //        </td>\
-    //        <td>\
-    //          <a class="delete-form-modal"\
-    //            data-delete-url="' + url + '/' + user['_id'] + '/destroy" \
-    //            href="">\
-    //              <i class="material-icons">clear</i>\
-    //          </a>\
-    //        </td>\
-    //      </tr>';
-    //  }
-    //
-    //  return content;
-    //}
-
 
     $('select').material_select();
     $(".dropdown-button").dropdown();
@@ -92,45 +9,120 @@ $(document).ready(function() {
       format: 'd-mm-yyyy',
     });
 
-    var body = $('body');
-    $('#delete-user').closeModal();
-    body.on('click', '.delete-form-modal', function (e) {
+    function loadDataByAjax(url) {
+        $.ajax({
+            type: 'get',
+            url: url,
+            cache: false,
+            dataType: 'json'
+        }).done(function (response) {
+            if (response.success == 'true') {
+                $('#table-content').html(prepareContent(response.data.data));
+            }
+        });
+    }
+
+    function prepareContent(users) {
+      if (!users.length) {
+        return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
+      }
+
+      var url = location.href;
+      var content = '';
+      for (var key in users) {
+        var index = parseInt(key) + 1;
+        var user = users[key];
+        content += '\
+          <tr>\
+            <td>' + index + '</td>\
+            <td>' + user['nickname'] + '</td>\
+            <td>' + user['name'] + '</td>\
+            <td>' + user['phone'] + '</td>\
+            <td>n/a</td>\
+            <td>0</td>\
+            <td>\
+              <a class="edit-form-modal" \
+              data-edit-url="' + url + '/' + user['_id'] + '/edit" \
+              href="" >\
+                <i class="material-icons">create</i>\
+              </a>\
+            </td>\
+            <td>\
+              <a class="delete-form-modal"\
+                data-delete-url="' + url + '/' + user['_id'] + '/destroy" \
+                href="#delete-user">\
+                  <i class="material-icons">clear</i>\
+              </a>\
+            </td>\
+          </tr>';
+      }
+
+      return content;
+    }
+
+    var $body = $('body');
+    var $name = $('#name');
+    var $nickname = $('#nickname');
+    var $phone = $('#phone');
+    var $email = $('#email');
+    var $roleInput = $(".role input");
+    var $genderInput = $(".gender input");
+    var $vk_link = $('#vk_link');
+    var $label = $('form label.input-label');
+    var $errorNickname = $('#errorNickname');
+    var $errorPhone = $('#errorPhone');
+    var $errorEmail = $('#errorEmail');
+    var $deleteUserModal = $('#delete-user');
+    var $addEditUserModal = $('#add-user');
+
+    $deleteUserModal .closeModal();
+
+    $body.on('click', '.delete-form-modal', function (e) {
       e.preventDefault();
-      $('#delete-user').openModal();
+      $deleteUserModal .openModal();
       var url = $(this).data('delete-url');
+
       $('.delete-form').click(function (e) {
         e.preventDefault();
+
         $.ajax({
         type: 'get',
         url: url,
         }).done(function (response) {
           if (response.success == 'true') {
             loadDataByAjax(location.href);
-            $('#delete-user').closeModal();
+            $deleteUserModal .closeModal();
           } else {
             console.log(response);
           }
         });
+
       })
+
       $('.disagree_delete-form').click(function (event) {
         event.preventDefault();
-        $('#delete-user').closeModal();
+        $deleteUserModal .closeModal();
       })
-  });
+    });
 
 
-    $('#add-user').closeModal();
-    body.on('click', '.add-form-modal', function (e) {
+    $addEditUserModal.closeModal();
+    $body.on('click', '.add-form-modal', function (e) {
       e.preventDefault();
-      $('#add-user').openModal();
-
+      $name.val("");
+      $nickname.val("");
+      $phone.val("");
+      $email.val("");
+      $addEditUserModal.openModal();
+     /* $roleInput.val("");
+      $genderInput.val("");*/
+      if ($label.attr('class') == 'active') {
+        $label.removeClass('active');
+      }
       $('form').submit(function(e){
         e.preventDefault();
         var self = $(this);
         var data = self.serializeArray();
-        var $error_nickname = $('#error_nickname');
-        var $error_phone = $('#error_phone');
-        var $error_email = $('#error_email');
         var nickname = $('#nickname').val();
         var phone = $('#phone').val();
         var email = $('#email').val();
@@ -144,19 +136,19 @@ $(document).ready(function() {
              if (response.success == 'true') {
               console.log(response);
               loadDataByAjax(location.href);
-              $('#add-user').closeModal();
+              $addEditUserModal.closeModal();
             }
           },
           error: function(data){
             var response = data.responseJSON;
-            if(response.nickname != undefined) {
-              $error_nickname.text( "This nickname  \"" +  nickname + "\"  already exists.");
+            if (response.nickname != undefined) {
+              $errorNickname.text( "This nickname  \"" +  nickname + "\"  already exists.");
             }
             if (response.phone != undefined) {
-              $error_phone.text("This phone  \"" +  phone + "\"  already exists.");
+              $errorPhone.text("This phone  \"" +  phone + "\"  already exists.");
             }
             if (response.email != undefined) {
-              $error_email.text("This email  \"" +  email + "\"  already exists.")
+              $errorEmail.text("This email  \"" +  email + "\"  already exists.")
             }
             return false;
           }
@@ -164,52 +156,69 @@ $(document).ready(function() {
       })
     });
 
-    $('#edit-user').closeModal();
-    body.on('click', '.edit-form-modal', function (e) {
+    $addEditUserModal.closeModal();
+    $body.on('click', '.edit-form-modal', function (e) {
       e.preventDefault();
-
-      $('#edit-user').openModal();
-      $('#user_name').val($(this).data('user-name'));
-      $('#user_nickname').val($(this).data('user-nickname'));
-      $('#user_phone').val($(this).data('user-phone'));
-      $('#user_email').val($(this).data('user-email'));
-      $('#user_role').val($(this).data('user-role'));
-      $('#user_gender').val($(this).data('user-gender'));
-      $('#user_vk_link').val($(this).data('user-vk_link'));
-
       var url = $(this).data('edit-url');
-      $('#user-edit').submit(function(e){
-        e.preventDefault();
-          //$.ajax({
-          //    type: 'post',
-          //    url: self.attr('action') + ,
-          //    dataType: 'json',
-          //    data:
-          //}).done(function (response) {
-          //    console.log(response);
-          //});
-        $('#edit-user').closeModal();
+      var id;
+
+      $.ajax({
+         type: 'get',
+         url: url,
+         dataType: 'json'
+      }).done(function (response) {
+
+        var response = response.data;
+        var gender = response.gender;
+        var role = response.role;
+        var vk_link = response.vk_link;
+        id = response._id;
+
+        $addEditUserModal.openModal();
+        $label.addClass('active');
+        $name.val(response.name);
+        $nickname.val(response.nickname);
+        $phone.val(response.phone);
+        $email.val(response.email);
+        $roleInput.val(response.role);
+        $("#role [value='" + role + "']").attr("selected", "selected");
+        $("#gender [value='" + gender + "']").attr("selected", "selected");
+        if(response.gender == "f"){
+          gender = "female";
+        } else {
+          gender = "male";
+        }
+        $genderInput.val(gender);
+        if(vk_link != undefined) {
+          $vk_link.val(vk_link);
+        }
+
       });
 
-        //$.ajax({
-        //    type: 'get',
-        //    url: url,
-        //    dataType: 'json'
-        //}).done(function (response) {
-        //    console.log(11);
-        //    console.log(response);
-        //
-        //    $.ajax({
-        //        type: 'patch',
-        //        url: 'http://web.shpp/web/mafia/www/public/muffin/users/' + response.data._id,
-        //        dataType: 'json',
-        //        data:response.data,
-        //    }).done(function (response) {
-        //        console.log(22);
-        //        console.log(response);
-        //    });
-        //});
+      $('form').submit(function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var self = $(this);
+        var data = self.serializeArray();
+        var url = window.location.href;
+        $.ajax({
+            type: 'patch',
+            url: url + "/" + id,
+            dataType: 'json',
+            data:data,
+          }).done(function (response) {
+            if( response.success == "true") {
+              $name.val("");
+              $nickname.val("");
+              $phone.val("");
+              $email.val("");
+              $label.removeClass('active');
+              $addEditUserModal.closeModal();
+            } else {
+              console.log(response);
+            }
 
+          });
+      });
     });
-
 });
