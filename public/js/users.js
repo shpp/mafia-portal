@@ -71,7 +71,7 @@ $(document).ready(function () {
             return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
         }
 
-        var url = location.href;
+        var url = location.pathname;
         var content = '';
         for (var key in users) {
             var index = parseInt(key) + 1;

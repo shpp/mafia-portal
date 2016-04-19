@@ -54,7 +54,7 @@
             </table>
 
             <div class="fixed-action-btn fixed-btn">
-                <a href="#add-user" class="btn-floating btn-large waves-effect waves-light  red lighten-1 add-form-modal modal-trigger">
+                <a href="#add-user" data-create-url="{{ route('admin.users.store') }}" class="btn-floating btn-large waves-effect waves-light  red lighten-1 add-form-modal modal-trigger">
                     <i class="material-icons right">add</i>
                 </a>
             </div>
@@ -139,7 +139,7 @@
 
                     <div class="row">
                         <div class="input-field">
-                            {!! Form::label('vk_link', 'VK') !!}
+                            {!! Form::label('vk_link', 'VK' , array('class' => 'input-label')) !!}
                             {!! Form::text(
                                 'vk_link',
                                 NULL,

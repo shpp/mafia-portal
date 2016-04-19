@@ -10,16 +10,16 @@ $(document).ready(function() {
     });
 
     function loadDataByAjax(url) {
-        $.ajax({
-            type: 'get',
-            url: url,
-            cache: false,
-            dataType: 'json'
-        }).done(function (response) {
-            if (response.success == 'true') {
-                $('#table-content').html(prepareContent(response.data.data));
-            }
-        });
+      $.ajax({
+        type: 'get',
+        url: url,
+        cache: false,
+        dataType: 'json'
+      }).done(function (response) {
+          if (response.success == 'true') {
+            $('#table-content').html(prepareContent(response.data.data));
+          }
+      });
     }
 
     function prepareContent(users) {
@@ -27,7 +27,7 @@ $(document).ready(function() {
         return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
       }
 
-      var url = location.href;
+      var url = location.pathname;
       var content = '';
       for (var key in users) {
         var index = parseInt(key) + 1;
@@ -43,7 +43,7 @@ $(document).ready(function() {
             <td>\
               <a class="edit-form-modal" \
               data-edit-url="' + url + '/' + user['_id'] + '/edit" \
-              href="" >\
+              href="#edit-user" >\
                 <i class="material-icons">create</i>\
               </a>\
             </td>\
@@ -74,24 +74,30 @@ $(document).ready(function() {
     var $errorEmail = $('#errorEmail');
     var $deleteUserModal = $('#delete-user');
     var $addEditUserModal = $('#add-user');
+    var $errorMesages = $('.error-mesage');
+    var action;
+    var request;
 
     $deleteUserModal .closeModal();
 
     $body.on('click', '.delete-form-modal', function (e) {
+      console.log("start delete user");
       e.preventDefault();
       $deleteUserModal .openModal();
       var url = $(this).data('delete-url');
 
       $('.delete-form').click(function (e) {
         e.preventDefault();
+        console.log("GET request for users data");
 
         $.ajax({
         type: 'get',
         url: url,
         }).done(function (response) {
           if (response.success == 'true') {
-            loadDataByAjax(location.href);
+            loadDataByAjax(location.pathname);
             $deleteUserModal .closeModal();
+            console.log('done delete user');
           } else {
             console.log(response);
           }
@@ -103,39 +109,44 @@ $(document).ready(function() {
         event.preventDefault();
         $deleteUserModal .closeModal();
       })
+
     });
 
 
     $addEditUserModal.closeModal();
     $body.on('click', '.add-form-modal', function (e) {
+      action = "add";
+      console.log("start add user");
       e.preventDefault();
+      var url = $(this).data('create-url');
       $name.val("");
       $nickname.val("");
       $phone.val("");
       $email.val("");
+      $vk_link.val("");
+      $errorMesages.text("");
       $addEditUserModal.openModal();
-     /* $roleInput.val("");
-      $genderInput.val("");*/
-      if ($label.attr('class') == 'active') {
-        $label.removeClass('active');
-      }
+      $('label[class~=active]').removeClass('active');
       $('form').submit(function(e){
+        console.log("POST request for add user");
         e.preventDefault();
         var self = $(this);
         var data = self.serializeArray();
         var nickname = $('#nickname').val();
         var phone = $('#phone').val();
         var email = $('#email').val();
-
+        if (action == "edit") {
+          return false;
+        }
         $.ajax({
           type: 'post',
-          url: self.attr('action'),
+          url: url,
           data: data,
           dataType: 'json',
           success: function(response){
              if (response.success == 'true') {
-              console.log(response);
-              loadDataByAjax(location.href);
+              console.log('done add user');
+              loadDataByAjax(location.pathname);
               $addEditUserModal.closeModal();
             }
           },
@@ -158,29 +169,35 @@ $(document).ready(function() {
 
     $addEditUserModal.closeModal();
     $body.on('click', '.edit-form-modal', function (e) {
+      action = "edit";
+      console.log("start edit user");
       e.preventDefault();
       var url = $(this).data('edit-url');
-      var id;
-
+      var userId;
+      console.log("GET request for user data");
       $.ajax({
          type: 'get',
          url: url,
          dataType: 'json'
       }).done(function (response) {
-
         var response = response.data;
         var gender = response.gender;
         var role = response.role;
         var vk_link = response.vk_link;
-        id = response._id;
+        var name = response.name;
+        var nickname = response.nickname;
+        var phone = response.phone;
+        var email = response.email;
+        userId = response._id;
 
         $addEditUserModal.openModal();
+        $errorMesages.text("");
         $label.addClass('active');
-        $name.val(response.name);
-        $nickname.val(response.nickname);
-        $phone.val(response.phone);
-        $email.val(response.email);
-        $roleInput.val(response.role);
+        $name.val(name);
+        $nickname.val(nickname);
+        $phone.val(phone);
+        $email.val(email);
+        $roleInput.val(role);
         $("#role [value='" + role + "']").attr("selected", "selected");
         $("#gender [value='" + gender + "']").attr("selected", "selected");
         if(response.gender == "f"){
@@ -196,23 +213,29 @@ $(document).ready(function() {
       });
 
       $('form').submit(function(e){
+        if(action == "add") {
+          return false;
+        }
+        console.log("PATCH request edit user");
         e.preventDefault();
         e.stopImmediatePropagation();
         var self = $(this);
         var data = self.serializeArray();
-        var url = window.location.href;
+        var url = window.location.pathname;
         $.ajax({
             type: 'patch',
-            url: url + "/" + id,
+            url: url + "/" + userId,
             dataType: 'json',
             data:data,
           }).done(function (response) {
             if( response.success == "true") {
+              console.log("edit user done");
               $name.val("");
               $nickname.val("");
               $phone.val("");
               $email.val("");
               $label.removeClass('active');
+              loadDataByAjax(location.pathname);
               $addEditUserModal.closeModal();
             } else {
               console.log(response);
