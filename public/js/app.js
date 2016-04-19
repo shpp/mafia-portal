@@ -43,14 +43,14 @@ $(document).ready(function() {
             <td>\
               <a class="edit-form-modal" \
               data-edit-url="' + url + '/' + user['_id'] + '/edit" \
-              href="#edit-user" >\
+              href="" >\
                 <i class="material-icons">create</i>\
               </a>\
             </td>\
             <td>\
               <a class="delete-form-modal"\
                 data-delete-url="' + url + '/' + user['_id'] + '/destroy" \
-                href="#delete-user">\
+                href="">\
                   <i class="material-icons">clear</i>\
               </a>\
             </td>\
