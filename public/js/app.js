@@ -77,6 +77,7 @@ $(document).ready(function() {
     var $errorMesages = $('.error-mesage');
     var action;
     var request;
+    var userId;
 
     $deleteUserModal .closeModal();
 
@@ -89,14 +90,13 @@ $(document).ready(function() {
       $('.delete-form').click(function (e) {
         e.preventDefault();
         console.log("GET request for users data");
-
         $.ajax({
         type: 'get',
         url: url,
         }).done(function (response) {
           if (response.success == 'true') {
             loadDataByAjax(location.pathname);
-            $deleteUserModal .closeModal();
+            $deleteUserModal.closeModal();
             console.log('done delete user');
           } else {
             console.log(response);
@@ -144,7 +144,7 @@ $(document).ready(function() {
           data: data,
           dataType: 'json',
           success: function(response){
-             if (response.success == 'true') {
+              if (response.success == 'true') {
               console.log('done add user');
               loadDataByAjax(location.pathname);
               $addEditUserModal.closeModal();
@@ -173,12 +173,11 @@ $(document).ready(function() {
       console.log("start edit user");
       e.preventDefault();
       var url = $(this).data('edit-url');
-      var userId;
       console.log("GET request for user data");
       $.ajax({
-         type: 'get',
-         url: url,
-         dataType: 'json'
+        type: 'get',
+        url: url,
+        dataType: 'json'
       }).done(function (response) {
         var response = response.data;
         var gender = response.gender;
@@ -223,25 +222,26 @@ $(document).ready(function() {
         var data = self.serializeArray();
         var url = window.location.pathname;
         $.ajax({
-            type: 'patch',
-            url: url + "/" + userId,
-            dataType: 'json',
-            data:data,
-          }).done(function (response) {
-            if( response.success == "true") {
-              console.log("edit user done");
-              $name.val("");
-              $nickname.val("");
-              $phone.val("");
-              $email.val("");
-              $label.removeClass('active');
-              loadDataByAjax(location.pathname);
-              $addEditUserModal.closeModal();
-            } else {
-              console.log(response);
-            }
+          type: 'patch',
+          url: url + "/" + userId,
+          dataType: 'json',
+          data:data,
+        }).done(function (response) {
+          if( response.success == "true") {
+            console.log("edit user done");
+            $name.val("");
+            $nickname.val("");
+            $phone.val("");
+            $email.val("");
+            $label.removeClass('active');
+            loadDataByAjax(location.pathname);
+            $addEditUserModal.closeModal();
+            userId = undefined;
+          } else {
+            console.log(response);
+          }
 
-          });
+        });
       });
     });
 });
