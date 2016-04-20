@@ -75,83 +75,130 @@ $(document).ready(function() {
     var $deleteUserModal = $('#delete-user');
     var $addEditUserModal = $('#add-user');
     var $errorMesages = $('.error-mesage');
+    var $buttonAddUser =$('#btn-add-users');
     var action;
     var request;
     var userId;
+    var index = 0;
+    var indexUrl;
+    var modelState;
 
-    $deleteUserModal .closeModal();
+    function onModalHide() {
+      modelState = "close";
+    }
 
-    $body.on('click', '.delete-form-modal', function (e) {
-      console.log("start delete user");
-      e.preventDefault();
-      $deleteUserModal .openModal();
-      var url = $(this).data('delete-url');
+    function onModalShow() {
+      modelState = "open";
+    }
 
-      $('.delete-form').click(function (e) {
-        e.preventDefault();
-        console.log("GET request for users data");
-        $.ajax({
+    function getAjaxRequest(url,callback) {
+      $.ajax({
         type: 'get',
         url: url,
         }).done(function (response) {
           if (response.success == 'true') {
-            loadDataByAjax(location.pathname);
-            $deleteUserModal.closeModal();
-            console.log('done delete user');
+            callback();
           } else {
             console.log(response);
           }
         });
+    }
 
+
+    function deleteUserRequest(url) {
+      console.log("GET request for users data");
+      if (url == indexUrl) {
+        getAjaxRequest(url,deleteUser);
+      }
+    }
+
+    function deleteUser() {
+      loadDataByAjax(location.pathname);
+      $deleteUserModal.closeModal();
+      indexUrl = undefined;
+      console.log('done delete user');
+    }
+
+
+
+    $deleteUserModal .closeModal();
+
+    $body.on('click', '.delete-form-modal', function (e) {
+      e.preventDefault();
+      $deleteUserModal.openModal();
+      console.log("start delete user");
+      var url = $(this).data('delete-url');
+      indexUrl = url;
+
+      $('.delete-form').click(function (e) {
+        e.preventDefault();
+        deleteUserRequest(url);
       })
 
       $('.disagree_delete-form').click(function (event) {
         event.preventDefault();
         $deleteUserModal .closeModal();
       })
-
     });
 
 
-    $addEditUserModal.closeModal();
+    $addEditUserModal.closeModal({
+      complete : onModalHide
+    });
     $body.on('click', '.add-form-modal', function (e) {
+      e.preventDefault();
+      console.log(modelState);
+      if(modelState == "open") {
+        return false;
+      }
       action = "add";
       console.log("start add user");
-      e.preventDefault();
       var url = $(this).data('create-url');
+      $addEditUserModal.openModal({
+        complete: onModalHide
+      });
+      onModalShow;
       $name.val("");
       $nickname.val("");
       $phone.val("");
       $email.val("");
       $vk_link.val("");
       $errorMesages.text("");
-      $addEditUserModal.openModal();
       $('label[class~=active]').removeClass('active');
-      $('form').submit(function(e){
-        console.log("POST request for add user");
+      $('input[class~=valid]').removeClass('valid');
+      $('form').submit( function(e) {
         e.preventDefault();
+        if(action == "edit") {
+          return false;
+        }
+        if(index == 0) {
+          console.log("POST request for add user");
+        }
         var self = $(this);
         var data = self.serializeArray();
         var nickname = $('#nickname').val();
         var phone = $('#phone').val();
         var email = $('#email').val();
-        if (action == "edit") {
+        if (index == 1 || index > 1) {
           return false;
         }
+        index ++;
         $.ajax({
           type: 'post',
           url: url,
           data: data,
           dataType: 'json',
-          success: function(response){
+          }).done (function(response) {
               if (response.success == 'true') {
               console.log('done add user');
               loadDataByAjax(location.pathname);
-              $addEditUserModal.closeModal();
+              $addEditUserModal.closeModal({
+                complete : onModalHide
+              });
+              index = 0;
             }
-          },
-          error: function(data){
-            var response = data.responseJSON;
+          }).fail(function(data) {
+              var response = data.responseJSON;
             if (response.nickname != undefined) {
               $errorNickname.text( "This nickname  \"" +  nickname + "\"  already exists.");
             }
@@ -161,17 +208,16 @@ $(document).ready(function() {
             if (response.email != undefined) {
               $errorEmail.text("This email  \"" +  email + "\"  already exists.")
             }
+            index = 0;
             return false;
-          }
-        })
+          });
       })
     });
 
-    $addEditUserModal.closeModal();
     $body.on('click', '.edit-form-modal', function (e) {
+      e.preventDefault();
       action = "edit";
       console.log("start edit user");
-      e.preventDefault();
       var url = $(this).data('edit-url');
       console.log("GET request for user data");
       $.ajax({
@@ -188,8 +234,10 @@ $(document).ready(function() {
         var phone = response.phone;
         var email = response.email;
         userId = response._id;
-
-        $addEditUserModal.openModal();
+        $addEditUserModal.openModal({
+          complete: onModalHide
+        });
+        onModalShow();
         $errorMesages.text("");
         $label.addClass('active');
         $name.val(name);
@@ -212,12 +260,12 @@ $(document).ready(function() {
       });
 
       $('form').submit(function(e){
+        e.preventDefault();
+        e.stopPropagation();
         if(action == "add") {
           return false;
         }
         console.log("PATCH request edit user");
-        e.preventDefault();
-        e.stopImmediatePropagation();
         var self = $(this);
         var data = self.serializeArray();
         var url = window.location.pathname;
@@ -235,7 +283,9 @@ $(document).ready(function() {
             $email.val("");
             $label.removeClass('active');
             loadDataByAjax(location.pathname);
-            $addEditUserModal.closeModal();
+            $addEditUserModal.closeModal({
+              complete : onModalHide
+            });
             userId = undefined;
           } else {
             console.log(response);

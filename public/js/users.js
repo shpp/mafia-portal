@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    loadDataByAjax(location.href);
+    loadDataByAjax(location.pathname);
 
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
