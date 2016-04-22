@@ -60,6 +60,7 @@ $(document).ready(function() {
       return content;
     }
 
+    // global variables
     var $body = $('body');
     var $name = $('#name');
     var $nickname = $('#nickname');
@@ -77,34 +78,107 @@ $(document).ready(function() {
     var $errorMesages = $('.error-mesage');
     var $buttonAddUser =$('#btn-add-users');
     var action;
-    var request;
-    var userId;
     var index = 0;
     var indexUrl;
     var modelState;
 
+    // function event modal window close.
     function onModalHide() {
       modelState = "close";
     }
 
+    // function event modal window open.
     function onModalShow() {
       modelState = "open";
     }
 
+// ---------------------- AJAX Requests ------------------------//
+
+    /**
+     * @param http url var url
+     * @param function callback
+     */
     function getAjaxRequest(url,callback) {
       $.ajax({
         type: 'get',
         url: url,
-        }).done(function (response) {
-          if (response.success == 'true') {
-            callback();
-          } else {
-            console.log(response);
-          }
-        });
+        success : callback
+      })
     }
 
+     /**
+     * @param http url var url
+     * @param array var data
+     * @param function callback success request
+     * @param function callback error request
+     */
+    function postAjaxRequest(url, data, callbackSuccess, callbackError) {
+      $.ajax({
+        type: 'post',
+        url: url,
+        data: data,
+        dataType: 'json',
+        success: callbackSuccess,
+        error: callbackError
+      })
+    }
 
+    /**
+     * @param http url var url
+     * @param function callback
+     */
+    function pathAjaxRequest(url, data, callback) {
+      $.ajax({
+        type: 'patch',
+        url: url + "/" + userId,
+        dataType: 'json',
+        data: data,
+        success: callback
+      })
+    }
+
+// --------------------------------- Functions add user --------------------------//
+
+    /**
+     * @param json var response
+     */
+    function addUser(response) {
+      if (response.success == 'true') {
+        console.log('done add user');
+        loadDataByAjax(location.pathname);
+        $addEditUserModal.closeModal({
+          complete : onModalHide
+        });
+        index = 0;
+      }
+    }
+
+    /**
+     * @param object var data
+     */
+    function showErrors(data) {
+      var nickname = $nickname.val();
+      var phone = $phone.val();
+      var email = $email.val();
+      var response = data.responseJSON;
+      if (response.nickname != undefined) {
+        $errorNickname.text( "This nickname  \"" +  nickname + "\"  already exists.");
+      }
+      if (response.phone != undefined) {
+        $errorPhone.text("This phone  \"" +  phone + "\"  already exists.");
+      }
+      if (response.email != undefined) {
+        $errorEmail.text("This email  \"" +  email + "\"  already exists.")
+      }
+      index = 0;
+      return false;
+    }
+
+// --------------------------------- Functions delete user --------------------------//
+
+    /**
+     * @param http url var url
+     */
     function deleteUserRequest(url) {
       console.log("GET request for users data");
       if (url == indexUrl) {
@@ -112,15 +186,90 @@ $(document).ready(function() {
       }
     }
 
-    function deleteUser() {
-      loadDataByAjax(location.pathname);
-      $deleteUserModal.closeModal();
-      indexUrl = undefined;
-      console.log('done delete user');
+    /**
+     * @param json var response
+     */
+    function deleteUser(response) {
+      if (response.success == 'true') {
+        loadDataByAjax(location.pathname);
+        $deleteUserModal.closeModal();
+        indexUrl = undefined;
+        console.log('done delete user');
+      } else {
+            console.log(response);
+      }
+    }
+
+// --------------------------------- Functions edit user --------------------------//
+
+    /**
+     * @param http url var url
+     */
+    function editUserRequest(url) {
+      getAjaxRequest(url, openModalEditUser);
+    }
+
+    /**
+     * @param json var response
+     */
+    function openModalEditUser(response) {
+      var response = response.data;
+      var gender = response.gender;
+      var role = response.role;
+      var vk_link = response.vk_link;
+      var name = response.name;
+      var nickname = response.nickname;
+      var phone = response.phone;
+      var email = response.email;
+      userId = response._id;
+      console.log(userId);
+      $addEditUserModal.openModal({
+        complete: onModalHide
+      });
+      onModalShow();
+      $errorMesages.text("");
+      $label.addClass('active');
+      $name.val(name);
+      $nickname.val(nickname);
+      $phone.val(phone);
+      $email.val(email);
+      $roleInput.val(role);
+      $("#role [value='" + role + "']").attr("selected", "selected");
+      $("#gender [value='" + gender + "']").attr("selected", "selected");
+      if(response.gender == "f"){
+        gender = "female";
+      } else {
+        gender = "male";
+      }
+      $genderInput.val(gender);
+      if(vk_link != undefined) {
+        $vk_link.val(vk_link);
+      }
+    }
+
+    /**
+     * @param json var response
+     */
+    function editUser(response) {
+      if( response.success == "true") {
+        console.log("edit user done");
+        $name.val("");
+        $nickname.val("");
+        $phone.val("");
+        $email.val("");
+        $label.removeClass('active');
+        loadDataByAjax(location.pathname);
+        $addEditUserModal.closeModal({
+          complete : onModalHide
+        });
+        userId = undefined;
+      } else {
+        console.log(response);
+      }
     }
 
 
-
+// --------------------------------- Functions events page-users  --------------------------//
     $deleteUserModal .closeModal();
 
     $body.on('click', '.delete-form-modal', function (e) {
@@ -145,9 +294,9 @@ $(document).ready(function() {
     $addEditUserModal.closeModal({
       complete : onModalHide
     });
+
     $body.on('click', '.add-form-modal', function (e) {
       e.preventDefault();
-      console.log(modelState);
       if(modelState == "open") {
         return false;
       }
@@ -158,6 +307,7 @@ $(document).ready(function() {
         complete: onModalHide
       });
       onModalShow;
+
       $name.val("");
       $nickname.val("");
       $phone.val("");
@@ -166,52 +316,24 @@ $(document).ready(function() {
       $errorMesages.text("");
       $('label[class~=active]').removeClass('active');
       $('input[class~=valid]').removeClass('valid');
+
       $('form').submit( function(e) {
         e.preventDefault();
         if(action == "edit") {
           return false;
         }
-        if(index == 0) {
-          console.log("POST request for add user");
-        }
-        var self = $(this);
-        var data = self.serializeArray();
-        var nickname = $('#nickname').val();
-        var phone = $('#phone').val();
-        var email = $('#email').val();
         if (index == 1 || index > 1) {
           return false;
         }
+        console.log("POST request for add user");
+
+        var self = $(this);
+        var data = self.serializeArray();
         index ++;
-        $.ajax({
-          type: 'post',
-          url: url,
-          data: data,
-          dataType: 'json',
-          }).done (function(response) {
-              if (response.success == 'true') {
-              console.log('done add user');
-              loadDataByAjax(location.pathname);
-              $addEditUserModal.closeModal({
-                complete : onModalHide
-              });
-              index = 0;
-            }
-          }).fail(function(data) {
-              var response = data.responseJSON;
-            if (response.nickname != undefined) {
-              $errorNickname.text( "This nickname  \"" +  nickname + "\"  already exists.");
-            }
-            if (response.phone != undefined) {
-              $errorPhone.text("This phone  \"" +  phone + "\"  already exists.");
-            }
-            if (response.email != undefined) {
-              $errorEmail.text("This email  \"" +  email + "\"  already exists.")
-            }
-            index = 0;
-            return false;
-          });
+        postAjaxRequest(url, data, addUser, showErrors);
+
       })
+
     });
 
     $body.on('click', '.edit-form-modal', function (e) {
@@ -220,44 +342,8 @@ $(document).ready(function() {
       console.log("start edit user");
       var url = $(this).data('edit-url');
       console.log("GET request for user data");
-      $.ajax({
-        type: 'get',
-        url: url,
-        dataType: 'json'
-      }).done(function (response) {
-        var response = response.data;
-        var gender = response.gender;
-        var role = response.role;
-        var vk_link = response.vk_link;
-        var name = response.name;
-        var nickname = response.nickname;
-        var phone = response.phone;
-        var email = response.email;
-        userId = response._id;
-        $addEditUserModal.openModal({
-          complete: onModalHide
-        });
-        onModalShow();
-        $errorMesages.text("");
-        $label.addClass('active');
-        $name.val(name);
-        $nickname.val(nickname);
-        $phone.val(phone);
-        $email.val(email);
-        $roleInput.val(role);
-        $("#role [value='" + role + "']").attr("selected", "selected");
-        $("#gender [value='" + gender + "']").attr("selected", "selected");
-        if(response.gender == "f"){
-          gender = "female";
-        } else {
-          gender = "male";
-        }
-        $genderInput.val(gender);
-        if(vk_link != undefined) {
-          $vk_link.val(vk_link);
-        }
-
-      });
+      var userId;
+      editUserRequest(url);
 
       $('form').submit(function(e){
         e.preventDefault();
@@ -269,29 +355,11 @@ $(document).ready(function() {
         var self = $(this);
         var data = self.serializeArray();
         var url = window.location.pathname;
-        $.ajax({
-          type: 'patch',
-          url: url + "/" + userId,
-          dataType: 'json',
-          data:data,
-        }).done(function (response) {
-          if( response.success == "true") {
-            console.log("edit user done");
-            $name.val("");
-            $nickname.val("");
-            $phone.val("");
-            $email.val("");
-            $label.removeClass('active');
-            loadDataByAjax(location.pathname);
-            $addEditUserModal.closeModal({
-              complete : onModalHide
-            });
-            userId = undefined;
-          } else {
-            console.log(response);
-          }
 
-        });
+        pathAjaxRequest(url, data, editUser)
       });
     });
 });
+
+
+
