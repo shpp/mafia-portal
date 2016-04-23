@@ -126,6 +126,18 @@
                     </div>
 
                     <div class="row">
+                        <div class="input-field club">
+                            {!! Form::select(
+                                'club_id',
+                                array('no-club' => 'no-club', 'club_1' => 'club_1', 'club_2' => 'club_2'),
+                                null,
+                                array('id' => 'club_id','required')
+                            ) !!}
+                            {!! Form::label('club', 'Club') !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="input-field gender">
                             {!! Form::select(
                                 'gender',
@@ -145,6 +157,25 @@
                                 NULL,
                                 array('class' => 'validate' . ($errors->has('vk_link')?' invalid':'')
                             )) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field bane">
+                            {!! Form::select(
+                                'bane-date',
+                                array('no-bane' => 'no-bane', 'bane' => 'bane'),
+                                null,
+                                array('id' => 'bane-date','required')
+                            ) !!}
+                            {!! Form::label('bane', 'Bane') !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field comments">
+                            {!! Form::label('comments', 'Comments',  array('class' => 'input-label') ) !!}
+                            {{ Form::textarea('comments', null, ['size' => '30x10', 'class' => 'materialize-textarea']) }}
                         </div>
                     </div>
 

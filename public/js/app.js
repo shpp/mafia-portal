@@ -9,14 +9,23 @@ $(document).ready(function() {
     format: 'd-mm-yyyy',
   });
 
+  $('#comments').trigger('autoresize');
+
   // global variables
   var $body = $('body');
   var $name = $('#name');
   var $nickname = $('#nickname');
   var $phone = $('#phone');
   var $email = $('#email');
+
+  var $comments = $('#comments');
+
   var $roleInput = $(".role input");
   var $genderInput = $(".gender input");
+
+  var $clubInput = $(".club input");
+  var $baneInput = $(".bane input");
+
   var $vk_link = $('#vk_link');
   var $label = $('form label.input-label');
   var $errorNickname = $('#errorNickname');
@@ -127,6 +136,11 @@ $(document).ready(function() {
     var nickname = response.nickname;
     var phone = response.phone;
     var email = response.email;
+
+   /* var comments = response.comments;
+    var club = response.club_id;
+    var bane = response.bane-date;*/
+
     userId = response._id;
     $addEditUserModal.openModal({
       complete: onModalHide
@@ -138,9 +152,14 @@ $(document).ready(function() {
     $nickname.val(nickname);
     $phone.val(phone);
     $email.val(email);
+    /*$comments.text(comments);
+    $clubInput.val(club);
+    $baneInput.val(bane);*/
     $roleInput.val(role);
     $("#role [value='" + role + "']").attr("selected", "selected");
     $("#gender [value='" + gender + "']").attr("selected", "selected");
+    /*$("#club_id [value='" + club + "']").attr("selected", "selected");
+    $("#bane-date [value='" + bane + "']").attr("selected", "selected");*/
     if(response.gender == "f"){
       gender = "female";
     } else {
@@ -162,6 +181,7 @@ $(document).ready(function() {
       $nickname.val("");
       $phone.val("");
       $email.val("");
+      $comments.text("");
       $label.removeClass('active');
       loadDataByAjax(location.pathname);
       $addEditUserModal.closeModal({
@@ -218,6 +238,7 @@ $(document).ready(function() {
     $phone.val("");
     $email.val("");
     $vk_link.val("");
+    $comments.text("");
     $errorMesages.text("");
     $('label[class~=active]').removeClass('active');
     $('input[class~=valid]').removeClass('valid');
