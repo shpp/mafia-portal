@@ -34,7 +34,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/muffin/games';
+    protected $redirectTo = '/muffin/users';
 
     /**
      * Create a new authentication controller instance.

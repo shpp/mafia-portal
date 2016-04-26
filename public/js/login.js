@@ -19,7 +19,7 @@ $(document).ready(function () {
         data: data,
         dataType: 'json'
       }).done(function (response) {
-        if (response.success == 'true') {
+        if (response.success == true) {
             self.addClass('validated');
             self.submit();
         } else {
