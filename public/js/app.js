@@ -58,7 +58,7 @@ $(document).ready(function() {
      * @param json var response
      */
     function addUser(response) {
-        if (response.success == 'true') {
+        if (response.success == true) {
             console.log('done add user');
             loadDataByAjax(location.pathname);
             $addEditUserModal.closeModal({
@@ -105,7 +105,7 @@ $(document).ready(function() {
      * @param json var response
      */
     function deleteUser(response) {
-        if (response.success == 'true') {
+        if (response.success == true) {
             loadDataByAjax(location.pathname);
             $deleteUserModal.closeModal();
             indexUrl = undefined;
@@ -175,7 +175,7 @@ $(document).ready(function() {
      * @param json var response
      */
     function editUser(response) {
-        if( response.success == "true") {
+        if( response.success == true) {
             console.log("edit user done");
             $name.val("");
             $nickname.val("");

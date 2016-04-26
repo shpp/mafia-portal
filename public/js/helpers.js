@@ -37,7 +37,7 @@ function loadDataByAjax(url) {
 
 
 function overloadTableContent(response) {
-  if (response.success == 'true') {
+  if (response.success == true) {
     $('#table-content').html(prepareContent(response.data.data));
   }
 }
