@@ -150,7 +150,7 @@ class AuthController extends Controller
 	protected function sendFailedLoginResponse(Request $request)
 	{
 		return Response::json([
-			'success' => 'false',
+			'success' => false,
 			'data' => $request->only($this->loginUsername(), 'remember'),
 		    'errors' => [ $this->loginUsername() => $this->getFailedLoginMessage() ]
 		]);
@@ -160,7 +160,7 @@ class AuthController extends Controller
 	{
 		if ( $request->ajax() ) {
 			return Response::json( [
-				'success' => 'true'
+				'success' => true
 			] );
 		}
 

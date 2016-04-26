@@ -52,7 +52,7 @@ class UsersController extends Controller
 
 
 		return Response::json([
-			'success' => 'true',
+			'success' => true,
 			'data' => $users
 		]);
 	}
@@ -107,7 +107,7 @@ class UsersController extends Controller
 		$user->update($request->all());
 
 		return Response::json( [
-			'success' => 'true'
+			'success' => true
 		] );
 
 //		return redirect(route('admin.users.edit', $user->id));

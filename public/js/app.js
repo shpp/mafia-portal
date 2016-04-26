@@ -79,12 +79,12 @@ $(document).ready(function() {
     var request;
     var userId;
 
-    $deleteUserModal .closeModal();
+    $deleteUserModal.closeModal();
 
     $body.on('click', '.delete-form-modal', function (e) {
       console.log("start delete user");
       e.preventDefault();
-      $deleteUserModal .openModal();
+      $deleteUserModal.openModal();
       var url = $(this).data('delete-url');
 
       $('.delete-form').click(function (e) {
@@ -107,7 +107,7 @@ $(document).ready(function() {
 
       $('.disagree_delete-form').click(function (event) {
         event.preventDefault();
-        $deleteUserModal .closeModal();
+        $deleteUserModal.closeModal();
       })
 
     });
