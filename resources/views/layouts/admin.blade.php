@@ -32,6 +32,9 @@
                         <a href="{{ route('admin.users') }}"> Users</a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.clubs') }}">Clubs</a>
+                    </li>
+                    <li>
                         <a href="{{ url('/muffin/events') }}"> Events</a>
                     </li>
                     <li>
@@ -50,10 +53,13 @@
                         <a href="{{ route('admin.games') }}">Games</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.users') }}"> Users</a>
+                        <a href="{{ route('admin.users') }}">Users</a>
                     </li>
                     <li>
-                        <a href="{{ url('/muffin/events') }}"> Events</a>
+                        <a href="{{ route('admin.clubs') }}">Clubs</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/muffin/events') }}">Events</a>
                     </li>
                     <li>
                         <a href="{{ url('/muffin/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a>
