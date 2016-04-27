@@ -35,9 +35,6 @@ $(document).ready(function() {
     var $addEditUserModal = $('#add-user');
     var $errorMesages = $('.error-mesage');
     var $buttonAddUser =$('#btn-add-users');
-    var action;
-    var index = 0;
-    var indexUrl;
     var modelState;
 
     // function event modal window close.
@@ -64,7 +61,6 @@ $(document).ready(function() {
             $addEditUserModal.closeModal({
                 complete : onModalHide
             });
-            index = 0;
         }
     }
 
@@ -85,7 +81,6 @@ $(document).ready(function() {
         if (response.email != undefined) {
             $errorEmail.text("This email  \"" +  email + "\"  already exists.")
         }
-        index = 0;
         return false;
     }
 
@@ -96,9 +91,8 @@ $(document).ready(function() {
      */
     function deleteUserRequest(url) {
         console.log("GET request for users data");
-        if (url == indexUrl) {
-            getAjaxRequest(url,deleteUser);
-        }
+        getAjaxRequest(url,deleteUser);
+
     }
 
     /**
@@ -108,7 +102,6 @@ $(document).ready(function() {
         if (response.success == true) {
             loadDataByAjax(location.pathname);
             $deleteUserModal.closeModal();
-            indexUrl = undefined;
             console.log('done delete user');
         } else {
             console.log(response);
@@ -202,10 +195,9 @@ $(document).ready(function() {
         $deleteUserModal.openModal();
         console.log("start delete user");
         var url = $(this).data('delete-url');
-        indexUrl = url;
-
-        $('.delete-form').click(function (e) {
-            e.preventDefault();
+        $('.delete-form').unbind('click');
+        $('.delete-form').click(function (event) {
+            event.preventDefault();
             deleteUserRequest(url);
         })
 
@@ -221,11 +213,11 @@ $(document).ready(function() {
     });
 
     $body.on('click', '.add-form-modal', function (e) {
+        console.info("Click on "+this.tagName);
         e.preventDefault();
         if(modelState == "open") {
             return false;
         }
-        action = "add";
         console.log("start add user");
         var url = $(this).data('create-url');
         $addEditUserModal.openModal({
@@ -243,19 +235,13 @@ $(document).ready(function() {
         $('label[class~=active]').removeClass('active');
         $('input[class~=valid]').removeClass('valid');
 
+        $('form').unbind('submit');
         $('form').submit( function(e) {
             e.preventDefault();
-            if(action == "edit") {
-                return false;
-            }
-            if (index == 1 || index > 1) {
-                return false;
-            }
             console.log("POST request for add user");
 
             var self = $(this);
             var data = self.serializeArray();
-            index ++;
             postAjaxRequest(url, data, addUser, showErrors);
 
         })
@@ -264,19 +250,16 @@ $(document).ready(function() {
 
     $body.on('click', '.edit-form-modal', function (e) {
         e.preventDefault();
-        action = "edit";
         console.log("start edit user");
         var url = $(this).data('edit-url');
         console.log("GET request for user data");
         var userId;
         editUserRequest(url);
 
+        $('form').unbind('submit');
         $('form').submit(function(e){
             e.preventDefault();
             e.stopPropagation();
-            if(action == "add") {
-                return false;
-            }
             console.log("PATCH request edit user");
             var self = $(this);
             var data = self.serializeArray();
