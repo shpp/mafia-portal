@@ -47,7 +47,16 @@ $(document).ready(function() {
         modelState = "open";
     }
 
-
+    // function clear fields form
+    function clearFields() {
+        $name.val("");
+        $nickname.val("");
+        $phone.val("");
+        $email.val("");
+        $comments.text("");
+        $errorMesages.text("");
+        $vk_link.val("");
+    }
 
     // --------------------------------- Functions add user --------------------------//
 
@@ -170,11 +179,7 @@ $(document).ready(function() {
     function editUser(response) {
         if( response.success == true) {
             console.log("edit user done");
-            $name.val("");
-            $nickname.val("");
-            $phone.val("");
-            $email.val("");
-            $comments.text("");
+            clearFields();
             $label.removeClass('active');
             loadDataByAjax(location.pathname);
             $addEditUserModal.closeModal({
@@ -190,6 +195,7 @@ $(document).ready(function() {
     // --------------------------------- Functions events page-users  --------------------------//
     $deleteUserModal .closeModal();
 
+    /*The event handler pushing the button delete-users*/
     $body.on('click', '.delete-form-modal', function (e) {
         e.preventDefault();
         $deleteUserModal.openModal();
@@ -212,6 +218,7 @@ $(document).ready(function() {
         complete : onModalHide
     });
 
+    /*The event handler pushing the button add-users*/
     $body.on('click', '.add-form-modal', function (e) {
         console.info("Click on "+this.tagName);
         e.preventDefault();
@@ -224,14 +231,8 @@ $(document).ready(function() {
             complete: onModalHide
         });
         onModalShow;
+        clearFields();
 
-        $name.val("");
-        $nickname.val("");
-        $phone.val("");
-        $email.val("");
-        $vk_link.val("");
-        $comments.text("");
-        $errorMesages.text("");
         $('label[class~=active]').removeClass('active');
         $('input[class~=valid]').removeClass('valid');
 
@@ -248,6 +249,7 @@ $(document).ready(function() {
 
     });
 
+    /*The event handler pushing the button edit-users*/
     $body.on('click', '.edit-form-modal', function (e) {
         e.preventDefault();
         console.log("start edit user");
