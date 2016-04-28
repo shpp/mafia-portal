@@ -68,8 +68,8 @@ function initialCurrentUsers(users) {
  */
 function initialTableContent(response) {
   if (response.success == true) {
+    currentUsers = {};
     initialCurrentUsers(response.data.data);
-    console.log(currentUsers);
     overloadTableContent();
   }
 }

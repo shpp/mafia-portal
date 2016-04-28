@@ -13,7 +13,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery);
+        getAjaxRequest(Request.searchQuery, initialTableContent);
     });
 
     $('.title-sort').click(function(){
@@ -35,7 +35,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery);
+        getAjaxRequest(Request.searchQuery, initialTableContent);
     });
 
     $('#hide_guest').change(function () {
@@ -50,7 +50,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery);
+        getAjaxRequest(Request.searchQuery, initialTableContent);
     });
 
     // global variables
