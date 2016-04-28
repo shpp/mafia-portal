@@ -79,17 +79,19 @@ $(document).ready(function () {
     var $deleteUserModal = $('#delete-user');
     var $addEditUserModal = $('#add-user');
     var $errorMesages = $('.error-mesage');
-    var $buttonAddUser = $('#btn-add-users');
+    var $buttonAddUser = $('#btn-add');
     var modelState;
 
     // function event modal window close.
     function onModalHide() {
         modelState = "close";
+        $buttonAddUser.show();
     }
 
     // function event modal window open.
     function onModalShow() {
         modelState = "open";
+
     }
 
     // function clear fields form
@@ -178,7 +180,9 @@ $(document).ready(function () {
             hideSpinner();
             deleteUserInCurrentUsers(this);
             overloadTableContent();
-            $deleteUserModal.closeModal();
+            $deleteUserModal.closeModal({
+                complete: onModalHide
+            });
             console.log('done delete user');
         } else {
             hideSpinner();
@@ -208,6 +212,7 @@ $(document).ready(function () {
             complete: onModalHide
         });
         onModalShow();
+        $buttonAddUser.hide();
         $errorMesages.text("");
         $label.addClass('active');
         $name.val(name);
@@ -259,7 +264,10 @@ $(document).ready(function () {
     /*The event handler pushing the button delete-users*/
     $body.on('click', '.delete-form-modal', function (e) {
         e.preventDefault();
-        $deleteUserModal.openModal();
+        $deleteUserModal.openModal({
+            complete: onModalHide
+        });
+        $buttonAddUser.hide();
         var userId = $(this).parents("tr").attr("id");
         var url = location.pathname;
         var userUrl = url + "/" + userId + "/destroy";
@@ -293,6 +301,7 @@ $(document).ready(function () {
             complete: onModalHide
         });
         onModalShow;
+        $buttonAddUser.hide();
         clearFields();
 
         $('label[class~=active]').removeClass('active');
