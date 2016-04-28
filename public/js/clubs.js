@@ -1,6 +1,8 @@
 $(document).ready(function () {
 
     getAjaxRequest(location.pathname, prepareContent);
+    var $materializeOverlay = $('#overlay');
+    $materializeOverlay.hide();
 
     function prepareContent(response) {
         console.log(response);

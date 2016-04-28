@@ -62,3 +62,8 @@
     </div>
 
 @endsection
+
+@push('footer-scripts')
+    <script src="{{ asset('js/helpers.js') }}"></script>
+    <script src="{{ asset('js/events.js') }}"></script>
+@endpush

@@ -210,3 +210,5 @@ function activeMenuLink() {
   var $activeLink = $('a[href*="' + currentUrl + '"]');
   $activeLink.css("color", "#444444");
 }
+
+var $materializeOverlay = $('#overlay');
