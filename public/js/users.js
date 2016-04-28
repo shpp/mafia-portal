@@ -1,5 +1,8 @@
 $(document).ready(function () {
     getAjaxRequest(location.pathname, initialTableContent);
+    var $materializeOverlay = $('#overlay');
+    $materializeOverlay.hide();
+
 
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
@@ -76,7 +79,7 @@ $(document).ready(function () {
     var $deleteUserModal = $('#delete-user');
     var $addEditUserModal = $('#add-user');
     var $errorMesages = $('.error-mesage');
-    var $buttonAddUser =$('#btn-add-users');
+    var $buttonAddUser = $('#btn-add-users');
     var modelState;
 
     // function event modal window close.
@@ -100,6 +103,23 @@ $(document).ready(function () {
         $vk_link.val("");
     }
 
+    // ajax preloader
+    var $spinner = $('#spinner');
+
+    // function show preloader for Ajax request
+    function showSpinner() {
+        console.log("showSpinner");
+        $spinner.addClass("active");
+        $materializeOverlay.show();
+    }
+
+    // function hide preloader for Ajax request
+     function hideSpinner() {
+        console.log("hideSpinner");
+        $spinner.removeClass("active");
+        $materializeOverlay.hide();
+    }
+
     // --------------------------------- Functions add user --------------------------//
 
     /**
@@ -107,6 +127,7 @@ $(document).ready(function () {
      */
     function addUser(response) {
         if (response.success == true) {
+            hideSpinner();
             console.log('done add user');
             initialCurrentUsers(response.data.data);
             overloadTableContent();
@@ -120,6 +141,7 @@ $(document).ready(function () {
      * @param object var data
      */
     function showErrors(data) {
+        hideSpinner();
         var nickname = $nickname.val();
         var phone = $phone.val();
         var email = $email.val();
@@ -143,6 +165,7 @@ $(document).ready(function () {
      */
     function deleteUserRequest(url,userId) {
         console.log("GET request for delete user");
+        showSpinner();
         getAjaxRequest(url,deleteUser,userId);
 
     }
@@ -152,11 +175,13 @@ $(document).ready(function () {
      */
     function deleteUser(response) {
         if (response.success == true) {
+            hideSpinner();
             deleteUserInCurrentUsers(this);
             overloadTableContent();
             $deleteUserModal.closeModal();
             console.log('done delete user');
         } else {
+            hideSpinner();
             console.log(response);
         }
     }
@@ -213,6 +238,7 @@ $(document).ready(function () {
      */
     function editUser(response) {
         if( response.success == true) {
+            hideSpinner();
             console.log("edit user done");
             clearFields();
             $label.removeClass('active');
@@ -221,6 +247,7 @@ $(document).ready(function () {
                 complete : onModalHide
             });
         } else {
+            hideSpinner();
             console.log(response);
         }
     }
@@ -277,6 +304,7 @@ $(document).ready(function () {
             console.log("POST request for add user");
             var self = $(this);
             var data = self.serializeArray();
+            showSpinner();
             postAjaxRequest(url, data, addUser, showErrors);
         })
     });
@@ -291,7 +319,7 @@ $(document).ready(function () {
         if(userId in currentUsers) {
           currentItem = currentUsers[userId];
         } else {
-          console.log("Error global object currentUsers don`t hav current userId!!!");
+          console.log("Error global object currentUsers don`t have current userId!!!");
           return false;
         }
         openModalEditUser(currentItem);
@@ -304,6 +332,7 @@ $(document).ready(function () {
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;
             initialUserInCurrentUsers(self.serializeArray(), userId);
+            showSpinner();
             pathAjaxRequest(url, data, editUser)
         });
     });

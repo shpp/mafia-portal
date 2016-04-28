@@ -47,6 +47,9 @@ main {
   -webkit-flex: 1 0 auto;
       -ms-flex: 1 0 auto;
           flex: 1 0 auto;
+  z-index: 0;
+  position: relative;
+  padding: .1rem;
 }
 .title-sort {
   display: inline-block;
@@ -58,6 +61,12 @@ main {
 }
 .text-right {
   text-align: right;
+}
+#spinner {
+  margin-left: 43vw;
+  margin-top: 50vh;
+  position: absolute;
+  z-index: 1000;
 }
 .login-page {
   width: 100%;

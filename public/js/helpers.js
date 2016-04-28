@@ -133,7 +133,7 @@ function deleteUserInCurrentUsers(userId) {
   if (userId in currentUsers) {
   delete currentUsers[userId];
   } else {
-    console.log("Error global object currentUsers don`t hav current userId!!!");
+    console.log("Error global object currentUsers don`t have current userId!!!");
   }
 }
 
@@ -153,6 +153,10 @@ function initialUserInCurrentUsers(data, userId) {
 
 // ---------------------- AJAX Requests ------------------------//
 
+function showErrorAjaxRequest(data) {
+  console.log(data);
+}
+
 /**
  * @param http url var url
  * @param function callback
@@ -164,7 +168,8 @@ function getAjaxRequest(url,callback,userId) {
     cache: false,
     dataType: 'json',
     context: userId,
-    success : callback
+    success : callback,
+    error: showErrorAjaxRequest
   })
 }
 
@@ -195,6 +200,7 @@ function pathAjaxRequest(url, data, callback) {
     url: url,
     dataType: 'json',
     data: data,
-    success: callback
+    success: callback,
+    error: showErrorAjaxRequest
   })
 }

@@ -72,9 +72,8 @@
     </nav>
 
     <main>
-
+        @yield('preloader')
         @yield('content')
-
     </main>
 
     <footer class="page-footer grey lighten-1">
@@ -95,6 +94,8 @@
 
 
     @stack('footer-scripts')
+
+    <div id="overlay" class="lean-overlay" style="z-index: 998; display: block; opacity: 0.5;"></div>
 
 </body>
 </html>

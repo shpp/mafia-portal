@@ -6,7 +6,7 @@
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="container users-content">
         <h1 class="text-right">Игроки</h1>
 
         <div class="row">
@@ -189,4 +189,18 @@
         </div>
     </div>
 
+@endsection
+
+@section('preloader')
+    <div id="spinner" class="preloader-wrapper big">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+    </div>
 @endsection
