@@ -204,3 +204,9 @@ function pathAjaxRequest(url, data, callback) {
     error: showErrorAjaxRequest
   })
 }
+
+function activeMenuLink() {
+  var currentUrl = location.pathname;
+  var $activeLink = $('a[href*="' + currentUrl + '"]');
+  $activeLink.css("color", "#444444");
+}

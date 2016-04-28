@@ -11,6 +11,8 @@ $(document).ready(function() {
 
     $('#comments').trigger('autoresize');
 
+    activeMenuLink();
+
 
 });
 
