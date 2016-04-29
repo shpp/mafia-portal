@@ -197,3 +197,7 @@ main {
 .error_mesage {
   color: #cf253a;
 }
+td,
+th {
+  text-align: center;
+}

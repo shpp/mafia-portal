@@ -86,43 +86,46 @@ function overloadTableContent() {
  * Function prepare content in table
  * @param users object(local storage)
  */
+
+
+/**
+ * Function prepare content in table
+ * @param users object(local storage)
+ */
 function prepareContent(users) {
   console.log("prepareContent");
   if(users === undefined) {
-     $('#table-content').html('<tr><td colspan="8" style="text-align: center">No Users.</td></tr>');
-     return false;
+    return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
   }
   var url = location.pathname;
-  var content = '';
+  var content = $('#table-content').empty();;
   var index = 1;
   for (var key in users) {
     /*var index = parseInt(key) + 1;*/
     var user = users[key];
-    content += '\
-      <tr id="' + key + '">\
-        <td>' + index + '</td>\
-        <td>' + user['nickname'] + '</td>\
-        <td>' + user['name'] + '</td>\
-        <td>' + user['phone'] + '</td>\
-        <td>n/a</td>\
-        <td>0</td>\
-        <td>\
-          <a class="edit-form-modal"\
-          href="" >\
-            <i class="material-icons">create</i>\
-          </a>\
-        </td>\
-        <td>\
-          <a class="delete-form-modal"\
-            href="">\
-              <i class="material-icons">clear</i>\
-          </a>\
-        </td>\
-      </tr>';
+    content.append($('<tr>').attr('id', key)
+              .append($('<td>').text(index))
+              .append($('<td>').text(user['nickname'] ))
+              .append($('<td>').text(user['name']))
+              .append($('<td>').text(user['phone']))
+              .append($('<td>').text("n/a"))
+              .append($('<td>').text("0"))
+              .append($('<td>')
+                  .append($('<button>').addClass('btn-flat edit-form-modal blue-text text-darken-2')
+                      .append($('<i>').addClass('material-icons').text('create'))
+                  )
+              )
+              .append($('<td>')
+                  .append($('<button>').addClass('btn-flat delete-form-modal blue-text text-darken-2')
+                      .append($('<i>').addClass('material-icons').text('clear'))
+                  )
+              )
+    )
     index++;
   }
-  return content;
+
 }
+
 
 /**
  * Function delete current user in local storage
