@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Muffin;
 
 use App\Club;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Response;
@@ -20,7 +21,16 @@ class ClubsController extends Controller
 
 		if (!$request->ajax()) {
 			$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
-			return view('admin.clubs.index', compact('search', 'isOrderNameDesc'));
+			$users = User::select('name', 'nickname', 'gender')
+							->notDeleted()
+			                ->orderBy('name', 'asc')
+							->get();
+			$users_for_select = $this->prepareDataForSelect('name', $users);
+
+			return view(
+				'admin.clubs.index',
+				compact('search', 'isOrderNameDesc', 'users_for_select')
+			);
 		}
 
 		$clubs = Club::
@@ -34,9 +44,33 @@ class ClubsController extends Controller
 					})
 					->paginate(self::RECORD_PER_PAGE);
 
+//		dd($clubs);
+
+
 		return Response::json([
 			'success' => true,
-			'data' => $clubs
+			'clubs' => $clubs
 		]);
+	}
+
+	private function prepareDataForSelect( $field, $data ) {
+		if (empty($data)) {
+			return [];
+		}
+
+		$ret = [];
+		foreach ($data as $value) {
+			$ret[$value['_id']] = $value[$field];
+		}
+
+		return $ret;
+	}
+
+
+	public function store(Request $request)
+	{
+//		dd($request->all());
+
+		Club::create($request->all());
 	}
 }

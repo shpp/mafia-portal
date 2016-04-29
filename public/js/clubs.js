@@ -1,23 +1,25 @@
 $(document).ready(function () {
-
     getAjaxRequest(location.pathname, prepareContent);
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
+    var clubs = {};
+    var users = {};
     function prepareContent(response) {
-        console.log(response);
-
         if (response.success === true) {
-            var items = response.data.data;
-            if (!items.length) {
+            clubsData = response.clubs.data;
+            users = response.users;
+            console.log(users);
+            if (!clubsData.length) {
                 return '<tr><td colspan="4" style="text-align: center">No Users.</td></tr>';
             }
 
             var content = $('#table-content').empty();
-            $.each(items, function(i, e){
-                content.append($('<tr>').data('id', e['_id'])
+            $.each(clubsData, function(i, e){
+                content.append($('<tr>').data("id", e._id)
                             .append($('<td>').text(i + 1))
                             .append($('<td>').text(e.name))
+                            .append($('<td>').text(0))
                             .append($('<td>').text(e.presidentId))
                             .append($('<td>').text(e.board))
                             .append($('<td>')
@@ -34,6 +36,10 @@ $(document).ready(function () {
             });
         }
     }
+
+    $('#search-form').submit(function(e){
+        e.preventDefault();
+    });
 
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
@@ -70,5 +76,38 @@ $(document).ready(function () {
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
         getAjaxRequest(Request.searchQuery, prepareContent);
+    });
+
+    var fields = {};
+    var $modalForm = $('#modal-form');
+    var $form = $modalForm.find('form');
+
+    $('.add-form-modal-clubs').click(function () {
+        $modalForm.openModal({
+            complete: function() {
+                $form.attr('action', '');
+                console.log($form.attr('action'));
+            }
+        });
+        $form.attr('action', location.pathname + '/store');
+    });
+
+    $form.submit(function(e){
+        e.preventDefault();
+
+        var self = $(this);
+        var data = self.serializeArray();
+        console.log(data);
+
+        postAjaxRequest(
+            self.attr('action'),
+            data,
+            function(response){
+                console.log(response);
+            },
+            function(response){
+                console.log(response);
+            }
+        );
     });
 });

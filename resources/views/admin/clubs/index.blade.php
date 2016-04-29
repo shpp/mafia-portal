@@ -10,7 +10,7 @@
         <h1 class="text-right">Клубы</h1>
 
         <div class="row">
-            {!! Form::open() !!}
+            {!! Form::open(['id' => 'search-form']) !!}
                 <div class="input-field col s12 m4">
                     {!! Form::text('search', $search, array('id' => 'search')) !!}
                     {!! Form::label('search', 'Search') !!}
@@ -25,12 +25,13 @@
                     <th>#</th>
                     <th>
                         <span class="title-sort" data-order-by="name" data-order="{{ ($isOrderNameDesc) ? 'desc' : 'asc' }}">
-                            Name
+                            Название
                             <i class="material-icons right">{{ ($isOrderNameDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
                         </span>
                     </th>
-                    <th>President</th>
-                    <th>Board</th>
+                    <th>Человек</th>
+                    <th>Президент</th>
+                    <th>Совет</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -39,7 +40,7 @@
             </table>
 
             <div id="btn-add" class="fixed-action-btn fixed-btn">
-                <button type="button" class="btn-floating btn-large waves-effect waves-light  red lighten-1 add-form-modal modal-trigger">
+                <button type="button" class="btn-floating btn-large waves-effect waves-light red lighten-1 add-form-modal-clubs modal-trigger">
                     <i class="material-icons right">add</i>
                 </button>
             </div>
@@ -60,5 +61,7 @@
             <a href="" class="modal-action modal-close waves-effect waves-green btn-flat delete-form">Agree</a>
         </div>
     </div>
+
+    @include('admin.clubs.form')
 
 @endsection
