@@ -46,10 +46,25 @@ class ClubsController extends Controller
 
 //		dd($clubs);
 
+		$ret = [];
+		foreach ($clubs as $v) {
+//			print_r(count($v->boards));
+//			print_r($v->boards);
+
+			$ret[] = [
+				'_id' => $v->_id,
+				'name' => $v->name,
+				'president' => $v->president->name,
+				'board' => $v->board,
+			];
+
+
+		}
+
 
 		return Response::json([
 			'success' => true,
-			'clubs' => $clubs
+			'clubs' => $ret
 		]);
 	}
 

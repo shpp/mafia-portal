@@ -7,7 +7,7 @@ $(document).ready(function () {
     var users = {};
     function prepareContent(response) {
         if (response.success === true) {
-            clubsData = response.clubs.data;
+            clubsData = response.clubs;
             users = response.users;
             console.log(users);
             if (!clubsData.length) {
@@ -20,7 +20,7 @@ $(document).ready(function () {
                             .append($('<td>').text(i + 1))
                             .append($('<td>').text(e.name))
                             .append($('<td>').text(0))
-                            .append($('<td>').text(e.presidentId))
+                            .append($('<td>').text(e.president))
                             .append($('<td>').text(e.board))
                             .append($('<td>')
                                 .append($('<button>').addClass('btn-flat')
