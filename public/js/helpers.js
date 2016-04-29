@@ -208,7 +208,7 @@ function pathAjaxRequest(url, data, callback) {
 function activeMenuLink() {
   var currentUrl = location.pathname;
   var $activeLink = $('a[href*="' + currentUrl + '"]');
-  $activeLink.css("color", "#444444");
+  $activeLink.css({"color":"#C82C29", "background-color": "rgba(0,0,0,0.1)", "font-size": "1.5rem"});
 }
 
 var $materializeOverlay = $('#overlay');
