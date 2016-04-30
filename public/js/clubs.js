@@ -1,15 +1,12 @@
 $(document).ready(function () {
-    getAjaxRequest(location.pathname, prepareContent);
+    getAjaxRequest(location.href, prepareContent);
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
     var clubs = {};
-    var users = {};
     function prepareContent(response) {
         if (response.success === true) {
-            clubsData = response.clubs;
-            users = response.users;
-            console.log(users);
+            clubsData = response.clubs.data;
             if (!clubsData.length) {
                 return '<tr><td colspan="4" style="text-align: center">No Users.</td></tr>';
             }
@@ -19,8 +16,8 @@ $(document).ready(function () {
                 content.append($('<tr>').data("id", e._id)
                             .append($('<td>').text(i + 1))
                             .append($('<td>').text(e.name))
-                            .append($('<td>').text(0))
-                            .append($('<td>').text(e.president))
+                            .append($('<td>').text(e.users.length))
+                            .append($('<td>').text(e.president.name))
                             .append($('<td>').text(e.board))
                             .append($('<td>')
                                 .append($('<button>').addClass('btn-flat')
@@ -86,7 +83,6 @@ $(document).ready(function () {
         $modalForm.openModal({
             complete: function() {
                 $form.attr('action', '');
-                console.log($form.attr('action'));
             }
         });
         $form.attr('action', location.pathname + '/store');
@@ -97,7 +93,6 @@ $(document).ready(function () {
 
         var self = $(this);
         var data = self.serializeArray();
-        console.log(data);
 
         postAjaxRequest(
             self.attr('action'),

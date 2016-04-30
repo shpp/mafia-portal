@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    getAjaxRequest(location.pathname, initialTableContent);
+    getAjaxRequest(location.href, initialTableContent);
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
@@ -12,6 +12,21 @@ $(document).ready(function () {
             Request.object.search = searchPhrase;
         } else {
             Request.deleteSearchParam('search');
+        }
+
+        Request.prepareSearchQuery();
+        Request.updateSearchQuery();
+        getAjaxRequest(Request.searchQuery, initialTableContent);
+    });
+
+    $('#club').change(function(){
+        var searchPhrase = $(this).val().trim();
+
+        Request.toObject();
+        if (searchPhrase) {
+            Request.object.club = searchPhrase;
+        } else {
+            Request.deleteSearchParam('club');
         }
 
         Request.prepareSearchQuery();
@@ -68,7 +83,7 @@ $(document).ready(function () {
     var $roleInput = $(".role input");
     var $genderInput = $(".gender input");
 
-    var $clubInput = $(".club input");
+    var $clubInput = $("#club_id");
     var $baneInput = $(".bane input");
 
     var $vk_link = $('#vk_link');
@@ -86,6 +101,7 @@ $(document).ready(function () {
     function onModalHide() {
         modelState = "close";
         $buttonAddUser.show();
+        clearFields();
     }
 
     // function event modal window open.
@@ -100,6 +116,7 @@ $(document).ready(function () {
         $nickname.val("");
         $phone.val("");
         $email.val("");
+        $clubInput.val("");
         $comments.text("");
         $errorMesages.text("");
         $vk_link.val("");
@@ -203,6 +220,7 @@ $(document).ready(function () {
         var nickname = response.nickname;
         var phone = response.phone;
         var email = response.email;
+        var club = response.club;
 
         /* var comments = response.comments;
          var club = response.club_id;
@@ -225,8 +243,9 @@ $(document).ready(function () {
         $roleInput.val(role);
         $("#role [value='" + role + "']").attr("selected", "selected");
         $("#gender [value='" + gender + "']").attr("selected", "selected");
-        /*$("#club_id [value='" + club + "']").attr("selected", "selected");
-         $("#bane-date [value='" + bane + "']").attr("selected", "selected");*/
+        $clubInput.val(club._id).material_select();
+
+         /* $("#bane-date [value='" + bane + "']").attr("selected", "selected");*/
         if(response.gender == "f"){
             gender = "female";
         } else {

@@ -42,29 +42,12 @@ class ClubsController extends Controller
 					->when( $order_by, function ($query) use ($order, $order_by) {
 					 $query->orderBy($order_by, $order);
 					})
+					->with('president', 'users', 'boards')
 					->paginate(self::RECORD_PER_PAGE);
-
-//		dd($clubs);
-
-		$ret = [];
-		foreach ($clubs as $v) {
-//			print_r(count($v->boards));
-//			print_r($v->boards);
-
-			$ret[] = [
-				'_id' => $v->_id,
-				'name' => $v->name,
-				'president' => $v->president->name,
-				'board' => $v->board,
-			];
-
-
-		}
-
 
 		return Response::json([
 			'success' => true,
-			'clubs' => $ret
+			'clubs' => $clubs
 		]);
 	}
 

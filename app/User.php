@@ -31,7 +31,8 @@ class User extends Eloquent implements Authenticatable
         'vk_link',
         'able_to_login',
         'email',
-        'last_visit'
+        'last_visit',
+        'club_id'
     ];
 
     /**
@@ -42,6 +43,11 @@ class User extends Eloquent implements Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+	public function club()
+	{
+		return $this->hasOne('App\Club', '_id', 'club_id');
+	}
 
 	public function isAdmin(  ) {
 		return auth()->user()->role === 'admin';

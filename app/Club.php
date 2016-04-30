@@ -13,11 +13,16 @@ class Club extends Eloquent
 
 	public function president()
 	{
-		return $this->belongsTo('App\User', 'presidentId', '_id');
+		return $this->belongsTo('App\User', 'presidentId', '_id')->select('_id', 'name');
+	}
+
+	public function users()
+	{
+		return $this->hasMany('App\User', 'club_id', '_id');
 	}
 
 	public function boards()
 	{
-		return $this->belongsTo('App\User', 'board', '_id');
+		return $this->belongsToMany('App\User', null, '_id', 'board');
 	}
 }

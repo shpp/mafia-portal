@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Muffin;
 
+use App\Club;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,11 @@ class UsersController extends Controller
 		$order_by = $request->input('orderBy', 'nickname');
 		$order = $request->input('order', 'asc');
 		$search = $request->input('search', false);
+		$club = $request->input('club', false);
 		$hide_guest = $request->input('hide_guest', 0);
+
+		$clubs = Club::select('_id', 'name')->orderBy('name')->get();
+		$clubsForSelect = array_pluck($clubs, 'name', '_id');
 
 		if (!$request->ajax()) {
 			$isOrderNicknameDesc = $order_by == 'nickname' && $order == 'desc';
@@ -28,7 +33,9 @@ class UsersController extends Controller
 					'isOrderNicknameDesc',
 					'isOrderNameDesc',
 					'search',
-					'hide_guest'
+					'hide_guest',
+					'clubsForSelect',
+					'club'
 				)
 			);
 		}
@@ -42,14 +49,17 @@ class UsersController extends Controller
 							->orWhere('name', 'like', $search . '%');
 					});
 			})
+			->when($club, function ($query) use ($club) {
+				$query->where('club_id', $club);
+			})
 			->when($order_by, function ($query) use ($order, $order_by) {
 				$query->orderBy($order_by, $order);
 			})
-			->when($hide_guest, function ($query) use ($hide_guest) {
-				$query->whereNotNull('clubId');         //  todo: fix!!!
+			->when($hide_guest, function ($query) {
+				$query->whereNotNull('club_id');
 			})
+			->with('club')
 			->paginate(self::RECORD_PER_PAGE);
-
 
 		return Response::json([
 			'success' => true,
@@ -102,6 +112,7 @@ class UsersController extends Controller
 			'gender' => 'required',
 			'vk_link' => 'max:255',
 			'role' => 'required',
+			'club_id' => '',
 		]);
 
 		$user->update($request->all());

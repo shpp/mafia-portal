@@ -43,21 +43,22 @@ var currentUsers = {};
 function initialCurrentUsers(users) {
   if(users.length) {
     for (var key in users) {
-    var user = users[key];
-    var userId = user['_id'];
-    var userItem = {};
-    userItem['name'] = user['name'];
-    userItem['nickname'] = user['nickname'];
-    userItem['phone'] = user['phone'];
-    userItem['email'] = user['email'];
-    userItem['role'] = user['role'];
-    userItem['gender'] = user['gender'];
-    userItem['vk_link'] = user['vk_link'];
-    userItem['deleted'] = user['deleted'];
-    userItem['last_visit'] = user['last_visit'];
-    userItem['updated_at'] = user['updated_at'];
-    userItem['created_at'] = user['created_at'];
-    currentUsers[userId] = userItem;
+        var user = users[key];
+        var userId = user['_id'];
+        var userItem = {};
+        userItem['name'] = user['name'];
+        userItem['nickname'] = user['nickname'];
+        userItem['club'] = user.club;
+        userItem['phone'] = user['phone'];
+        userItem['email'] = user['email'];
+        userItem['role'] = user['role'];
+        userItem['gender'] = user['gender'];
+        userItem['vk_link'] = user['vk_link'];
+        userItem['deleted'] = user['deleted'];
+        userItem['last_visit'] = user['last_visit'];
+        userItem['updated_at'] = user['updated_at'];
+        userItem['created_at'] = user['created_at'];
+        currentUsers[userId] = userItem;
     }
   }
 }
@@ -98,17 +99,16 @@ function prepareContent(users) {
     return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
   }
   var url = location.pathname;
-  var content = $('#table-content').empty();;
+  var content = $('#table-content').empty();
   var index = 1;
   for (var key in users) {
-    /*var index = parseInt(key) + 1;*/
     var user = users[key];
     content.append($('<tr>').attr('id', key)
               .append($('<td>').text(index))
               .append($('<td>').text(user['nickname'] ))
               .append($('<td>').text(user['name']))
               .append($('<td>').text(user['phone']))
-              .append($('<td>').text("n/a"))
+              .append($('<td>').text(user.club ? user.club.name : ''))
               .append($('<td>').text("0"))
               .append($('<td>')
                   .append($('<button>').addClass('btn-flat edit-form-modal blue-text text-darken-2')
@@ -120,7 +120,7 @@ function prepareContent(users) {
                       .append($('<i>').addClass('material-icons').text('clear'))
                   )
               )
-    )
+    );
     index++;
   }
 
