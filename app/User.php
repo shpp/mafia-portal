@@ -46,7 +46,7 @@ class User extends Eloquent implements Authenticatable
 
 	public function club()
 	{
-		return $this->hasOne('App\Club', '_id', 'club_id');
+		return $this->hasOne('App\Club', '_id', 'club_id')->select('_id', 'name');
 	}
 
 	public function isAdmin(  ) {

@@ -42,7 +42,7 @@ class ClubsController extends Controller
 					->when( $order_by, function ($query) use ($order, $order_by) {
 					 $query->orderBy($order_by, $order);
 					})
-					->with('president', 'users', 'boards')
+					->with('president', 'users')
 					->paginate(self::RECORD_PER_PAGE);
 
 		return Response::json([

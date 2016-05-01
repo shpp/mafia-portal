@@ -243,7 +243,9 @@ $(document).ready(function () {
         $roleInput.val(role);
         $("#role [value='" + role + "']").attr("selected", "selected");
         $("#gender [value='" + gender + "']").attr("selected", "selected");
-        $clubInput.val(club._id).material_select();
+        if (club && club._id) {
+            $clubInput.val(club._id).material_select();
+        }
 
          /* $("#bane-date [value='" + bane + "']").attr("selected", "selected");*/
         if(response.gender == "f"){

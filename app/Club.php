@@ -3,6 +3,7 @@
 namespace App;
 
 
+use Illuminate\Support\Facades\DB;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Club extends Eloquent
@@ -11,9 +12,11 @@ class Club extends Eloquent
 
 	protected $fillable = [ 'name', 'presidentId', 'board' ];
 
+	protected $appends = ['board_data'];
+
 	public function president()
 	{
-		return $this->belongsTo('App\User', 'presidentId', '_id')->select('_id', 'name');
+		return $this->belongsTo('App\User', 'presidentId', '_id')->select('_id', 'name', 'nickname', 'gender');
 	}
 
 	public function users()
@@ -21,8 +24,9 @@ class Club extends Eloquent
 		return $this->hasMany('App\User', 'club_id', '_id');
 	}
 
-	public function boards()
+	public function getBoardDataAttribute()
 	{
-		return $this->belongsToMany('App\User', null, '_id', 'board');
+		$board = (array) $this->board;
+		return User::notDeleted()->whereIn('_id', $board)->get();
 	}
 }

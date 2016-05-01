@@ -5,20 +5,23 @@ $(document).ready(function () {
 
     var clubs = {};
     function prepareContent(response) {
+        //console.log(response);
         if (response.success === true) {
             clubsData = response.clubs.data;
             if (!clubsData.length) {
                 return '<tr><td colspan="4" style="text-align: center">No Users.</td></tr>';
             }
 
+
             var content = $('#table-content').empty();
             $.each(clubsData, function(i, e){
+                var board = prepareBoard(e.board_data);
                 content.append($('<tr>').data("id", e._id)
                             .append($('<td>').text(i + 1))
                             .append($('<td>').text(e.name))
                             .append($('<td>').text(e.users.length))
-                            .append($('<td>').text(e.president.name))
-                            .append($('<td>').text(e.board))
+                            .append($('<td>').text(formatName(e.president)))
+                            .append($('<td>').text(board))
                             .append($('<td>')
                                 .append($('<button>').addClass('btn-flat')
                                     .append($('<i>').addClass('material-icons').text('create'))
@@ -31,6 +34,23 @@ $(document).ready(function () {
                             )
                 )
             });
+        }
+
+        function prepareBoard (object) {
+            if (!object) {
+                return '';
+            }
+
+            var ret = [];
+            $.each(object, function(i, e){
+                ret.push(formatName(e));
+            });
+            return ret.join(', ');
+        }
+
+        function formatName(e) {
+            var gender = (e.gender === 'm') ? 'г-н' : 'г-жа';
+            return gender + ' ' + e.nickname;
         }
     }
 
@@ -75,7 +95,6 @@ $(document).ready(function () {
         getAjaxRequest(Request.searchQuery, prepareContent);
     });
 
-    var fields = {};
     var $modalForm = $('#modal-form');
     var $form = $modalForm.find('form');
 
