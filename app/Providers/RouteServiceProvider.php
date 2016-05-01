@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Club;
 use App\Events;
 use App\User;
 use Illuminate\Routing\Router;
@@ -36,6 +37,10 @@ class RouteServiceProvider extends ServiceProvider
 
 	    $router->bind('event_id', function($id){
 		    return Events::findOrFail($id);
+	    });
+
+	    $router->bind('club_id', function($id){
+		    return Club::findOrFail($id);
 	    });
     }
 

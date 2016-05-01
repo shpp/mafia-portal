@@ -120,8 +120,6 @@ class UsersController extends Controller
 		return Response::json( [
 			'success' => true
 		] );
-
-//		return redirect(route('admin.users.edit', $user->id));
 	}
 
 	public function destroy( User $user ) {

@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="container">
             <div class="row">
-                {!! Form::open( ) !!}
+                {!! Form::open(['novalidate']) !!}
 
                 <div class="row">
                     <div class="input-field">

@@ -42,8 +42,8 @@ Route::group([
 	//	clubs
 		Route::get('clubs', ['as' => 'admin.clubs', 'uses' => 'ClubsController@index']);
 		Route::post('clubs/store', ['as' => 'admin.clubs.store', 'uses' => 'ClubsController@store']);
-		Route::get('clubs/{user_id}/edit', ['as' => 'admin.clubs.edit', 'uses' => 'ClubsController@edit']);
-		Route::get('clubs/{user_id}/destroy', ['as' => 'admin.clubs.destroy', 'uses' => 'ClubsController@destroy']);
+		Route::patch('clubs/{club_id}', ['as' => 'admin.clubs.update', 'uses' => 'ClubsController@update']);
+		Route::get('clubs/{club_id}/destroy', ['as' => 'admin.clubs.destroy', 'uses' => 'ClubsController@destroy']);
 
 	//	events
 		Route::get('events', ['as' => 'admin.events', 'uses' => 'EventsController@index']);

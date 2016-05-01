@@ -3,7 +3,7 @@ $(document).ready(function () {
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
-    var clubs = {};
+    var clubsData = {};
     function prepareContent(response) {
         //console.log(response);
         if (response.success === true) {
@@ -16,14 +16,14 @@ $(document).ready(function () {
             var content = $('#table-content').empty();
             $.each(clubsData, function(i, e){
                 var board = prepareBoard(e.board_data);
-                content.append($('<tr>').data("id", e._id)
+                content.append($('<tr>').attr("id", e._id)
                             .append($('<td>').text(i + 1))
                             .append($('<td>').text(e.name))
                             .append($('<td>').text(e.users.length))
                             .append($('<td>').text(formatName(e.president)))
                             .append($('<td>').text(board))
                             .append($('<td>')
-                                .append($('<button>').addClass('btn-flat')
+                                .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
                                     .append($('<i>').addClass('material-icons').text('create'))
                                 )
                             )
@@ -98,17 +98,26 @@ $(document).ready(function () {
     var $modalForm = $('#modal-form');
     var $form = $modalForm.find('form');
 
+    //  add club
     $('.add-form-modal-clubs').click(function () {
-        $modalForm.openModal({
-            complete: function() {
-                $form.attr('action', '');
-            }
-        });
+        $modalForm.openModal();
         $form.attr('action', location.pathname + '/store');
+    });
+
+    //  edit club
+    $('body').on('click', '.edit-form-modal-clubs', function () {
+        $modalForm.openModal();
+        var clubId = $(this).parents('tr').attr('id');
+        //console.log(clubsData);
+        $form.attr('action', location.pathname + '/update' + '/' + clubId);
+        //  fill form
     });
 
     $form.submit(function(e){
         e.preventDefault();
+        //  clear errors
+        $form.find('.invalid').removeClass('invalid');
+        $form.find('.form-error').remove();
 
         var self = $(this);
         var data = self.serializeArray();
@@ -117,10 +126,29 @@ $(document).ready(function () {
             self.attr('action'),
             data,
             function(response){
-                console.log(response);
+                if (response.success === true) {
+                    getAjaxRequest(location.href, prepareContent);
+                    $modalForm.closeModal({
+                        complete: function() {
+                            $form.attr('action', '');
+                            //  todo: clearFields
+                        }
+                    });
+                }
             },
-            function(response){
-                console.log(response);
+            function(jqXHR, textStatus, errorThrown){
+                //  validation error
+                if (jqXHR.status === 422) {
+                    $.each(jqXHR.responseJSON, function(i, e){
+                        //  show error
+                        $form.find('#'+ i)
+                            .addClass('invalid')
+                            .after($('<p>').addClass('form-error').text(e));
+                    });
+                } else {
+                    //  todo: add handler
+                    alert(errorThrown);
+                }
             }
         );
     });

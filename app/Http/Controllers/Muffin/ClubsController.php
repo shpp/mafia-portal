@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 
 class ClubsController extends Controller
@@ -67,8 +68,28 @@ class ClubsController extends Controller
 
 	public function store(Request $request)
 	{
-//		dd($request->all());
+		$this->validate($request, [
+			'name' => 'required',
+		]);
 
 		Club::create($request->all());
+
+		return Response::json( [
+			'success' => true
+		] );
+	}
+
+
+	public function update(Club $club, Request $request)
+	{
+		$this->validate($request, [
+			'name' => 'required',
+		]);
+
+		$club->update($request->all());
+
+		return Response::json( [
+			'success' => true
+		] );
 	}
 }
