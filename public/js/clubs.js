@@ -1,58 +1,88 @@
 $(document).ready(function () {
-    getAjaxRequest(location.href, prepareContent);
+    getAjaxRequest(location.href, initialTableContentClubs);
+    /*getAjaxRequest(location.href, prepareContent);*/
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
-    var clubsData = {};
-    function prepareContent(response) {
-        //console.log(response);
-        if (response.success === true) {
-            clubsData = response.clubs.data;
-            if (!clubsData.length) {
-                return '<tr><td colspan="4" style="text-align: center">No Users.</td></tr>';
-            }
-
-
-            var content = $('#table-content').empty();
-            $.each(clubsData, function(i, e){
-                var board = prepareBoard(e.board_data);
-                content.append($('<tr>').attr("id", e._id)
-                            .append($('<td>').text(i + 1))
-                            .append($('<td>').text(e.name))
-                            .append($('<td>').text(e.users.length))
-                            .append($('<td>').text(formatName(e.president)))
-                            .append($('<td>').text(board))
-                            .append($('<td>')
-                                .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
-                                    .append($('<i>').addClass('material-icons').text('create'))
-                                )
-                            )
-                            .append($('<td>')
-                                .append($('<button>').addClass('btn-flat')
-                                    .append($('<i>').addClass('material-icons').text('clear'))
-                                )
-                            )
-                )
-            });
-        }
-
-        function prepareBoard (object) {
-            if (!object) {
-                return '';
-            }
-
-            var ret = [];
-            $.each(object, function(i, e){
-                ret.push(formatName(e));
-            });
-            return ret.join(', ');
-        }
-
-        function formatName(e) {
-            var gender = (e.gender === 'm') ? 'г-н' : 'г-жа';
-            return gender + ' ' + e.nickname;
-        }
+    function initialTableContentClubs(response) {
+      console.log("initialTableContentClubs");
+      if (response.success == true) {
+        currentClubs = {};
+        initialCurrentClubs(response.clubs.data);
+        console.log("------------currentClubs-------------");
+        console.log(currentClubs);
+        console.log("-------------------------------------");
+        overloadTableContent(prepareContentClubs, currentClubs);
+      }
     }
+
+    function prepareContentClubs(clubs) {
+      console.log("prepareContentClubs");
+      if(clubs === undefined) {
+        return '<tr><td colspan="8" style="text-align: center">No Clubs.</td></tr>';
+      }
+      var content = $('#table-content').empty();
+      var index = 1;
+      for (var key in clubs) {
+      var club = clubs[key];
+      var board = prepareBoard(club.board_data);
+      content.append($('<tr>').attr('id', key)
+                .append($('<td>').text(index))
+                .append($('<td>').text(club.name))
+                .append($('<td>').text(club.users.length))
+                .append($('<td>').text(formatName(club.president)))
+                .append($('<td>').text(board))
+                .append($('<td>')
+                    .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
+                        .append($('<i>').addClass('material-icons').text('create'))
+                    )
+                )
+                .append($('<td>')
+                    .append($('<button>').addClass('btn-flat delete-form-modal-clubs')
+                        .append($('<i>').addClass('material-icons').text('clear'))
+                    )
+                )
+      );
+      index++;
+    }
+  }
+    /**
+     * Function formating  list the board
+     * @param object object
+     */
+    function prepareBoard (object) {
+        if (!object) {
+            return '';
+        }
+
+        var ret = [];
+        $.each(object, function(i, e){
+            ret.push(formatName(e));
+        });
+        return ret.join(', ');
+    }
+
+    function prepareBoardforEdit (object) {
+        if (!object) {
+            return '';
+        }
+
+        var ret = [];
+        $.each(object, function(i, e){
+            ret.push(e.nickname);
+        });
+        return ret.join(', ');
+    }
+
+    /**
+     * Function formating the name
+     * @param e string
+     */
+    function formatName(e) {
+        var gender = (e.gender === 'm') ? 'г-н' : 'г-жа';
+        return gender + ' ' + e.nickname;
+    }
+
 
     $('#search-form').submit(function(e){
         e.preventDefault();
@@ -70,7 +100,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, prepareContent);
+        getAjaxRequest(Request.searchQuery, initialTableContentClubs);
     });
 
     $('.title-sort').click(function(){
@@ -92,15 +122,21 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, prepareContent);
+        getAjaxRequest(Request.searchQuery, initialTableContentClubs);
     });
 
     var $modalForm = $('#modal-form');
+    var $modalDeleteForm = $('#delete-club');
     var $form = $modalForm.find('form');
+    var $label = $('form label.input-label');
+    var $name = $('#name');
+    var $presidentInput = $(".presidentName input");
+    var $boardInput = $(".boardNames input");
 
     //  add club
     $('.add-form-modal-clubs').click(function () {
         $modalForm.openModal();
+        clearFieldsForm();
         $form.attr('action', location.pathname + '/store');
     });
 
@@ -108,9 +144,64 @@ $(document).ready(function () {
     $('body').on('click', '.edit-form-modal-clubs', function () {
         $modalForm.openModal();
         var clubId = $(this).parents('tr').attr('id');
-        //console.log(clubsData);
         $form.attr('action', location.pathname + '/update' + '/' + clubId);
+        var currentItem = searchElementInCurrentObject(currentClubs, clubId);
+        var name = currentItem.name;
+        var presidentName = currentItem.president.name;
+        console.log(presidentName);
+        var presidentId = currentItem.president._id
+        console.log(presidentId);
+        var board = prepareBoardforEdit(currentItem.board_data);
+        var boardData = currentItem.board_data;
+        $label.addClass('active');
+        $name.val(name);
+        $presidentInput.val(presidentName);
+        console.log($presidentInput.val());
+        $boardInput.val(board);
+        $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
+        selectBoardNames(boardData);
+    });
+
+    function selectBoardNames(boardData) {
+      if(boardData.length) {
+        for (var key in boardData) {
+          var boardItem = boardData[key];
+          var boardItemId = boardItem ._id;
+          var boardItemNickname = boardItem .nickname;
+          var boardItemName = boardItem.name;
+          console.log(boardItemNickname);
+          $(".boardNames #presidentId [value='" + boardItemId + "']").attr("selected", "selected");
+        }
+      }
+    }
+
+    function clearFieldsForm() {
+      $name.val("");
+      $presidentInput.val("");
+      $boardInput.val("");
+      $label.removeClass('active');
+    }
+
+    //  delere club
+    $('body').on('click', '.delete-form-modal-clubs', function () {
+        $modalDeleteForm.openModal();
+        var clubId = $(this).parents('tr').attr('id');
+        //console.log(clubsData);
+        $form.attr('action', location.pathname + '/destroy' + '/' + clubId);
         //  fill form
+        $('.delete').unbind('click');
+        $('.delete-form').click( function(event){
+          event.preventDefault();
+          // ----------- ajaxRequest
+          console.log("destroy");
+          $modalDeleteForm.closeModal();
+        })
+        $('.disagree_delete-form').unbind('click');
+        $('.disagree_delete-form').click( function(event) {
+          event.preventDefault();
+          console.log("disagree");
+          $modalDeleteForm.closeModal();
+        })
     });
 
     $form.submit(function(e){
@@ -127,11 +218,12 @@ $(document).ready(function () {
             data,
             function(response){
                 if (response.success === true) {
-                    getAjaxRequest(location.href, prepareContent);
+                    getAjaxRequest(location.href, initialTableContentClubs);
+                    clearFieldsForm();
                     $modalForm.closeModal({
                         complete: function() {
                             $form.attr('action', '');
-                            //  todo: clearFields
+                            clearFieldsForm();
                         }
                     });
                 }

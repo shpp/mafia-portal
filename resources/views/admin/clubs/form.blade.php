@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="input-field">
+                    <div class="input-field presidentName">
                         {!! Form::select(
                             'presidentId',
                             $users_for_select,
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="input-field">
+                    <div class="input-field boardNames">
                         {!! Form::select(
                             'board[]',
                             $users_for_select,

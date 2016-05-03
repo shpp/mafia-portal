@@ -1,8 +1,57 @@
 $(document).ready(function () {
-    getAjaxRequest(location.href, initialTableContent);
+    getAjaxRequest(location.href, initialTableContentUsers);
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
+    /**
+     * Function initial table content
+     * @param response array
+     */
+    function initialTableContentUsers(response) {
+      if (response.success == true) {
+        currentUsers = {};
+        initialCurrentUsers(response.data.data);
+        console.log(currentUsers);
+        overloadTableContent(prepareContentUsers, currentUsers);
+      }
+    }
+
+    /**
+     * Function prepare content in table
+     * @param users object(local storage)
+     */
+    function prepareContentUsers(users) {
+      console.log("prepareContentUsers");
+      if(users === undefined) {
+        return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
+      }
+      var url = location.pathname;
+      var content = $('#table-content').empty();
+      var index = 1;
+      for (var key in users) {
+        var user = users[key];
+        content.append($('<tr>').attr('id', key)
+                  .append($('<td>').text(index))
+                  .append($('<td>').text(user['nickname'] ))
+                  .append($('<td>').text(user['name']))
+                  .append($('<td>').text(user['phone']))
+                  .append($('<td>').text(user.club ? user.club.name : ''))
+                  .append($('<td>').text("0"))
+                  .append($('<td>')
+                      .append($('<button>').addClass('btn-flat edit-form-modal blue-text text-darken-2')
+                          .append($('<i>').addClass('material-icons').text('create'))
+                      )
+                  )
+                  .append($('<td>')
+                      .append($('<button>').addClass('btn-flat delete-form-modal blue-text text-darken-2')
+                          .append($('<i>').addClass('material-icons').text('clear'))
+                      )
+                  )
+        );
+        index++;
+      }
+
+    }
 
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
@@ -149,7 +198,7 @@ $(document).ready(function () {
             hideSpinner();
             console.log('done add user');
             initialCurrentUsers(response.data.data);
-            overloadTableContent();
+            overloadTableContent(prepareContentUsers, currentUsers);
             $addEditUserModal.closeModal({
                 complete : onModalHide
             });
@@ -195,8 +244,8 @@ $(document).ready(function () {
     function deleteUser(response) {
         if (response.success == true) {
             hideSpinner();
-            deleteUserInCurrentUsers(this);
-            overloadTableContent();
+            deleteElementInCurrentObject(this, currentUsers);
+            overloadTableContent(prepareContentUsers, currentUsers);
             $deleteUserModal.closeModal({
                 complete: onModalHide
             });
@@ -268,7 +317,7 @@ $(document).ready(function () {
             console.log("edit user done");
             clearFields();
             $label.removeClass('active');
-            overloadTableContent();
+            overloadTableContent(prepareContentUsers, currentUsers);
             $addEditUserModal.closeModal({
                 complete : onModalHide
             });
@@ -345,14 +394,10 @@ $(document).ready(function () {
         e.preventDefault();
         console.log("start edit user");
         var userId = $(this).parents("tr").attr("id");
-        var currentItem = {};
-        if(userId in currentUsers) {
-          currentItem = currentUsers[userId];
-        } else {
-          console.log("Error global object currentUsers don`t have current userId!!!");
-          return false;
+        var currentItem = searchElementInCurrentObject(currentUsers, userId);
+        if(currentItem != undefined) {
+          openModalEditUser(currentItem);
         }
-        openModalEditUser(currentItem);
         $('form').unbind('submit');
         $('form').submit(function(e){
             e.preventDefault();

@@ -35,6 +35,7 @@ var Request = {
 
 // Global object storage
 var currentUsers = {};
+var currentClubs = {};
 
 /**
  * Function initial global local storage
@@ -46,84 +47,46 @@ function initialCurrentUsers(users) {
         var user = users[key];
         var userId = user['_id'];
         var userItem = {};
-        userItem['name'] = user['name'];
-        userItem['nickname'] = user['nickname'];
+        userItem['name'] = user.name;
+        userItem['nickname'] = user.nickname;
         userItem['club'] = user.club;
-        userItem['phone'] = user['phone'];
-        userItem['email'] = user['email'];
-        userItem['role'] = user['role'];
-        userItem['gender'] = user['gender'];
-        userItem['vk_link'] = user['vk_link'];
-        userItem['deleted'] = user['deleted'];
-        userItem['last_visit'] = user['last_visit'];
-        userItem['updated_at'] = user['updated_at'];
-        userItem['created_at'] = user['created_at'];
+        userItem['phone'] = user.phone;
+        userItem['email'] = user.email;
+        userItem['role'] = user.role;
+        userItem['gender'] = user.gender;
+        userItem['vk_link'] = user.vk_link;
+        userItem['deleted'] = user.deleted;
+        userItem['last_visit'] = user.last_visit;
+        userItem['updated_at'] = user.updated_at;
+        userItem['created_at'] = user.created_at;
         currentUsers[userId] = userItem;
     }
   }
 }
 
-/**
- * Function initial table content
- * @param response array
- */
-function initialTableContent(response) {
-  if (response.success == true) {
-    currentUsers = {};
-    initialCurrentUsers(response.data.data);
-    overloadTableContent();
+function initialCurrentClubs(clubs) {
+  if(clubs.length) {
+    for (var key in clubs) {
+      var club = clubs[key];
+      var clubId = club._id;
+      var clubItem = {};
+      clubItem['name'] = club.name;
+      clubItem['board'] = club.board;
+      clubItem['board_data'] = club.board_data;
+      clubItem['president'] = club.president;
+      clubItem['presidentId'] = club.presidentId;
+      clubItem['users'] = club.users;
+      currentClubs[clubId] = clubItem;
+    }
   }
 }
 
 /**
  * Function overload table content
  */
-function overloadTableContent() {
+function overloadTableContent(prepareContent, currentContent) {
   console.log("overloadTableContent");
-  $('#table-content').html(prepareContent(currentUsers));
-}
-
-/**
- * Function prepare content in table
- * @param users object(local storage)
- */
-
-
-/**
- * Function prepare content in table
- * @param users object(local storage)
- */
-function prepareContent(users) {
-  console.log("prepareContent");
-  if(users === undefined) {
-    return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
-  }
-  var url = location.pathname;
-  var content = $('#table-content').empty();
-  var index = 1;
-  for (var key in users) {
-    var user = users[key];
-    content.append($('<tr>').attr('id', key)
-              .append($('<td>').text(index))
-              .append($('<td>').text(user['nickname'] ))
-              .append($('<td>').text(user['name']))
-              .append($('<td>').text(user['phone']))
-              .append($('<td>').text(user.club ? user.club.name : ''))
-              .append($('<td>').text("0"))
-              .append($('<td>')
-                  .append($('<button>').addClass('btn-flat edit-form-modal blue-text text-darken-2')
-                      .append($('<i>').addClass('material-icons').text('create'))
-                  )
-              )
-              .append($('<td>')
-                  .append($('<button>').addClass('btn-flat delete-form-modal blue-text text-darken-2')
-                      .append($('<i>').addClass('material-icons').text('clear'))
-                  )
-              )
-    );
-    index++;
-  }
-
+  $('#table-content').html(prepareContent(currentContent));
 }
 
 
@@ -131,14 +94,44 @@ function prepareContent(users) {
  * Function delete current user in local storage
  * @param userId string
  */
-function deleteUserInCurrentUsers(userId) {
+/*function deleteUserInCurrentUsers(userId) {
   console.log("deleteUserInCurrentUsers");
   if (userId in currentUsers) {
   delete currentUsers[userId];
   } else {
     console.log("Error global object currentUsers don`t have current userId!!!");
   }
+}*/
+
+/**
+ * Function delete current user in local storage
+ * @param userId string
+ */
+function deleteElementInCurrentObject(elementId, currentObject) {
+  console.log("deleteElementInCurrentObject");
+  if (elementId in currentObject) {
+  delete currentObject[elementId];
+  } else {
+    console.log("Error global object don`t have current elementId!!!");
+  }
 }
+
+/**
+ * Function search current id in local storage
+ * @param currentObject object
+ * @param currentId string
+ */
+function searchElementInCurrentObject(currentObject, currentId) {
+  console.log("searchElementInCurrentObject");
+  if(currentId in currentObject) {
+    currentItem = currentObject[currentId];
+    return currentItem;
+  } else {
+    console.log("Error global object don`t have current elementId!!!");
+    return false;
+  }
+}
+
 
 /**
  * Function initial current user in local storage
