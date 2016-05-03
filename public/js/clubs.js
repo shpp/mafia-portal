@@ -138,18 +138,20 @@ $(document).ready(function () {
         $modalForm.openModal();
         clearFieldsForm();
         $form.attr('action', location.pathname + '/store');
+        $form.attr('method', 'post');
     });
 
     //  edit club
     $('body').on('click', '.edit-form-modal-clubs', function () {
         $modalForm.openModal();
         var clubId = $(this).parents('tr').attr('id');
-        $form.attr('action', location.pathname + '/update' + '/' + clubId);
+        $form.attr('action', location.pathname + '/' + clubId);
+        $form.attr('method', 'patch');
         var currentItem = searchElementInCurrentObject(currentClubs, clubId);
         var name = currentItem.name;
         var presidentName = currentItem.president.name;
         console.log(presidentName);
-        var presidentId = currentItem.president._id
+        var presidentId = currentItem.president._id;
         console.log(presidentId);
         var board = prepareBoardforEdit(currentItem.board_data);
         var boardData = currentItem.board_data;
@@ -212,10 +214,12 @@ $(document).ready(function () {
 
         var self = $(this);
         var data = self.serializeArray();
+        var type = $form.attr('method');
 
-        postAjaxRequest(
+        ajaxRequest(
             self.attr('action'),
             data,
+            type,
             function(response){
                 if (response.success === true) {
                     getAjaxRequest(location.href, initialTableContentClubs);
@@ -244,4 +248,22 @@ $(document).ready(function () {
             }
         );
     });
+
+    /**
+     * @param http url var url
+     * @param array var data
+     * @param string var type
+     * @param function callback success request
+     * @param function callback error request
+     */
+    function ajaxRequest(url, data, type, callbackSuccess, callbackError) {
+        $.ajax({
+            type: type,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: callbackSuccess,
+            error: callbackError
+        })
+    }
 });
