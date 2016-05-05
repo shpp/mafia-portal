@@ -67,10 +67,10 @@ class UsersController extends Controller
 		]);
 	}
 
-	public function create(  )
-	{
-		return view('admin.users.create');
-	}
+//	public function create(  )
+//	{
+//		return view('admin.users.create');
+//	}
 
 	public function store(Request $request)
 	{
@@ -94,13 +94,13 @@ class UsersController extends Controller
 		return redirect(route('admin.users'));
 	}
 
-	public function edit(User $user )
-	{
-		$user->_token = csrf_token();
-		return Response::json( [
-			'data' => $user
-		] );
-	}
+//	public function edit(User $user )
+//	{
+//		$user->_token = csrf_token();
+//		return Response::json( [
+//			'data' => $user
+//		] );
+//	}
 
 	public function update(User $user, Request $request)
 	{
@@ -122,8 +122,8 @@ class UsersController extends Controller
 		] );
 	}
 
-	public function destroy( User $user ) {
-//		dd($user);
+	public function destroy( User $user )
+	{
 		$user->update(['deleted' => '1']);
 		return redirect(route('admin.users'));
 	}

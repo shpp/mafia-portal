@@ -10,7 +10,7 @@ class Club extends Eloquent
 {
 	protected $collection = 'clubs';
 
-	protected $fillable = [ 'name', 'presidentId', 'board' ];
+	protected $fillable = [ 'name', 'presidentId', 'board', 'deleted' ];
 
 	protected $appends = ['board_data'];
 
@@ -28,5 +28,10 @@ class Club extends Eloquent
 	{
 		$board = (array) $this->board;
 		return User::notDeleted()->whereIn('_id', $board)->get();
+	}
+
+	public function scopeNotDeleted($query)
+	{
+		return $query->where('deleted', '<>', '1');
 	}
 }

@@ -235,7 +235,6 @@ $(document).ready(function () {
         console.log("GET request for delete user");
         showSpinner();
         getAjaxRequest(url,deleteUser,userId);
-
     }
 
     /**
@@ -346,7 +345,7 @@ $(document).ready(function () {
         $('.delete-form').click(function (event) {
             event.preventDefault();
             deleteUserRequest(userUrl, userId);
-        })
+        });
 
         $('.disagree_delete-form').click(function (event) {
             event.preventDefault();

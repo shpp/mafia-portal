@@ -188,16 +188,23 @@ $(document).ready(function () {
     $('body').on('click', '.delete-form-modal-clubs', function () {
         $modalDeleteForm.openModal();
         var clubId = $(this).parents('tr').attr('id');
-        //console.log(clubsData);
-        $form.attr('action', location.pathname + '/destroy' + '/' + clubId);
-        //  fill form
+
         $('.delete').unbind('click');
         $('.delete-form').click( function(event){
           event.preventDefault();
           // ----------- ajaxRequest
           console.log("destroy");
-          $modalDeleteForm.closeModal();
-        })
+
+            var url = location.pathname + '/' + clubId + '/destroy';
+            ajaxRequest(url, null, 'get',
+                function(response){
+                    ajaxRequest(location.href, null, 'get', initialTableContentClubs);
+
+                    $modalDeleteForm.closeModal();
+                }
+            );
+        });
+
         $('.disagree_delete-form').unbind('click');
         $('.disagree_delete-form').click( function(event) {
           event.preventDefault();
@@ -257,6 +264,7 @@ $(document).ready(function () {
      * @param function callback error request
      */
     function ajaxRequest(url, data, type, callbackSuccess, callbackError) {
+        type = type || 'get';
         $.ajax({
             type: type,
             url: url,

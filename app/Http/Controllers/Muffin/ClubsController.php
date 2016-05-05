@@ -34,8 +34,8 @@ class ClubsController extends Controller
 			);
 		}
 
-		$clubs = Club::
-					when($search, function ($query) use ($search) {
+		$clubs = Club::notDeleted()
+					->when($search, function ($query) use ($search) {
 						$query->where(function($query) use ($search) {
 							$query->where('name', 'like', $search . '%');
 						});
@@ -72,6 +72,8 @@ class ClubsController extends Controller
 			'name' => 'required',
 		]);
 
+		$request->offsetSet('deleted', 0);
+
 		Club::create($request->all());
 
 		return Response::json( [
@@ -87,6 +89,16 @@ class ClubsController extends Controller
 		]);
 
 		$club->update($request->all());
+
+		return Response::json( [
+			'success' => true
+		] );
+	}
+
+	public function destroy(Club $club)
+	{
+//		dd($user);
+		$club->update(['deleted' => '1']);
 
 		return Response::json( [
 			'success' => true
