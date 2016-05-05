@@ -75,19 +75,24 @@ class UsersController extends Controller
 	public function store(Request $request)
 	{
 		$this->validate($request, [
-			'name' => 'required|max:255',
-			'nickname' => 'required|max:255|unique:users',
 			'phone' => 'required|numeric|unique:users',
-			'role' => 'required',
+			'name' => 'required|string',
+			'nickname' => 'required|string|unique:users',
 			'email' => 'required|email|unique:users',
 			'gender' => 'required',
+			'role' => 'required',
+			'club_id' => 'exists:clubs,_id',
 			'vk_link' => 'max:255',
+			'comment' => 'string',
 		]);
 
-		$request->offsetSet('deleted', 0);
-		$request->offsetSet('password', '');
+		$request->offsetSet('password', '');    //  todo: hash
+		$request->offsetSet('club_id', null);
 		$request->offsetSet('last_visit', null);
 		$request->offsetSet('ban_date', null);
+		$request->offsetSet('banned', 0);
+		$request->offsetSet('deleted', 0);
+		$request->offsetSet('comment', '');
 
 		User::create($request->all());
 
@@ -105,14 +110,18 @@ class UsersController extends Controller
 	public function update(User $user, Request $request)
 	{
 		$this->validate($request, [
-			'name' => 'required|max:255',
-			'nickname' => 'required|max:255|unique:users,nickname,' . $user->id. ',_id',
+			'name' => 'required|string',
+			'nickname' => 'required|string|unique:users,nickname,' . $user->id. ',_id',
 			'phone' => 'required|numeric|unique:users,phone' . $user->id. ',_id',
 			'email' => 'required|email',
 			'gender' => 'required',
 			'vk_link' => 'max:255',
 			'role' => 'required',
-			'club_id' => '',
+			'club_id' => 'exists:clubs,_id',
+
+			'banned' => 'boolean',
+			'deleted' => 'boolean',
+			'comment' => 'string',
 		]);
 
 		$user->update($request->all());
