@@ -194,7 +194,7 @@ $(document).ready(function () {
      * @param json var response
      */
     function addUser(response) {
-        if (response.success == true) {
+        if (response.success === true) {
             hideSpinner();
             console.log('done add user');
             initialCurrentUsers(response.data.data);

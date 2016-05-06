@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Hash;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
@@ -56,6 +57,32 @@ class User extends Eloquent implements Authenticatable
 	public function scopeNotDeleted($query)
 	{
 		return $query->where('deleted', '<>', '1');
+	}
+
+	public function scopeSortAndFilter($query, $search, $order_by, $order, $club, $hide_guest)
+	{
+		return $query->
+			when($search, function ($query) use ($search) {
+				$query->where(function($query) use ($search) {
+					$query
+						->where('nickname', 'like', $search . '%')
+						->orWhere('name', 'like', $search . '%');
+				});
+			})
+			->when($club, function ($query) use ($club) {
+			 $query->where('club_id', $club);
+			})
+			->when($order_by, function ($query) use ($order, $order_by) {
+			 $query->orderBy($order_by, $order);
+			})
+			->when($hide_guest, function ($query) {
+			 $query->whereNotNull('club_id');
+			})
+			->with('club');
+	}
+
+	public function setPasswordAttribute($value){
+		$this->attributes['password'] = Hash::make($value);
 	}
 
 	public static function fetchRoles(  ) {
