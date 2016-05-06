@@ -35,7 +35,7 @@ $(document).ready(function () {
                   .append($('<td>').text(user['nickname'] ))
                   .append($('<td>').text(user['name']))
                   .append($('<td>').text(user['phone']))
-                  .append($('<td>').text(user.club ? user.club : ''))
+                  .append($('<td>').text(user.club ? user.club.name : ''))
                   .append($('<td>').text("0"))
                   .append($('<td>')
                       .append($('<button>').addClass('btn-flat edit-form-modal blue-text text-darken-2')
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, initialTableContent);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers);
     });
 
     $('#club').change(function(){
@@ -81,7 +81,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, initialTableContent);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers);
     });
 
     $('.title-sort').click(function(){
@@ -103,7 +103,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, initialTableContent);
+        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers);
     });
 
     $('#hide_guest').change(function () {
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, initialTableContent);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers);
     });
 
     // global variables

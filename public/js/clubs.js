@@ -103,7 +103,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, initialTableContentClubs);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentClubs);
     });
 
     $('.title-sort').click(function(){
@@ -125,7 +125,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        getAjaxRequest(Request.searchQuery, initialTableContentClubs);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentClubs);
     });
 
     var $modalForm = $('#modal-form');
