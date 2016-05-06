@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Muffin;
 
 use App\Club;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UsersRequest;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -67,25 +68,8 @@ class UsersController extends Controller
 		]);
 	}
 
-//	public function create(  )
-//	{
-//		return view('admin.users.create');
-//	}
-
-	public function store(Request $request)
+	public function store(UsersRequest $request)
 	{
-		$this->validate($request, [
-			'phone' => 'required|numeric|unique:users',
-			'name' => 'required|string',
-			'nickname' => 'required|string|unique:users',
-			'email' => 'required|email|unique:users',
-			'gender' => 'required',
-			'role' => 'required',
-			'club_id' => 'exists:clubs,_id',
-			'vk_link' => 'max:255',
-			'comment' => 'string',
-		]);
-
 		$request->offsetSet('password', '');    //  todo: hash
 		$request->offsetSet('club_id', null);
 		$request->offsetSet('last_visit', null);
@@ -97,33 +81,14 @@ class UsersController extends Controller
 		User::create($request->all());
 
 		return redirect(route('admin.users'));
+
+//		return Response::json( [
+//			'success' => true
+//		] );
 	}
 
-//	public function edit(User $user )
-//	{
-//		$user->_token = csrf_token();
-//		return Response::json( [
-//			'data' => $user
-//		] );
-//	}
-
-	public function update(User $user, Request $request)
+	public function update(User $user, UsersRequest $request)
 	{
-		$this->validate($request, [
-			'name' => 'required|string',
-			'nickname' => 'required|string|unique:users,nickname,' . $user->id. ',_id',
-			'phone' => 'required|numeric|unique:users,phone' . $user->id. ',_id',
-			'email' => 'required|email',
-			'gender' => 'required',
-			'vk_link' => 'max:255',
-			'role' => 'required',
-			'club_id' => 'exists:clubs,_id',
-
-			'banned' => 'boolean',
-			'deleted' => 'boolean',
-			'comment' => 'string',
-		]);
-
 		$user->update($request->all());
 
 		return Response::json( [
@@ -136,6 +101,4 @@ class UsersController extends Controller
 		$user->update(['deleted' => '1']);
 		return redirect(route('admin.users'));
 	}
-
-
 }

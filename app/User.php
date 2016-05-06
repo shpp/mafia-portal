@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Hash;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
@@ -56,6 +57,10 @@ class User extends Eloquent implements Authenticatable
 	public function scopeNotDeleted($query)
 	{
 		return $query->where('deleted', '<>', '1');
+	}
+
+	public function setPasswordAttribute($value){
+		$this->attributes['password'] = Hash::make($value);
 	}
 
 	public static function fetchRoles(  ) {
