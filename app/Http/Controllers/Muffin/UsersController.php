@@ -55,7 +55,7 @@ class UsersController extends Controller
 	public function store(UsersRequest $request)
 	{
 		$request->offsetSet('password', '');    //  todo: hash
-		$request->offsetSet('club_id', null);
+//		$request->offsetSet('club_id', null);
 		$request->offsetSet('last_visit', null);
 		$request->offsetSet('ban_date', null);
 		$request->offsetSet('banned', 0);
