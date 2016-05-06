@@ -89,20 +89,6 @@ function overloadTableContent(prepareContent, currentContent) {
   $('#table-content').html(prepareContent(currentContent));
 }
 
-
-/**
- * Function delete current user in local storage
- * @param userId string
- */
-/*function deleteUserInCurrentUsers(userId) {
-  console.log("deleteUserInCurrentUsers");
-  if (userId in currentUsers) {
-  delete currentUsers[userId];
-  } else {
-    console.log("Error global object currentUsers don`t have current userId!!!");
-  }
-}*/
-
 /**
  * Function delete current user in local storage
  * @param userId string
@@ -147,59 +133,30 @@ function initialUserInCurrentUsers(data, userId) {
   currentUsers[userId] = itemUser;
 }
 
-// ---------------------- AJAX Requests ------------------------//
-
-function showErrorAjaxRequest(data) {
-  console.log(data);
-}
+// ---------------------- AJAX Request ------------------------//
 
 /**
  * @param http url var url
- * @param function callback
- */
-function getAjaxRequest(url,callback,userId) {
-  $.ajax({
-    type: 'get',
-    url: url,
-    cache: false,
-    dataType: 'json',
-    context: userId,
-    success : callback,
-    error: showErrorAjaxRequest
-  })
-}
-
- /**
- * @param http url var url
  * @param array var data
+ * @param string var type
  * @param function callback success request
  * @param function callback error request
  */
-function postAjaxRequest(url, data, callbackSuccess, callbackError) {
-  $.ajax({
-    type: 'post',
-    url: url,
-    data: data,
-    dataType: 'json',
-    success: callbackSuccess,
-    error: callbackError
-  })
+function ajaxRequest(url, data, type, callbackSuccess, callbackError, context) {
+  console.log("AJAX REQUEST TYPE - " + type);
+    type = type || 'get';
+    $.ajax({
+        type: type,
+        url: url,
+        data: data,
+        dataType: 'json',
+        context: context,
+        success: callbackSuccess,
+        error: callbackError
+    })
 }
 
-/**
- * @param http url var url
- * @param function callback
- */
-function pathAjaxRequest(url, data, callback) {
-  $.ajax({
-    type: 'patch',
-    url: url,
-    dataType: 'json',
-    data: data,
-    success: callback,
-    error: showErrorAjaxRequest
-  })
-}
+
 
 function activeMenuLink() {
   var currentUrl = location.pathname;
@@ -208,3 +165,4 @@ function activeMenuLink() {
 }
 
 var $materializeOverlay = $('#overlay');
+

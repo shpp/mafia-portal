@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    getAjaxRequest(location.href, initialTableContentUsers);
+    ajaxRequest(location.href,null,"get", initialTableContentUsers);
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
@@ -35,7 +35,7 @@ $(document).ready(function () {
                   .append($('<td>').text(user['nickname'] ))
                   .append($('<td>').text(user['name']))
                   .append($('<td>').text(user['phone']))
-                  .append($('<td>').text(user.club ? user.club.name : ''))
+                  .append($('<td>').text(user.club ? user.club : ''))
                   .append($('<td>').text("0"))
                   .append($('<td>')
                       .append($('<button>').addClass('btn-flat edit-form-modal blue-text text-darken-2')
@@ -48,6 +48,7 @@ $(document).ready(function () {
                       )
                   )
         );
+        console.log(user.club);
         index++;
       }
 
@@ -156,7 +157,6 @@ $(document).ready(function () {
     // function event modal window open.
     function onModalShow() {
         modelState = "open";
-
     }
 
     // function clear fields form
@@ -234,7 +234,7 @@ $(document).ready(function () {
     function deleteUserRequest(url,userId) {
         console.log("GET request for delete user");
         showSpinner();
-        getAjaxRequest(url,deleteUser,userId);
+        ajaxRequest(url,null,"get",deleteUser,null,userId);
     }
 
     /**
@@ -383,7 +383,7 @@ $(document).ready(function () {
             var self = $(this);
             var data = self.serializeArray();
             showSpinner();
-            postAjaxRequest(url, data, addUser, showErrors);
+            ajaxRequest(url, data, "post",addUser, showErrors);
         })
     });
 
@@ -407,7 +407,7 @@ $(document).ready(function () {
             var url = window.location.pathname + "/" + userId;
             initialUserInCurrentUsers(self.serializeArray(), userId);
             showSpinner();
-            pathAjaxRequest(url, data, editUser)
+            ajaxRequest(url, data, "patch", editUser)
         });
     });
 
