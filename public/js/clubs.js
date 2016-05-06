@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    getAjaxRequest(location.href, initialTableContentClubs);
+    ajaxRequest(location.href, null, "get", initialTableContentClubs);
     /*getAjaxRequest(location.href, prepareContent);*/
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
@@ -79,6 +79,9 @@ $(document).ready(function () {
      * @param e string
      */
     function formatName(e) {
+        if(e === null) {
+          return false;
+        }
         var gender = (e.gender === 'm') ? 'г-н' : 'г-жа';
         return gender + ' ' + e.nickname;
     }
@@ -229,7 +232,7 @@ $(document).ready(function () {
             type,
             function(response){
                 if (response.success === true) {
-                    getAjaxRequest(location.href, initialTableContentClubs);
+                    ajaxRequest(location.href, null, "get", initialTableContentClubs);
                     clearFieldsForm();
                     $modalForm.closeModal({
                         complete: function() {
@@ -255,23 +258,4 @@ $(document).ready(function () {
             }
         );
     });
-
-    /**
-     * @param http url var url
-     * @param array var data
-     * @param string var type
-     * @param function callback success request
-     * @param function callback error request
-     */
-    function ajaxRequest(url, data, type, callbackSuccess, callbackError) {
-        type = type || 'get';
-        $.ajax({
-            type: type,
-            url: url,
-            data: data,
-            dataType: 'json',
-            success: callbackSuccess,
-            error: callbackError
-        })
-    }
 });

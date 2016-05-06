@@ -53,7 +53,7 @@
                             'club_id',
                             $clubsForSelect,
                             null,
-                            array('id' => 'club_id','required')
+                            array('id' => 'club_id')
                         ) !!}
                         {!! Form::label('club', 'Club') !!}
                     </div>
