@@ -70,7 +70,7 @@
 
 @section('after-footer')
 
-            <!-- Modal Structure -->
+            <!-- Modal Structure Delete User -->
     <div id="delete-user" class="modal">
         <div class="modal-content">
             <h5>Are you sure you want to deactivate a user?</h5>
@@ -78,6 +78,14 @@
         <div class="modal-footer">
             <a href="" class="modal-action modal-close waves-effect waves-red btn-flat disagree_delete-form" >Disagree</a>
             <a href="" class="modal-action modal-close waves-effect waves-green btn-flat delete-form">Agree</a>
+        </div>
+    </div>
+
+            <!-- Modal Structure Error Ajax Request -->
+    <div id="error_ajaxRequest" class="modal">
+        <div class="modal-content">
+            <h5>Error 422</h5>
+            <p class="error_422"></p>
         </div>
     </div>
 

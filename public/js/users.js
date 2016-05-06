@@ -1,7 +1,12 @@
 $(document).ready(function () {
-    ajaxRequest(location.href,null,"get", initialTableContentUsers);
+    // ajax preloader
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
+    var $spinner = $('#spinner');
+
+    // ajax request for content users-page
+    ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
+
 
     /**
      * Function initial table content
@@ -22,7 +27,7 @@ $(document).ready(function () {
      */
     function prepareContentUsers(users) {
       console.log("prepareContentUsers");
-      if(users === undefined) {
+      if (users === undefined) {
         return '<tr><td colspan="8" style="text-align: center">No Users.</td></tr>';
       }
       var url = location.pathname;
@@ -48,7 +53,6 @@ $(document).ready(function () {
                       )
                   )
         );
-        console.log(user.club);
         index++;
       }
 
@@ -66,7 +70,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
     });
 
     $('#club').change(function(){
@@ -81,7 +85,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
     });
 
     $('.title-sort').click(function(){
@@ -103,7 +107,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers);
+        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers, generalErrorAjaxRequest, null, showSpinner,hideSpinner);
     });
 
     $('#hide_guest').change(function () {
@@ -118,7 +122,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest, null, showSpinner,hideSpinner);
     });
 
     // global variables
@@ -127,24 +131,20 @@ $(document).ready(function () {
     var $nickname = $('#nickname');
     var $phone = $('#phone');
     var $email = $('#email');
-
     var $comments = $('#comments');
-
     var $roleInput = $(".role input");
     var $genderInput = $(".gender input");
-
     var $clubInput = $("#club_id");
     var $baneInput = $(".bane input");
-
     var $vk_link = $('#vk_link');
     var $label = $('form label.input-label');
-    var $errorNickname = $('#errorNickname');
-    var $errorPhone = $('#errorPhone');
-    var $errorEmail = $('#errorEmail');
+    var $errorNickname = $('#error_nickname');
+    var $errorPhone = $('#error_phone');
+    var $errorEmail = $('#error_email');
     var $deleteUserModal = $('#delete-user');
     var $addEditUserModal = $('#add-user');
-    var $errorMesages = $('.error-mesage');
     var $buttonAddUser = $('#btn-add');
+    var $formInput = $('form input');
     var modelState;
 
     // function event modal window close.
@@ -166,13 +166,16 @@ $(document).ready(function () {
         $phone.val("");
         $email.val("");
         $clubInput.val("");
-        $comments.text("");
-        $errorMesages.text("");
         $vk_link.val("");
+        $errorNickname.text("");
+        $errorPhone.text("");
+        $errorEmail.text("");
+        $comments.text("");
+        $formInput.removeClass('invalid');
+        $formInput.removeClass('valid');
     }
 
-    // ajax preloader
-    var $spinner = $('#spinner');
+
 
     // function show preloader for Ajax request
     function showSpinner() {
@@ -191,11 +194,10 @@ $(document).ready(function () {
     // --------------------------------- Functions add user --------------------------//
 
     /**
-     * @param json var response
+     * @param json type var response
      */
     function addUser(response) {
         if (response.success === true) {
-            hideSpinner();
             console.log('done add user');
             initialCurrentUsers(response.data.data);
             overloadTableContent(prepareContentUsers, currentUsers);
@@ -205,27 +207,6 @@ $(document).ready(function () {
         }
     }
 
-    /**
-     * @param object var data
-     */
-    function showErrors(data) {
-        hideSpinner();
-        var nickname = $nickname.val();
-        var phone = $phone.val();
-        var email = $email.val();
-        var response = data.responseJSON;
-        if (response.nickname != undefined) {
-            $errorNickname.text( "This nickname  \"" +  nickname + "\"  already exists.");
-        }
-        if (response.phone != undefined) {
-            $errorPhone.text("This phone  \"" +  phone + "\"  already exists.");
-        }
-        if (response.email != undefined) {
-            $errorEmail.text("This email  \"" +  email + "\"  already exists.")
-        }
-        return false;
-    }
-
     // --------------------------------- Functions delete user --------------------------//
 
     /**
@@ -233,8 +214,7 @@ $(document).ready(function () {
      */
     function deleteUserRequest(url,userId) {
         console.log("GET request for delete user");
-        showSpinner();
-        ajaxRequest(url,null,"get",deleteUser,null,userId);
+        ajaxRequest(url,null,"get",deleteUser,generalErrorAjaxRequest,userId,showSpinner,hideSpinner);
     }
 
     /**
@@ -242,16 +222,12 @@ $(document).ready(function () {
      */
     function deleteUser(response) {
         if (response.success == true) {
-            hideSpinner();
             deleteElementInCurrentObject(this, currentUsers);
             overloadTableContent(prepareContentUsers, currentUsers);
             $deleteUserModal.closeModal({
                 complete: onModalHide
             });
             console.log('done delete user');
-        } else {
-            hideSpinner();
-            console.log(response);
         }
     }
 
@@ -278,8 +254,8 @@ $(document).ready(function () {
             complete: onModalHide
         });
         onModalShow();
+        clearFields();
         $buttonAddUser.hide();
-        $errorMesages.text("");
         $label.addClass('active');
         $name.val(name);
         $nickname.val(nickname);
@@ -312,17 +288,12 @@ $(document).ready(function () {
      */
     function editUser(response) {
         if( response.success == true) {
-            hideSpinner();
             console.log("edit user done");
-            clearFields();
             $label.removeClass('active');
             overloadTableContent(prepareContentUsers, currentUsers);
             $addEditUserModal.closeModal({
                 complete : onModalHide
             });
-        } else {
-            hideSpinner();
-            console.log(response);
         }
     }
 
@@ -372,9 +343,8 @@ $(document).ready(function () {
         onModalShow;
         $buttonAddUser.hide();
         clearFields();
-
         $('label[class~=active]').removeClass('active');
-        $('input[class~=valid]').removeClass('valid');
+
 
         $('form').unbind('submit');
         $('form').submit( function(e) {
@@ -382,8 +352,7 @@ $(document).ready(function () {
             console.log("POST request for add user");
             var self = $(this);
             var data = self.serializeArray();
-            showSpinner();
-            ajaxRequest(url, data, "post",addUser, showErrors);
+            ajaxRequest(url, data, "post",addUser, errorAjaxRequest, null, showSpinner, hideSpinner);
         })
     });
 
@@ -406,8 +375,7 @@ $(document).ready(function () {
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;
             initialUserInCurrentUsers(self.serializeArray(), userId);
-            showSpinner();
-            ajaxRequest(url, data, "patch", editUser)
+            ajaxRequest(url, data, "patch", editUser, errorAjaxRequest, null, showSpinner, hideSpinner);
         });
     });
 

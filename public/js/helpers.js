@@ -141,8 +141,11 @@ function initialUserInCurrentUsers(data, userId) {
  * @param string var type
  * @param function callback success request
  * @param function callback error request
+ * @param var any type context for callback functions
+ * @param function callback before send request
+ * @param function callback complete send request
  */
-function ajaxRequest(url, data, type, callbackSuccess, callbackError, context) {
+function ajaxRequest(url, data, type, callbackSuccess, callbackError, context, beforeSend, complete) {
   console.log("AJAX REQUEST TYPE - " + type);
     type = type || 'get';
     $.ajax({
@@ -151,13 +154,52 @@ function ajaxRequest(url, data, type, callbackSuccess, callbackError, context) {
         data: data,
         dataType: 'json',
         context: context,
+        beforeSend: beforeSend,
         success: callbackSuccess,
-        error: callbackError
+        error: callbackError,
+        complete: complete
     })
 }
 
+// ----------------------Error AJAX Request ------------------------//
+/**
+ * @param jQuery special object var jqXHR
+ * @param status of the request var textStatus
+ * @param string var errorThrown
+ */
+function errorAjaxRequest(jqXHR, textStatus, errorThrown) {
+  //  validation error
+  if (jqXHR.status === 422) {
+      $.each(jqXHR.responseJSON, function(i, e){
+          //  show error
+          $('form').find('#'+ i)
+              .addClass('invalid');
+          $('form').find('#error_' + i).text(e);
+      });
+  } else {
+      //  todo: add handler
+      alert(errorThrown);
+  }
+}
 
+/**
+ * @param jQuery special object var jqXHR
+ * @param status of the request var textStatus
+ * @param string var errorThrown
+ */
+function generalErrorAjaxRequest(jqXHR, textStatus, errorThrown) {
+  //  validation error
+  if (jqXHR.status === 422) {
+    var errorMesage = jqXHR.responseJSON;
+    $('#error_ajaxRequest').openModal();
+    $('p.error_422').text(errorMesage);
+  } else {
+      //  todo: add handler
+      alert(errorThrown);
+  }
+}
 
+// Function active current menu link
 function activeMenuLink() {
   var currentUrl = location.pathname;
   var $activeLink = $('a[href*="' + currentUrl + '"]');
@@ -165,4 +207,5 @@ function activeMenuLink() {
 }
 
 var $materializeOverlay = $('#overlay');
+
 
