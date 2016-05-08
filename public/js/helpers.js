@@ -1,10 +1,10 @@
 var $materializeOverlay = $('#overlay');
 var $spinner = $('#spinner');
+var $buttonAdd = $('#btn-add');
 
 // function show preloader for Ajax request
 function showSpinner() {
     console.log("showSpinner");
-    console.log($spinner);
     $spinner.addClass("active");
     $materializeOverlay.show();
 }
@@ -16,6 +16,17 @@ function showSpinner() {
     $materializeOverlay.hide();
 }
 
+// function event modal window close.
+function onModalHide() {
+    console.log("onModalHide");
+    $buttonAdd.show();
+}
+
+// function event modal window open.
+function onModalShow() {
+    console.log("onModalShow");
+    $buttonAdd.hide();
+}
 /**
  * Global object to compile request
  */

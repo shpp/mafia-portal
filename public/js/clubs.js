@@ -1,6 +1,5 @@
 $(document).ready(function () {
     ajaxRequest(location.href, null, "get", initialTableContentClubs);
-    /*getAjaxRequest(location.href, prepareContent);*/
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
@@ -17,35 +16,35 @@ $(document).ready(function () {
     }
 
     function prepareContentClubs(clubs) {
-      console.log("prepareContentClubs");
-      if(clubs === undefined) {
-        return '<tr><td colspan="8" style="text-align: center">No Clubs.</td></tr>';
-      }
-      var content = $('#table-content').empty();
-      var index = 1;
-      for (var key in clubs) {
-      var club = clubs[key];
-      var board = prepareBoard(club.board_data);
-      content.append($('<tr>').attr('id', key)
-                .append($('<td>').text(index))
-                .append($('<td>').text(club.name))
-                .append($('<td>').text(club.users.length))
-                .append($('<td>').text(formatName(club.president)))
-                .append($('<td>').text(board))
-                .append($('<td>')
-                    .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
-                        .append($('<i>').addClass('material-icons').text('create'))
+        console.log("prepareContentClubs");
+        if(clubs === undefined) {
+           return '<tr><td colspan="8" style="text-align: center">No Clubs.</td></tr>';
+        }
+        var content = $('#table-content').empty();
+        var index = 1;
+        for (var key in clubs) {
+        var club = clubs[key];
+        var board = prepareBoard(club.board_data);
+        content.append($('<tr>').attr('id', key)
+                    .append($('<td>').text(index))
+                    .append($('<td>').text(club.name))
+                    .append($('<td>').text(club.users.length))
+                    .append($('<td>').text(formatName(club.president)))
+                    .append($('<td>').text(board))
+                    .append($('<td>')
+                        .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
+                            .append($('<i>').addClass('material-icons').text('create'))
+                        )
                     )
-                )
-                .append($('<td>')
-                    .append($('<button>').addClass('btn-flat delete-form-modal-clubs')
-                        .append($('<i>').addClass('material-icons').text('clear'))
+                    .append($('<td>')
+                        .append($('<button>').addClass('btn-flat delete-form-modal-clubs')
+                            .append($('<i>').addClass('material-icons').text('clear'))
+                        )
                     )
-                )
-      );
-      index++;
+            );
+          index++;
+        }
     }
-  }
     /**
      * Function formating  list the board
      * @param object object
@@ -136,9 +135,20 @@ $(document).ready(function () {
     var $presidentInput = $(".presidentName input");
     var $boardInput = $(".boardNames input");
 
+     function clearFieldsForm() {
+      $name.val("");
+      $presidentInput.val("");
+      $boardInput.val("");
+      $label.removeClass('active');
+    }
+
     //  add club
     $('.add-form-modal-clubs').click(function () {
-        $modalForm.openModal();
+        /*$('.add-form-modal-clubs').hide();*/
+        $modalForm.openModal({
+            ready: onModalShow,
+            complete: onModalHide
+        });
         clearFieldsForm();
         $form.attr('action', location.pathname + '/store');
         $form.attr('method', 'post');
@@ -146,23 +156,27 @@ $(document).ready(function () {
 
     //  edit club
     $('body').on('click', '.edit-form-modal-clubs', function () {
-        $modalForm.openModal();
-        var clubId = $(this).parents('tr').attr('id');
+        $modalForm.openModal({
+            ready: onModalShow,
+            complete: onModalHide
+        });
+        clearFieldsForm();
         $form.attr('action', location.pathname + '/' + clubId);
         $form.attr('method', 'patch');
+
+        var clubId = $(this).parents('tr').attr('id');
         var currentItem = searchElementInCurrentObject(currentClubs, clubId);
         var name = currentItem.name;
         var presidentName = currentItem.president.name;
-        console.log(presidentName);
         var presidentId = currentItem.president._id;
-        console.log(presidentId);
         var board = prepareBoardforEdit(currentItem.board_data);
         var boardData = currentItem.board_data;
+
         $label.addClass('active');
         $name.val(name);
         $presidentInput.val(presidentName);
-        console.log($presidentInput.val());
         $boardInput.val(board);
+
         $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
         selectBoardNames(boardData);
     });
@@ -180,16 +194,15 @@ $(document).ready(function () {
       }
     }
 
-    function clearFieldsForm() {
-      $name.val("");
-      $presidentInput.val("");
-      $boardInput.val("");
-      $label.removeClass('active');
-    }
+
+
 
     //  delere club
     $('body').on('click', '.delete-form-modal-clubs', function () {
-        $modalDeleteForm.openModal();
+        $modalDeleteForm.openModal({
+            ready: onModalShow,
+            complete: onModalHide
+        });
         var clubId = $(this).parents('tr').attr('id');
 
         $('.delete').unbind('click');
@@ -202,8 +215,8 @@ $(document).ready(function () {
             ajaxRequest(url, null, 'get',
                 function(response){
                     ajaxRequest(location.href, null, 'get', initialTableContentClubs);
-
                     $modalDeleteForm.closeModal();
+                    $('#btn-add').show();
                 }
             );
         });
@@ -213,6 +226,7 @@ $(document).ready(function () {
           event.preventDefault();
           console.log("disagree");
           $modalDeleteForm.closeModal();
+          $('#btn-add').show();
         })
     });
 
@@ -238,6 +252,7 @@ $(document).ready(function () {
                         complete: function() {
                             $form.attr('action', '');
                             clearFieldsForm();
+                            $('#btn-add').show();
                         }
                     });
                 }
@@ -251,9 +266,11 @@ $(document).ready(function () {
                             .addClass('invalid')
                             .after($('<p>').addClass('form-error').text(e));
                     });
+                    $('#btn-add').show();
                 } else {
                     //  todo: add handler
                     alert(errorThrown);
+                    $('#btn-add').show();
                 }
             }
         );
