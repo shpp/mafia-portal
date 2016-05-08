@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot($router);
 
 	    $router->bind('user_id', function($id){
-		    return User::notDeleted()->findOrFail($id);
+		    return User::findOrFail($id);
 	    });
 
 	    $router->bind('event_id', function($id){

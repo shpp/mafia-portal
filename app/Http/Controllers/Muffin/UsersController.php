@@ -42,9 +42,8 @@ class UsersController extends Controller
 		}
 
 		//  Find users
-		$users = User::notDeleted()
-			->sortAndFilter($search, $order_by, $order, $club, $hide_guest)
-			->paginate(self::RECORD_PER_PAGE);
+		$users = User::sortAndFilter($search, $order_by, $order, $club, $hide_guest)
+						->paginate(self::RECORD_PER_PAGE);
 
 		return Response::json([
 			'success' => true,
@@ -55,12 +54,10 @@ class UsersController extends Controller
 	public function store(UsersRequest $request)
 	{
 		$request->offsetSet('password', '');    //  todo: hash
-//		$request->offsetSet('club_id', null);
 		$request->offsetSet('last_visit', null);
 		$request->offsetSet('ban_date', null);
 		$request->offsetSet('banned', 0);
 		$request->offsetSet('deleted', 0);
-		$request->offsetSet('comment', '');
 
 		User::create($request->all());
 
@@ -80,9 +77,10 @@ class UsersController extends Controller
 		] );
 	}
 
+	//  softDeleting
 	public function destroy( User $user )
 	{
-		$user->update(['deleted' => '1']);
+		$user->delete();
 		return redirect(route('admin.users'));
 	}
 }

@@ -5,14 +5,19 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 class Club extends Eloquent
 {
+	use SoftDeletes;
+
 	protected $collection = 'clubs';
 
 	protected $fillable = [ 'name', 'presidentId', 'board', 'deleted' ];
-
+	//  for JSON
 	protected $appends = ['board_data'];
+	//  for SoftDeleting
+	protected $dates = ['deleted_at'];
 
 	public function president()
 	{
@@ -27,11 +32,6 @@ class Club extends Eloquent
 	public function getBoardDataAttribute()
 	{
 		$board = (array) $this->board;
-		return User::notDeleted()->whereIn('_id', $board)->get();
-	}
-
-	public function scopeNotDeleted($query)
-	{
-		return $query->where('deleted', '<>', '1');
+		return User::whereIn('_id', $board)->get();
 	}
 }

@@ -23,7 +23,6 @@ class ClubsController extends Controller
 		if (!$request->ajax()) {
 			$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
 			$users = User::select('name', 'nickname', 'gender')
-							->notDeleted()
 			                ->orderBy('name', 'asc')
 							->get();
 			$users_for_select = $this->prepareDataForSelect('name', $users);
@@ -34,8 +33,8 @@ class ClubsController extends Controller
 			);
 		}
 
-		$clubs = Club::notDeleted()
-					->when($search, function ($query) use ($search) {
+		$clubs = Club::
+					when($search, function ($query) use ($search) {
 						$query->where(function($query) use ($search) {
 							$query->where('name', 'like', $search . '%');
 						});
@@ -95,10 +94,10 @@ class ClubsController extends Controller
 		] );
 	}
 
+	//  softDeleting
 	public function destroy(Club $club)
 	{
-//		dd($user);
-		$club->update(['deleted' => '1']);
+		$club->delete();
 
 		return Response::json( [
 			'success' => true

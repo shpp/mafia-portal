@@ -51,6 +51,8 @@ Route::group([
 		Route::post('events/store', ['as' => 'admin.events.store', 'uses' => 'EventsController@store']);
 		Route::get('events/{event_id}/edit', ['as' => 'admin.events.edit', 'uses' => 'EventsController@edit']);
 		Route::patch('events/{event_id}', ['as' => 'admin.events.update', 'uses' => 'EventsController@update']);
-		Route::get('events/{event_id}/destroy', ['as' => 'admin.events.destroy', 'uses' => 'EventsController@destroy']);
-
+		Route::get(
+			'events/{event_id}/destroy',
+			['as' => 'admin.events.destroy', 'uses' => 'EventsController@destroy']
+		);
 });

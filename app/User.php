@@ -4,18 +4,20 @@ namespace App;
 
 use Illuminate\Support\Facades\Hash;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 class User extends Eloquent implements Authenticatable
 {
 	use AuthenticableTrait;
+	use SoftDeletes;
 
 	const ROLE_ADMIN = 'admin';
 	const ROLE_HOST = 'host';
 	const ROLE_GAMER = 'gamer';
 
-
+	protected $dates = ['deleted_at'];
 	/**
      * The attributes that are mass assignable.
      *
@@ -54,11 +56,6 @@ class User extends Eloquent implements Authenticatable
 		return auth()->user()->role === 'admin';
 	}
 
-	public function scopeNotDeleted($query)
-	{
-		return $query->where('deleted', '<>', '1');
-	}
-
 	public function scopeSortAndFilter($query, $search, $order_by, $order, $club, $hide_guest)
 	{
 		return $query->
@@ -83,11 +80,5 @@ class User extends Eloquent implements Authenticatable
 
 	public function setPasswordAttribute($value){
 		$this->attributes['password'] = Hash::make($value);
-	}
-
-	public static function fetchRoles(  ) {
-		return [
-
-		];
 	}
 }
