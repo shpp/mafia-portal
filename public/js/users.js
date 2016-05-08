@@ -2,10 +2,9 @@ $(document).ready(function () {
     // ajax preloader
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
-    var $spinner = $('#spinner');
 
     // ajax request for content users-page
-    ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
+    ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest);
 
 
     /**
@@ -70,7 +69,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     $('#club').change(function(){
@@ -85,7 +84,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     $('.title-sort').click(function(){
@@ -107,7 +106,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers, generalErrorAjaxRequest, null, showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     $('#hide_guest').change(function () {
@@ -122,7 +121,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest, null, showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     // global variables
@@ -177,7 +176,7 @@ $(document).ready(function () {
 
 
 
-    // function show preloader for Ajax request
+   /* // function show preloader for Ajax request
     function showSpinner() {
         console.log("showSpinner");
         $spinner.addClass("active");
@@ -189,7 +188,7 @@ $(document).ready(function () {
         console.log("hideSpinner");
         $spinner.removeClass("active");
         $materializeOverlay.hide();
-    }
+    }*/
 
     // --------------------------------- Functions add user --------------------------//
 
@@ -214,7 +213,7 @@ $(document).ready(function () {
      */
     function deleteUserRequest(url,userId) {
         console.log("GET request for delete user");
-        ajaxRequest(url,null,"get",deleteUser,generalErrorAjaxRequest,userId,showSpinner,hideSpinner);
+        ajaxRequest(url,null,"get",deleteUser,generalErrorAjaxRequest,userId);
     }
 
     /**
@@ -352,7 +351,7 @@ $(document).ready(function () {
             console.log("POST request for add user");
             var self = $(this);
             var data = self.serializeArray();
-            ajaxRequest(url, data, "post",addUser, errorAjaxRequest, null, showSpinner, hideSpinner);
+            ajaxRequest(url, data, "post",addUser, errorAjaxRequest);
         })
     });
 
@@ -375,7 +374,7 @@ $(document).ready(function () {
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;
             initialUserInCurrentUsers(self.serializeArray(), userId);
-            ajaxRequest(url, data, "patch", editUser, errorAjaxRequest, null, showSpinner, hideSpinner);
+            ajaxRequest(url, data, "patch", editUser, errorAjaxRequest);
         });
     });
 
