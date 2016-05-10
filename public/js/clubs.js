@@ -68,7 +68,7 @@ $(document).ready(function () {
 
         var ret = [];
         $.each(object, function(i, e){
-            ret.push(e.nickname);
+            ret.push(e.name);
         });
         return ret.join(', ');
     }
@@ -189,7 +189,7 @@ $(document).ready(function () {
           var boardItemNickname = boardItem .nickname;
           var boardItemName = boardItem.name;
           console.log(boardItemNickname);
-          $(".boardNames #presidentId [value='" + boardItemId + "']").attr("selected", "selected");
+          $(".boardNames #board [value='" + boardItemId + "']").attr("selected", "selected");
         }
       }
     }
