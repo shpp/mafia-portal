@@ -25,7 +25,7 @@ class ClubsController extends Controller
 			$users = User::select('name', 'nickname', 'gender')
 			                ->orderBy('name', 'asc')
 							->get();
-			$users_for_select = $this->prepareDataForSelect('name', $users);
+			$users_for_select = $this->prepareDataForSelect('nickname', $users);
 
 			return view(
 				'admin.clubs.index',
