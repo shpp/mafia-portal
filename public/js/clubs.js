@@ -161,10 +161,9 @@ $(document).ready(function () {
             complete: onModalHide
         });
         clearFieldsForm();
+        var clubId = $(this).parents('tr').attr('id');
         $form.attr('action', location.pathname + '/' + clubId);
         $form.attr('method', 'patch');
-
-        var clubId = $(this).parents('tr').attr('id');
         var currentItem = searchElementInCurrentObject(currentClubs, clubId);
         var name = currentItem.name;
         var presidentName = currentItem.president.name;
@@ -189,7 +188,7 @@ $(document).ready(function () {
           var boardItemNickname = boardItem .nickname;
           var boardItemName = boardItem.name;
           console.log(boardItemNickname);
-          $(".boardNames #board [value='" + boardItemId + "']").attr("selected", "selected");
+          /*$(".boardNames #board [value='" + boardItemId + "']").attr("selected", "selected");*/
         }
       }
     }
@@ -215,6 +214,8 @@ $(document).ready(function () {
             ajaxRequest(url, null, 'get',
                 function(response){
                     ajaxRequest(location.href, null, 'get', initialTableContentClubs);
+                    /*deleteElementInCurrentObject(clubId, currentClubs);
+                    overloadTableContent(prepareContentClubs, currentClubs)*/
                     $modalDeleteForm.closeModal();
                     $('#btn-add').show();
                 }
