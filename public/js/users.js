@@ -15,7 +15,9 @@ $(document).ready(function () {
       if (response.success == true) {
         currentUsers = {};
         initialCurrentUsers(response.data.data);
+        console.log("------------currentUsers-------------");
         console.log(currentUsers);
+        console.log("-------------------------------------");
         overloadTableContent(prepareContentUsers, currentUsers);
       }
     }

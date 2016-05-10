@@ -3,6 +3,10 @@ $(document).ready(function () {
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
+    /**
+     * Function initial table content
+     * @param response array
+     */
     function initialTableContentClubs(response) {
       console.log("initialTableContentClubs");
       if (response.success == true) {
@@ -15,6 +19,10 @@ $(document).ready(function () {
       }
     }
 
+     /**
+     * Function prepare content in table
+     * @param users object(local storage)
+     */
     function prepareContentClubs(clubs) {
         console.log("prepareContentClubs");
         if(clubs === undefined) {
@@ -47,9 +55,10 @@ $(document).ready(function () {
     }
     /**
      * Function formating  list the board
-     * @param object object
+     * @param var object object
      */
     function prepareBoard (object) {
+        console.log("prepareBoard");
         if (!object) {
             return '';
         }
@@ -61,7 +70,12 @@ $(document).ready(function () {
         return ret.join(', ');
     }
 
+    /**
+     * Function formating list the board for edit
+     * @param var object object
+     */
     function prepareBoardforEdit (object) {
+        console.log("prepareBoardforEdit")
         if (!object) {
             return '';
         }
@@ -75,9 +89,10 @@ $(document).ready(function () {
 
     /**
      * Function formating the name
-     * @param e string
+     * @param var e string
      */
     function formatName(e) {
+        console.log("formatName")
         if(e === null) {
           return false;
         }
@@ -85,11 +100,12 @@ $(document).ready(function () {
         return gender + ' ' + e.nickname;
     }
 
-
+    // event search form submit
     $('#search-form').submit(function(e){
         e.preventDefault();
     });
 
+    // event search form change
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
 
@@ -105,6 +121,7 @@ $(document).ready(function () {
         ajaxRequest(Request.searchQuery, null, "get", initialTableContentClubs);
     });
 
+    // sorting
     $('.title-sort').click(function(){
         var self = $(this);
 
@@ -127,6 +144,7 @@ $(document).ready(function () {
         ajaxRequest(Request.searchQuery, null, "get", initialTableContentClubs);
     });
 
+    // Global variabls
     var $modalForm = $('#modal-form');
     var $modalDeleteForm = $('#delete-club');
     var $form = $modalForm.find('form');
@@ -135,7 +153,10 @@ $(document).ready(function () {
     var $presidentInput = $(".presidentName input");
     var $boardInput = $(".boardNames input");
 
-     function clearFieldsForm() {
+    /**
+     * Function clear fields form
+     */
+    function clearFieldsForm() {
       $name.val("");
       $presidentInput.val("");
       $boardInput.val("");
@@ -176,8 +197,21 @@ $(document).ready(function () {
         $name.val(name);
         $presidentInput.val(presidentNickname);
         $boardInput.val(board);
+        selectBoardNames(boardData);
         $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
     });
+
+    /**
+     * Function actibe checkbox for names board
+     * @param var boardData object
+     */
+    function selectBoardNames(boardData) {
+        var b = [];
+        $.each(boardData, function(i, e) {
+            b.push(e._id)
+        });
+        $('#board').val(b).material_select();
+    }
 
     //  delere club
     $('body').on('click', '.delete-form-modal-clubs', function () {
@@ -214,6 +248,7 @@ $(document).ready(function () {
         })
     });
 
+    // submit form
     $form.submit(function(e){
         e.preventDefault();
         //  clear errors
@@ -231,11 +266,9 @@ $(document).ready(function () {
             function(response){
                 if (response.success === true) {
                     ajaxRequest(location.href, null, "get", initialTableContentClubs);
-                    clearFieldsForm();
                     $modalForm.closeModal({
                         complete: function() {
                             $form.attr('action', '');
-                            clearFieldsForm();
                             $('#btn-add').show();
                         }
                     });
