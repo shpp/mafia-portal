@@ -68,7 +68,7 @@ $(document).ready(function () {
 
         var ret = [];
         $.each(object, function(i, e){
-            ret.push(e.name);
+            ret.push(e.nickname);
         });
         return ret.join(', ');
     }
@@ -141,6 +141,7 @@ $(document).ready(function () {
       $boardInput.val("");
       $label.removeClass('active');
       $('.boardNames li').removeClass('active');
+      $(".presidentName #presidentId [selected = 'selected']").removeAttr("selected");
     }
 
     //  add club
