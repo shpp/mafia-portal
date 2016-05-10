@@ -16,7 +16,7 @@ class ClubsController extends Controller
 	const RECORD_PER_PAGE = 15;
 
 	public function index(Request $request) {
-		$order_by = $request->input('orderBy', 'nickname');
+		$order_by = $request->input('orderBy', 'name');
 		$order = $request->input('order', 'asc');
 		$search = $request->input('search', false);
 
@@ -43,7 +43,6 @@ class ClubsController extends Controller
 					 $query->orderBy($order_by, $order);
 					})
 					->with('president', 'users')
-					->orderBy('name')
 					->paginate(self::RECORD_PER_PAGE);
 
 		return Response::json([

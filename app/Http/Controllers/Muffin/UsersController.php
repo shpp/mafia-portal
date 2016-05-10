@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Response;
 
 class UsersController extends Controller
 {
-	const RECORD_PER_PAGE = 15;
+	const RECORD_PER_PAGE = 40;
 
 	public function index( Request $request ) {
 		$order_by = $request->input('orderBy', 'nickname');
@@ -43,7 +43,6 @@ class UsersController extends Controller
 
 		//  Find users
 		$users = User::sortAndFilter($search, $order_by, $order, $club, $hide_guest)
-						->orderBy('nickname')
 						->paginate(self::RECORD_PER_PAGE);
 
 		return Response::json([
