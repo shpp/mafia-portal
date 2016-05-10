@@ -140,11 +140,11 @@ $(document).ready(function () {
       $presidentInput.val("");
       $boardInput.val("");
       $label.removeClass('active');
+      $('.boardNames li').removeClass('active');
     }
 
     //  add club
     $('.add-form-modal-clubs').click(function () {
-        /*$('.add-form-modal-clubs').hide();*/
         $modalForm.openModal({
             ready: onModalShow,
             complete: onModalHide
@@ -175,26 +175,8 @@ $(document).ready(function () {
         $name.val(name);
         $presidentInput.val(presidentName);
         $boardInput.val(board);
-
         $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
-        selectBoardNames(boardData);
     });
-
-    function selectBoardNames(boardData) {
-      if(boardData.length) {
-        for (var key in boardData) {
-          var boardItem = boardData[key];
-          var boardItemId = boardItem ._id;
-          var boardItemNickname = boardItem .nickname;
-          var boardItemName = boardItem.name;
-          console.log(boardItemNickname);
-          /*$(".boardNames #board [value='" + boardItemId + "']").attr("selected", "selected");*/
-        }
-      }
-    }
-
-
-
 
     //  delere club
     $('body').on('click', '.delete-form-modal-clubs', function () {
