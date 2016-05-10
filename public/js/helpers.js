@@ -1,3 +1,32 @@
+var $materializeOverlay = $('#overlay');
+var $spinner = $('#spinner');
+var $buttonAdd = $('#btn-add');
+
+// function show preloader for Ajax request
+function showSpinner() {
+    console.log("showSpinner");
+    $spinner.addClass("active");
+    $materializeOverlay.show();
+}
+
+// function hide preloader for Ajax request
+ function hideSpinner() {
+    console.log("hideSpinner");
+    $spinner.removeClass("active");
+    $materializeOverlay.hide();
+}
+
+// function event modal window close.
+function onModalHide() {
+    console.log("onModalHide");
+    $buttonAdd.show();
+}
+
+// function event modal window open.
+function onModalShow() {
+    console.log("onModalShow");
+    $buttonAdd.hide();
+}
 /**
  * Global object to compile request
  */
@@ -145,7 +174,7 @@ function initialUserInCurrentUsers(data, userId) {
  * @param function callback before send request
  * @param function callback complete send request
  */
-function ajaxRequest(url, data, type, callbackSuccess, callbackError, context, beforeSend, complete) {
+function ajaxRequest(url, data, type, callbackSuccess, callbackError, context) {
   console.log("AJAX REQUEST TYPE - " + type);
     type = type || 'get';
     $.ajax({
@@ -154,10 +183,10 @@ function ajaxRequest(url, data, type, callbackSuccess, callbackError, context, b
         data: data,
         dataType: 'json',
         context: context,
-        beforeSend: beforeSend,
+        beforeSend: showSpinner(),
         success: callbackSuccess,
         error: callbackError,
-        complete: complete
+        complete: hideSpinner()
     })
 }
 
@@ -206,6 +235,5 @@ function activeMenuLink() {
   $activeLink.css({"color":"#C82C29", "background-color": "rgba(0,0,0,0.1)", "font-size": "1.5rem"});
 }
 
-var $materializeOverlay = $('#overlay');
 
 

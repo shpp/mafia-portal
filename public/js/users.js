@@ -2,10 +2,9 @@ $(document).ready(function () {
     // ajax preloader
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
-    var $spinner = $('#spinner');
 
     // ajax request for content users-page
-    ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
+    ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest);
 
 
     /**
@@ -70,7 +69,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     $('#club').change(function(){
@@ -85,7 +84,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest,null,showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     $('.title-sort').click(function(){
@@ -107,7 +106,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers, generalErrorAjaxRequest, null, showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     $('#hide_guest').change(function () {
@@ -122,7 +121,7 @@ $(document).ready(function () {
 
         Request.prepareSearchQuery();
         Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest, null, showSpinner,hideSpinner);
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
     });
 
     // global variables
@@ -143,24 +142,11 @@ $(document).ready(function () {
     var $errorEmail = $('#error_email');
     var $deleteUserModal = $('#delete-user');
     var $addEditUserModal = $('#add-user');
-    var $buttonAddUser = $('#btn-add');
+    /*var $buttonAddUser = $('#btn-add');*/
     var $formInput = $('form input');
-    var modelState;
-
-    // function event modal window close.
-    function onModalHide() {
-        modelState = "close";
-        $buttonAddUser.show();
-        clearFields();
-    }
-
-    // function event modal window open.
-    function onModalShow() {
-        modelState = "open";
-    }
 
     // function clear fields form
-    function clearFields() {
+    function clearFieldsForm() {
         $name.val("");
         $nickname.val("");
         $phone.val("");
@@ -175,22 +161,6 @@ $(document).ready(function () {
         $formInput.removeClass('valid');
     }
 
-
-
-    // function show preloader for Ajax request
-    function showSpinner() {
-        console.log("showSpinner");
-        $spinner.addClass("active");
-        $materializeOverlay.show();
-    }
-
-    // function hide preloader for Ajax request
-     function hideSpinner() {
-        console.log("hideSpinner");
-        $spinner.removeClass("active");
-        $materializeOverlay.hide();
-    }
-
     // --------------------------------- Functions add user --------------------------//
 
     /**
@@ -201,9 +171,8 @@ $(document).ready(function () {
             console.log('done add user');
             initialCurrentUsers(response.data.data);
             overloadTableContent(prepareContentUsers, currentUsers);
-            $addEditUserModal.closeModal({
-                complete : onModalHide
-            });
+            $addEditUserModal.closeModal();
+            $('#btn-add').show();
         }
     }
 
@@ -214,7 +183,7 @@ $(document).ready(function () {
      */
     function deleteUserRequest(url,userId) {
         console.log("GET request for delete user");
-        ajaxRequest(url,null,"get",deleteUser,generalErrorAjaxRequest,userId,showSpinner,hideSpinner);
+        ajaxRequest(url,null,"get",deleteUser,generalErrorAjaxRequest,userId);
     }
 
     /**
@@ -224,9 +193,8 @@ $(document).ready(function () {
         if (response.success == true) {
             deleteElementInCurrentObject(this, currentUsers);
             overloadTableContent(prepareContentUsers, currentUsers);
-            $deleteUserModal.closeModal({
-                complete: onModalHide
-            });
+            $deleteUserModal.closeModal();
+            $('#btn-add').show();
             console.log('done delete user');
         }
     }
@@ -251,11 +219,9 @@ $(document).ready(function () {
          var bane = response.bane-date;*/
 
         $addEditUserModal.openModal({
+            ready: onModalShow,
             complete: onModalHide
         });
-        onModalShow();
-        clearFields();
-        $buttonAddUser.hide();
         $label.addClass('active');
         $name.val(name);
         $nickname.val(nickname);
@@ -291,23 +257,22 @@ $(document).ready(function () {
             console.log("edit user done");
             $label.removeClass('active');
             overloadTableContent(prepareContentUsers, currentUsers);
-            $addEditUserModal.closeModal({
-                complete : onModalHide
-            });
+            $addEditUserModal.closeModal();
+            $('#btn-add').show();
         }
     }
 
 
     // --------------------------------- Functions events page-users  --------------------------//
-    $deleteUserModal .closeModal();
+   /* $deleteUserModal .closeModal();*/
 
     /*The event handler pushing the button delete-users*/
     $body.on('click', '.delete-form-modal', function (e) {
         e.preventDefault();
         $deleteUserModal.openModal({
+            ready: onModalShow,
             complete: onModalHide
         });
-        $buttonAddUser.hide();
         var userId = $(this).parents("tr").attr("id");
         var url = location.pathname;
         var userUrl = url + "/" + userId + "/destroy";
@@ -320,39 +285,33 @@ $(document).ready(function () {
 
         $('.disagree_delete-form').click(function (event) {
             event.preventDefault();
-            $deleteUserModal .closeModal();
+            $deleteUserModal.closeModal();
         })
     });
 
 
-    $addEditUserModal.closeModal({
+   /* $addEditUserModal.closeModal({
         complete : onModalHide
-    });
+    });*/
 
     /*The event handler pushing the button add-users*/
     $body.on('click', '.add-form-modal', function (e) {
         e.preventDefault();
-        if(modelState == "open") {
-            return false;
-        }
         console.log("start add user");
         var url = $(this).data('create-url');
         $addEditUserModal.openModal({
+            ready: onModalShow,
             complete: onModalHide
         });
-        onModalShow;
-        $buttonAddUser.hide();
-        clearFields();
+        clearFieldsForm();
         $('label[class~=active]').removeClass('active');
-
-
         $('form').unbind('submit');
         $('form').submit( function(e) {
             e.preventDefault();
             console.log("POST request for add user");
             var self = $(this);
             var data = self.serializeArray();
-            ajaxRequest(url, data, "post",addUser, errorAjaxRequest, null, showSpinner, hideSpinner);
+            ajaxRequest(url, data, "post",addUser, errorAjaxRequest);
         })
     });
 
@@ -375,7 +334,7 @@ $(document).ready(function () {
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;
             initialUserInCurrentUsers(self.serializeArray(), userId);
-            ajaxRequest(url, data, "patch", editUser, errorAjaxRequest, null, showSpinner, hideSpinner);
+            ajaxRequest(url, data, "patch", editUser, errorAjaxRequest);
         });
     });
 

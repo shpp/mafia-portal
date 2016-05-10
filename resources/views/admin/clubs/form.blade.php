@@ -33,7 +33,7 @@
                             $users_for_select,
                             null,
                             array(
-                                'id' => 'presidentId',
+                                'id' => 'board',
                                 'required',
                                 'multiple'
                             )
