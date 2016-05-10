@@ -43,6 +43,7 @@ class UsersController extends Controller
 
 		//  Find users
 		$users = User::sortAndFilter($search, $order_by, $order, $club, $hide_guest)
+						->orderBy('nickname')
 						->paginate(self::RECORD_PER_PAGE);
 
 		return Response::json([

@@ -43,6 +43,7 @@ class ClubsController extends Controller
 					 $query->orderBy($order_by, $order);
 					})
 					->with('president', 'users')
+					->orderBy('name')
 					->paginate(self::RECORD_PER_PAGE);
 
 		return Response::json([
