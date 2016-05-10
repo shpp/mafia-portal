@@ -195,9 +195,9 @@ $(document).ready(function () {
             var url = location.pathname + '/' + clubId + '/destroy';
             ajaxRequest(url, null, 'get',
                 function(response){
-                    ajaxRequest(location.href, null, 'get', initialTableContentClubs);
-                    /*deleteElementInCurrentObject(clubId, currentClubs);
-                    overloadTableContent(prepareContentClubs, currentClubs)*/
+                    ajaxRequest(location.href, null, 'get');
+                    deleteElementInCurrentObject(clubId, currentClubs);
+                    overloadTableContent(prepareContentClubs, currentClubs)
                     $modalDeleteForm.closeModal();
                     $('#btn-add').show();
                 }
