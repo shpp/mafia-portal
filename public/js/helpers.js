@@ -153,13 +153,13 @@ function searchElementInCurrentObject(currentObject, currentId) {
  * @param data array
  * @param userId string
  */
-function initialUserInCurrentUsers(data, userId) {
+function initialUserInCurrentUsers(data, userId, currentObject) {
   var itemUser = {};
   for(var i = 0; i < data.length; i++) {
     var dataItem = data[i];
     itemUser[dataItem.name] = dataItem.value;
   }
-  currentUsers[userId] = itemUser;
+  currentObject[userId] = itemUser;
 }
 
 // ---------------------- AJAX Request ------------------------//

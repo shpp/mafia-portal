@@ -333,7 +333,7 @@ $(document).ready(function () {
             var self = $(this);
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;
-            initialUserInCurrentUsers(self.serializeArray(), userId);
+            initialUserInCurrentUsers(self.serializeArray(), userId, currentUsers);
             ajaxRequest(url, data, "patch", editUser, errorAjaxRequest);
         });
     });

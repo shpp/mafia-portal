@@ -166,14 +166,14 @@ $(document).ready(function () {
         $form.attr('method', 'patch');
         var currentItem = searchElementInCurrentObject(currentClubs, clubId);
         var name = currentItem.name;
-        var presidentName = currentItem.president.name;
+        var presidentNickname = currentItem.president.nickname;
         var presidentId = currentItem.president._id;
         var board = prepareBoardforEdit(currentItem.board_data);
         var boardData = currentItem.board_data;
 
         $label.addClass('active');
         $name.val(name);
-        $presidentInput.val(presidentName);
+        $presidentInput.val(presidentNickname);
         $boardInput.val(board);
         $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
     });
