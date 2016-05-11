@@ -37,7 +37,7 @@ $(document).ready(function () {
                     .append($('<td>').text(index))
                     .append($('<td>').text(club.name))
                     .append($('<td>').text(club.users.length))
-                    .append($('<td>').text(club.president.nickname))
+                    .append($('<td>').text(formatName(club.president)))
                     .append($('<td>').text(board))
                     .append($('<td>')
                         .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
@@ -95,9 +95,8 @@ $(document).ready(function () {
         console.log("formatName")
         if(e === null) {
           return "";
-        }
-        var gender = (e.gender === 'm') ? 'г-н' : 'г-жа';
-        return gender + ' ' + e.nickname;
+        } else
+        return e.nickname;
     }
 
     // event search form submit
@@ -190,17 +189,22 @@ $(document).ready(function () {
         $form.attr('method', 'patch');
         var currentItem = searchElementInCurrentObject(currentClubs, clubId);
         var name = currentItem.name;
-        var presidentNickname = currentItem.president.nickname;
-        var presidentId = currentItem.president._id;
+        if(currentItem.president) {
+            var presidentNickname = currentItem.president.nickname;
+            var presidentId = currentItem.president._id;
+            $presidentInput.val(presidentNickname);
+            $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
+        }
+
         var board = prepareBoard(currentItem.board_data);
         var boardData = currentItem.board_data;
 
         $label.addClass('active');
         $name.val(name);
-        $presidentInput.val(presidentNickname);
+
         $boardInput.val(board);
         selectBoardNames(boardData);
-        $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
+
     });
 
     /**
