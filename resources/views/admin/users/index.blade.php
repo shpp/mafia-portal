@@ -7,8 +7,6 @@
 
 @section('content')
     <div class="container users-content">
-        <h1 class="text-right">Игроки</h1>
-
         <div class="row">
             {!! Form::open() !!}
                 <div class="input-field col s12 m4">

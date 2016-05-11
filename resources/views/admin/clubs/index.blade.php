@@ -7,8 +7,6 @@
 
 @section('content')
     <div class="container">
-        <h1 class="text-right">Клубы</h1>
-
         <div class="row">
             {!! Form::open(['id' => 'search-form']) !!}
                 <div class="input-field col s12 m4">

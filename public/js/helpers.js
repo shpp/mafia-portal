@@ -232,7 +232,7 @@ function generalErrorAjaxRequest(jqXHR, textStatus, errorThrown) {
 function activeMenuLink() {
   var currentUrl = location.pathname;
   var $activeLink = $('a[href*="' + currentUrl + '"]');
-  $activeLink.css({"color":"#C82C29", "background-color": "rgba(0,0,0,0.1)", "font-size": "1.5rem"});
+  $activeLink.css({"background-color": "rgba(0,0,0,0.1)"});
 }
 
 

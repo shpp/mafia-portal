@@ -6,7 +6,6 @@
             <a href="{{ url('/muffin/events/create') }}" class="waves-effect waves-light btn right">
                 <i class="material-icons right">note_add</i>Add
             </a>
-            <h1>Events</h1>
 
             @if (count($events) > 0)
 
