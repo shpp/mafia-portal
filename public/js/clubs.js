@@ -94,7 +94,7 @@ $(document).ready(function () {
     function formatName(e) {
         console.log("formatName")
         if(e === null) {
-          return false;
+          return "";
         }
         var gender = (e.gender === 'm') ? 'г-н' : 'г-жа';
         return gender + ' ' + e.nickname;
@@ -150,23 +150,28 @@ $(document).ready(function () {
     var $form = $modalForm.find('form');
     var $label = $('form label.input-label');
     var $name = $('#name');
-    var $presidentInput = $(".presidentName input");
+    var $presidentInput = $(".presidentName input.select-dropdown");
     var $boardInput = $(".boardNames input");
-
+    var $labelForSelect = $('<li class="disabled ">').empty();
+    $labelForSelect.append('<span>Choose your option</span>');
     /**
      * Function clear fields form
      */
     function clearFieldsForm() {
-      $name.val("");
-      $presidentInput.val("");
-      $boardInput.val("");
-      $label.removeClass('active');
-      $('.boardNames li').removeClass('active');
-      $(".presidentName #presidentId [selected = 'selected']").removeAttr("selected");
+        $name.val("");
+        $name.removeClass('valid');
+        $name.removeClass('invalid');
+        $boardInput.val("");
+        $label.removeClass('active');
+        $('.boardNames li').removeClass('active');
+        $(".presidentName #presidentId [selected = 'selected']").removeAttr("selected");
     }
 
     //  add club
     $('.add-form-modal-clubs').click(function () {
+        /*$('.presidentName ul.dropdown-content').prepend($labelForSelect);
+        $('.presidentName #presidentId').prepend($('<option selected="" disabled="" value="">Choose your option</option>'));
+        $('.presidentName input.select-dropdown').val("Choose your option");*/
         $modalForm.openModal({
             ready: onModalShow,
             complete: onModalHide
@@ -221,7 +226,7 @@ $(document).ready(function () {
         });
         var clubId = $(this).parents('tr').attr('id');
 
-        $('.delete').unbind('click');
+        $('.delete-form').unbind('click');
         $('.delete-form').click( function(event){
           event.preventDefault();
           // ----------- ajaxRequest

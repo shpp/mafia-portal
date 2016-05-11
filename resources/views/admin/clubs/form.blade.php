@@ -15,7 +15,7 @@
                     <div class="input-field presidentName">
                         {!! Form::select(
                             'presidentId',
-                            $users_for_select,
+                           $users_for_select=array( null => "Choose president") + $users_for_select,
                             null,
                             array(
                                 'id' => 'presidentId',
