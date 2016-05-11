@@ -37,7 +37,7 @@ $(document).ready(function () {
                     .append($('<td>').text(index))
                     .append($('<td>').text(club.name))
                     .append($('<td>').text(club.users.length))
-                    .append($('<td>').text(formatName(club.president)))
+                    .append($('<td>').text(club.president.nickname))
                     .append($('<td>').text(board))
                     .append($('<td>')
                         .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
@@ -57,7 +57,7 @@ $(document).ready(function () {
      * Function formating  list the board
      * @param var object object
      */
-    function prepareBoard (object) {
+   /* function prepareBoard (object) {
         console.log("prepareBoard");
         if (!object) {
             return '';
@@ -68,14 +68,14 @@ $(document).ready(function () {
             ret.push(formatName(e));
         });
         return ret.join(', ');
-    }
+    }*/
 
     /**
      * Function formating list the board for edit
      * @param var object object
      */
-    function prepareBoardforEdit (object) {
-        console.log("prepareBoardforEdit")
+    function prepareBoard (object) {
+        console.log("prepareBoard")
         if (!object) {
             return '';
         }
@@ -150,10 +150,8 @@ $(document).ready(function () {
     var $form = $modalForm.find('form');
     var $label = $('form label.input-label');
     var $name = $('#name');
-    var $presidentInput = $(".presidentName input.select-dropdown");
+    var $presidentInput = $(".presidentName input");
     var $boardInput = $(".boardNames input");
-    var $labelForSelect = $('<li class="disabled ">').empty();
-    $labelForSelect.append('<span>Choose your option</span>');
     /**
      * Function clear fields form
      */
@@ -161,17 +159,16 @@ $(document).ready(function () {
         $name.val("");
         $name.removeClass('valid');
         $name.removeClass('invalid');
+        $presidentInput.val("");
         $boardInput.val("");
         $label.removeClass('active');
         $('.boardNames li').removeClass('active');
         $(".presidentName #presidentId [selected = 'selected']").removeAttr("selected");
+        $(".presidentName #board [selected = 'selected']").removeAttr("selected");
     }
 
     //  add club
     $('.add-form-modal-clubs').click(function () {
-        /*$('.presidentName ul.dropdown-content').prepend($labelForSelect);
-        $('.presidentName #presidentId').prepend($('<option selected="" disabled="" value="">Choose your option</option>'));
-        $('.presidentName input.select-dropdown').val("Choose your option");*/
         $modalForm.openModal({
             ready: onModalShow,
             complete: onModalHide
@@ -195,7 +192,7 @@ $(document).ready(function () {
         var name = currentItem.name;
         var presidentNickname = currentItem.president.nickname;
         var presidentId = currentItem.president._id;
-        var board = prepareBoardforEdit(currentItem.board_data);
+        var board = prepareBoard(currentItem.board_data);
         var boardData = currentItem.board_data;
 
         $label.addClass('active');
