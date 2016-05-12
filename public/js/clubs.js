@@ -3,6 +3,8 @@ $(document).ready(function () {
     var $materializeOverlay = $('#overlay');
     $materializeOverlay.hide();
 
+    var usersInClubs = {};
+
     /**
      * Function initial table content
      * @param response array
@@ -12,6 +14,7 @@ $(document).ready(function () {
       if (response.success == true) {
         currentClubs = {};
         initialCurrentClubs(response.clubs.data);
+        usersInClubs = response.usersInClubs;
         console.log("------------currentClubs-------------");
         console.log(currentClubs);
         console.log("-------------------------------------");
@@ -187,8 +190,10 @@ $(document).ready(function () {
             ready: onModalShow,
             complete: onModalHide
         });
-        clearFieldsForm();
+
         var clubId = $(this).parents('tr').attr('id');
+        createClubSelect(clubId);
+        clearFieldsForm();
         $form.attr('action', location.pathname + '/' + clubId);
         $form.attr('method', 'patch');
         var currentItem = searchElementInCurrentObject(currentClubs, clubId);
@@ -210,6 +215,37 @@ $(document).ready(function () {
         selectBoardNames(boardData);
 
     });
+
+    //  generate selects for modal-form
+    function createClubSelect(clubId) {
+        var selects = $('#presidentId, #board');
+        //  remove all options except first
+        selects.each(function(i, e){
+            $(e).find('option')
+                    .not(':first')
+                    .remove()
+                    .end()
+                .end()
+                .material_select();
+        });
+
+        if (!clubId || !usersInClubs[clubId]) {
+            return;
+        }
+        //  add options
+        selects.each(function(i, e){
+            var element = e;
+            $.each(usersInClubs[clubId], function (i, e) {
+                $(element)
+                    .append($('<option>')
+                        .attr('value', e._id)
+                        .text(e.nickname)
+                );
+            });
+
+            $(element).material_select();
+        });
+    }
 
     /**
      * Function actibe checkbox for names board

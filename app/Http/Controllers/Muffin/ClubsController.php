@@ -22,14 +22,10 @@ class ClubsController extends Controller
 
 		if (!$request->ajax()) {
 			$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
-			$users = User::select('name', 'nickname', 'gender')
-			                ->orderBy('name', 'asc')
-							->get();
-			$users_for_select = $this->prepareDataForSelect('nickname', $users);
 
 			return view(
 				'admin.clubs.index',
-				compact('search', 'isOrderNameDesc', 'users_for_select')
+				compact('search', 'isOrderNameDesc')
 			);
 		}
 
@@ -45,9 +41,16 @@ class ClubsController extends Controller
 					->with('president', 'users')
 					->paginate(self::RECORD_PER_PAGE);
 
+		$usersInClubs = User::whereNotNull('club_id')
+		                    ->select('_id', 'gender', 'nickname', 'name', 'role', 'club_id')
+							->orderBy('nickname')
+							->get()
+							->groupBy('club_id');
+
 		return Response::json([
 			'success' => true,
-			'clubs' => $clubs
+			'clubs' => $clubs,
+			'usersInClubs' => $usersInClubs
 		]);
 	}
 
