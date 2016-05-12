@@ -155,15 +155,19 @@ $(document).ready(function () {
      * Function clear fields form
      */
     function clearFieldsForm() {
+        console.log("clearFieldsForm");
         $name.val("");
         $name.removeClass('valid');
         $name.removeClass('invalid');
         $presidentInput.val("");
         $boardInput.val("");
+        $('#board').val("").material_select();
+        $('#presidentId').val("").material_select();
         $label.removeClass('active');
         $('.boardNames li').removeClass('active');
         $(".presidentName #presidentId [selected = 'selected']").removeAttr("selected");
         $(".presidentName #board [selected = 'selected']").removeAttr("selected");
+
     }
 
     //  add club
@@ -193,7 +197,7 @@ $(document).ready(function () {
             var presidentNickname = currentItem.president.nickname;
             var presidentId = currentItem.president._id;
             $presidentInput.val(presidentNickname);
-            $(".presidentName #presidentId [value='" + presidentId + "']").attr("selected", "selected");
+            $("#presidentId").val(presidentId).material_select();
         }
 
         var board = prepareBoard(currentItem.board_data);
