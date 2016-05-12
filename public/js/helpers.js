@@ -154,6 +154,7 @@ function searchElementInCurrentObject(currentObject, currentId) {
  * @param userId string
  */
 function initialUserInCurrentUsers(data, userId, currentObject) {
+  console.log(data);
   var itemUser = {};
   for(var i = 0; i < data.length; i++) {
     var dataItem = data[i];
@@ -183,6 +184,7 @@ function ajaxRequest(url, data, type, callbackSuccess, callbackError, context) {
         data: data,
         dataType: 'json',
         context: context,
+        cache: false,
         beforeSend: showSpinner(),
         success: callbackSuccess,
         error: callbackError,

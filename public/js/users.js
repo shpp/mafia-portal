@@ -258,7 +258,8 @@ $(document).ready(function () {
         if( response.success == true) {
             console.log("edit user done");
             $label.removeClass('active');
-            overloadTableContent(prepareContentUsers, currentUsers);
+            ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest);
+            /*overloadTableContent(prepareContentUsers, currentUsers);*/
             $addEditUserModal.closeModal();
             $('#btn-add').show();
         }
@@ -332,10 +333,11 @@ $(document).ready(function () {
             e.preventDefault();
             e.stopPropagation();
             console.log("PATCH request edit user");
+            /*console.log($(".club input.select-dropdown").val());*/
             var self = $(this);
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;
-            initialUserInCurrentUsers(self.serializeArray(), userId, currentUsers);
+            /*initialUserInCurrentUsers(self.serializeArray(), userId, currentUsers);*/
             ajaxRequest(url, data, "patch", editUser, errorAjaxRequest);
         });
     });
