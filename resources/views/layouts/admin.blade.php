@@ -26,16 +26,20 @@
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li>
-                        <a href="{{ route('admin.games') }}">Games</a>
+                        <a href="{{ route('admin.games') }}"
+                           class="{{ menuActiveRoute('admin.games') }}">Games</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.users') }}"> Users</a>
+                        <a href="{{ route('admin.users') }}"
+                           class="{{ menuActiveRoute('admin.users') }}"> Users</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.clubs') }}">Clubs</a>
+                        <a href="{{ route('admin.clubs') }}"
+                           class="{{ menuActiveRoute('admin.clubs') }}">Clubs</a>
                     </li>
                     <li>
-                        <a href="{{ url('/muffin/events') }}"> Events</a>
+                        <a href="{{ route('admin.events') }}"
+                           class="{{ menuActiveRoute('admin.events') }}"> Events</a>
                     </li>
                     <li>
                         <a class="dropdown-button" href="#!" data-activates="dropdown1">
@@ -50,16 +54,20 @@
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li>
-                        <a href="{{ route('admin.games') }}">Games</a>
+                        <a href="{{ route('admin.games') }}"
+                           class="{{ menuActiveRoute('admin.games') }}">Games</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.users') }}">Users</a>
+                        <a href="{{ route('admin.users') }}"
+                           class="{{ menuActiveRoute('admin.games') }}">Users</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.clubs') }}">Clubs</a>
+                        <a href="{{ route('admin.clubs') }}"
+                           class="{{ menuActiveRoute('admin.games') }}">Clubs</a>
                     </li>
                     <li>
-                        <a href="{{ url('/muffin/events') }}">Events</a>
+                        <a href="{{ route('admin.events') }}"
+                           class="{{ menuActiveRoute('admin.games') }}">Events</a>
                     </li>
                     <li>
                         <a href="{{ url('/muffin/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a>
