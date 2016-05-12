@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="input-field presidentName">
+                    <div class="input-field presidentName col s6">
                         {!! Form::select(
                             'presidentId',
                            $users_for_select = array( null => "Choose president") + $users_for_select,
@@ -24,10 +24,7 @@
                         ) !!}
                         {!! Form::label('presidentId', 'Президент') !!}
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="input-field boardNames">
+                    <div class="input-field boardNames col s6">
                         {!! Form::select(
                             'board[]',
                             $users_for_select = array( null => "Choose board") + $users_for_select,
@@ -42,7 +39,7 @@
                     </div>
                 </div>
 
-                {!! Form::submit('Submit', array('class' => 'btn btn-default add-user grey lighten-1')) !!}
+                {!! Form::submit('SAVE', array('class' => 'btn btn-default add-user grey lighten-1')) !!}
 
                 {!! Form::close() !!}
             </div>
