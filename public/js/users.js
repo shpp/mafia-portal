@@ -159,6 +159,7 @@ $(document).ready(function () {
         $errorPhone.text("");
         $errorEmail.text("");
         $comments.text("");
+        $('#club_id').val("").material_select();
         $formInput.removeClass('invalid');
         $formInput.removeClass('valid');
     }
