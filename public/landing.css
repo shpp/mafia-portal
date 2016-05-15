@@ -1,0 +1,8 @@
+.landing-logo {
+  width: 100%;
+}
+.landing-logo  object {
+  width: 30%;
+  margin: 25vh auto;
+  display: block;
+}
