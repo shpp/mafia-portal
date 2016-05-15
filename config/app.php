@@ -159,6 +159,8 @@ return [
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+
     ],
 
     /*

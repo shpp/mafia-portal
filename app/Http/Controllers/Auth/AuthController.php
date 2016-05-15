@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -110,6 +111,7 @@ class AuthController extends Controller
 	 */
 	public function login(Request $request)
 	{
+		Log::debug('Login request', ['request' => $request->all()]);
 		$this->validateLogin($request);
 
 		// If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -124,6 +126,10 @@ class AuthController extends Controller
 		}
 
 		$credentials = $this->getCredentials($request);
+		Log::debug('Credentials', ['credentials' => $credentials]);
+
+		$user = User::where('name', 'admin')->get();
+		Log::debug('Find admin', ['user' => $user]);
 
 		$isLogin = $request->ajax() ? false : true;
 

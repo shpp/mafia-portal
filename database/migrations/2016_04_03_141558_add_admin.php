@@ -32,6 +32,6 @@ class AddAdmin extends Migration
      */
     public function down()
     {
-	    User::where(['name' => 'admin'])->delete();
+	    User::where('name', 'admin')->delete();
     }
 }
