@@ -27,17 +27,11 @@ class EventsController extends Controller
 		]);
 	}
 
-//	public function create(  ) {
-//		return view('admin.events.create');
-//	}
-
 	public function store(Events $events, Request $request)
 	{
-//		dd($request);
 		$request->merge(array('active' => $request->input('active') == 'on' ? 1 : 0));
 		$request->offsetSet('deleted', 0);
 
-//		dd($request);
 		$this->validate($request, [
 			'name' => 'required|max:255',
 			'type' => 'required',
@@ -46,15 +40,10 @@ class EventsController extends Controller
 		]);
 
 		$events->create($request->all());
-		return redirect(route('admin.events'));
+		return Response::json( [
+			'success' => true
+		] );
 	}
-
-
-//	public function edit(Events $events)
-//	{
-//		return view('admin.events.edit', compact('events'));
-//	}
-
 
 	public function update(Events $events, Request $request)
 	{
