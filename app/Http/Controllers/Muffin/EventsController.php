@@ -4,23 +4,32 @@ namespace App\Http\Controllers\Muffin;
 
 use App\Events;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 class EventsController extends Controller
 {
+	const RECORD_PER_PAGE = 40;
 
-	public function index(  ) {
+	public function index( Request $request  ) {
+		if (!$request->ajax()) {
+			return view('admin.events.index', ['events' => []]);
+		}
+
 		//  Find all users
-		$events = Events::all();
-//		dd($events);
-		return view('admin.events.index', compact('events'));
+		$events = Events::paginate(self::RECORD_PER_PAGE);
+
+		return Response::json([
+			'success' => true,
+			'data' => $events
+		]);
 	}
 
-	public function create(  ) {
-		return view('admin.events.create');
-	}
+//	public function create(  ) {
+//		return view('admin.events.create');
+//	}
 
 	public function store(Events $events, Request $request)
 	{
@@ -41,19 +50,17 @@ class EventsController extends Controller
 	}
 
 
-	public function edit(Events $events)
-	{
-		return view('admin.events.edit', compact('events'));
-	}
+//	public function edit(Events $events)
+//	{
+//		return view('admin.events.edit', compact('events'));
+//	}
 
 
 	public function update(Events $events, Request $request)
 	{
-//		dd($request);
 		$request->merge(array('deleted' => $request->input('deleted') == 'on' ? 1 : 0));
 		$request->merge(array('active' => $request->input('active') == 'on' ? 1 : 0));
 
-//		dd($request);
 		$this->validate($request, [
 			'name' => 'required|max:255',
 			'type' => 'required',
@@ -63,13 +70,17 @@ class EventsController extends Controller
 		]);
 
 		$events->update($request->all());
-		return redirect(route('admin.events.edit', $events->id));
+
+		return Response::json( [
+			'success' => true
+		] );
 	}
 
-
 	public function destroy( Events $events ) {
-//		dd($user);
-		$events->update(['deleted' => '1']);
-		return redirect(route('admin.events'));
+		$events->delete();
+
+		return Response::json( [
+			'success' => true
+		] );
 	}
 }

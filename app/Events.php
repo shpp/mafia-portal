@@ -3,11 +3,15 @@
 namespace App;
 
 use Carbon\Carbon;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Events extends Eloquent {
+	use SoftDeletes;
 
 	protected $collection = 'events';
+	//  for SoftDeleting
+	protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes that are mass assignable.
