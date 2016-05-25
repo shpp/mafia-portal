@@ -18,7 +18,7 @@ class AddAdmin extends Migration
 		    'name' => 'admin',
 		    'nickname' => 'nadmin',
 		    'phone' => '11111',
-		    'password' => Hash::make('admin'),
+		    'password' => 'admin',
 		    'role' => 'admin',
 		    'deleted' => 0,
 		    'able_to_login' => 1,
