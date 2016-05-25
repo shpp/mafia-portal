@@ -1,68 +1,51 @@
 @extends('layouts.admin')
 
+@push('footer-scripts')
+    <script src="{{ asset('js/helpers.js') }}"></script>
+    <script src="{{ asset('js/events.js') }}"></script>
+@endpush
+
 @section('content')
     <div class="container">
+
         <div class="row">
-            <a href="{{ url('/muffin/events/create') }}" class="waves-effect waves-light btn right">
-                <i class="material-icons right">note_add</i>Add
-            </a>
-
-            @if (count($events) > 0)
-
-                <table class="striped highlight">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Date</th>
-                        <th>Active</th>
-                        <th>Deleted</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    <?php $i = 0; ?>
-                    @foreach($events as $event)
-
-                        <tr>
-                            <td>{{ ++$i }}</td>
-                            <td>{{ $event->name }}</td>
-                            <td>{{ $event->type }}</td>
-                            <td>{{ $event->date }}</td>
-                            <td>{{ $event->active }}</td>
-                            <td>{{ $event->deleted }}</td>
-                            <td>
-                                <a href="{{ route('admin.events.edit', ['id' => $event->id]) }}" class="">
-                                    <i class="material-icons">create</i>
-                                </a>
-                            </td>
-                            <td>
-                                <!-- Modal Trigger -->
-                                <a class="delete-form-modal" data-delete-url="{{ route('admin.events.destroy', ['id' => $event->id]) }}" href="{{ route('admin.events.destroy', ['id' => $event->id]) }}">
-                                    <i class="material-icons">clear</i></a>
-                            </td>
-
-                    @endforeach
-
-                    </tbody>
-                </table>
-
-            @else
-
-                <p>No Events</p>
-
-            @endif
-
+            <table class="striped highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Тип</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody id="table-content"></tbody>
+            </table>
+            <div id="btn-add" class="fixed-action-btn fixed-btn">
+                <button type="button" class="btn-floating btn-large waves-effect waves-light red lighten-1 add-form-modal-events modal-trigger">
+                    <i class="material-icons right">add</i>
+                </button>
+            </div>
         </div>
     </div>
 
 @endsection
 
-@push('footer-scripts')
-    <script src="{{ asset('js/helpers.js') }}"></script>
-    <script src="{{ asset('js/events.js') }}"></script>
-@endpush
+@section('after-footer')
+
+            <!-- Modal Structure -->
+    <div id="delete-events" class="modal">
+        <div class="modal-content">
+            <h5>Are you sure you want to deactivate a event?</h5>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close waves-effect waves-red btn-flat disagree_delete-form" >Disagree</a>
+            <a href="" class="modal-action modal-close waves-effect waves-green btn-flat delete-form">Agree</a>
+        </div>
+    </div>
+
+    @include('admin.events.form')
+
+@endsection
+

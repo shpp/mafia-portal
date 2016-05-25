@@ -65,6 +65,7 @@ var Request = {
 // Global object storage
 var currentUsers = {};
 var currentClubs = {};
+var currentEvents = {};
 
 /**
  * Function initial global local storage
