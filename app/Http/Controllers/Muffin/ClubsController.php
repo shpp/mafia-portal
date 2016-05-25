@@ -54,18 +54,18 @@ class ClubsController extends Controller
 		]);
 	}
 
-	private function prepareDataForSelect( $field, $data ) {
-		if (empty($data)) {
-			return [];
-		}
-
-		$ret = [];
-		foreach ($data as $value) {
-			$ret[$value['_id']] = $value[$field];
-		}
-
-		return $ret;
-	}
+//	private function prepareDataForSelect( $field, $data ) {
+//		if (empty($data)) {
+//			return [];
+//		}
+//
+//		$ret = [];
+//		foreach ($data as $value) {
+//			$ret[$value['_id']] = $value[$field];
+//		}
+//
+//		return $ret;
+//	}
 
 
 	public function store(Request $request)
