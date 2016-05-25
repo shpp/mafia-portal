@@ -24,7 +24,7 @@ $(document).ready(function () {
 
      /**
      * Function prepare content in table
-     * @param users object(local storage)
+     * @param clubs object(local storage)
      */
     function prepareContentClubs(clubs) {
         console.log("prepareContentClubs");

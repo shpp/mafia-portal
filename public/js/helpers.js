@@ -91,6 +91,8 @@ function initialCurrentUsers(users) {
         userItem['created_at'] = user.created_at;
         currentUsers[userId] = userItem;
     }
+  } else {
+      currentUsers = undefined;
   }
 }
 
@@ -108,6 +110,26 @@ function initialCurrentClubs(clubs) {
       clubItem['users'] = club.users;
       currentClubs[clubId] = clubItem;
     }
+  } else {
+    currentClubs = undefined;
+  }
+}
+
+function initialCurrentEvents(events) {
+  if(events.length) {
+    console.log(events.length);
+    for (var key in events) {
+      var event = events[key];
+      var eventId = event._id;
+      var eventItem = {};
+      eventItem['name'] = event.name;
+      eventItem['type'] = event.type;
+      eventItem['status'] = club.status;
+      eventItem['date'] = club.date;
+      currentEvents[eventId] = eventItem;
+    }
+  } else {
+      currentEvents = undefined;
   }
 }
 
