@@ -9,6 +9,52 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+     // event search form change
+    $('#search').change(function(){
+        var searchPhrase = $(this).val().trim();
+
+        Request.toObject();
+        if (searchPhrase) {
+            Request.object.search = searchPhrase;
+        } else {
+            Request.deleteSearchParam('search');
+        }
+
+        Request.prepareSearchQuery();
+        Request.updateSearchQuery();
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents);
+    });
+
+    $('#type').change(function(){
+        var searchPhrase = $(this).val().trim();
+
+        Request.toObject();
+        if (searchPhrase) {
+            Request.object.type = searchPhrase;
+        } else {
+            Request.deleteSearchParam('type');
+        }
+
+        Request.prepareSearchQuery();
+        Request.updateSearchQuery();
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents, generalErrorAjaxRequest);
+    });
+
+     $('#status').change(function(){
+        var searchPhrase = $(this).val().trim();
+
+        Request.toObject();
+        if (searchPhrase) {
+            Request.object.active = searchPhrase;
+        } else {
+            Request.deleteSearchParam('active');
+        }
+
+        Request.prepareSearchQuery();
+        Request.updateSearchQuery();
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents, generalErrorAjaxRequest);
+    });
+
     /**
      * Function initial table content
      * @param response array
@@ -16,7 +62,7 @@ $(document).ready(function () {
     function initialTableContentEvents(response) {
       console.log("initialTableContentEvents");
       if (response.success == true) {
-        console.log(response.data);
+        console.log(response.events.data);
         currentEvents = {};
         initialCurrentEvents(response.events.data);
         console.log("------------currentEvents-------------");
@@ -38,11 +84,10 @@ $(document).ready(function () {
         var content = $('#table-content').empty();
         for (var key in events) {
         var event = events[key];
-        var active = (event.active) ? "active" : "no active";
         content.append($('<tr>').attr('id', key)
                     .append($('<td>').text(event.name))
                     .append($('<td>').text(event.type))
-                    .append($('<td>').text(active))
+                    .append($('<td>').text(event.active))
                     .append($('<td>').text(event.date))
                     .append($('<td>')
                         .append($('<button>').addClass('btn-flat edit-form-modal-events')
@@ -58,25 +103,19 @@ $(document).ready(function () {
         }
     }
 
-    // event search form change
-    $('#search').change(function(){
-        var searchPhrase = $(this).val().trim();
 
-        Request.toObject();
-        if (searchPhrase) {
-            Request.object.search = searchPhrase;
-        } else {
-            Request.deleteSearchParam('search');
-        }
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentClubs);
-    });
 
     // Global variabls
     var $modalForm = $('#modal-form');
+    var $modalDeleteForm = $('#delete-events');
     var $form = $modalForm.find('form');
+    var $label = $('form label.input-label');
+    var $name = $('#name');
+    var $date = $('#date');
+    var $comments = $("#comments");
+    var $formModaltypeEventInput = $(".type-event input");
+    var $formModalSelectTypeEvent = $("#modal-form #type");
+    var $statistics_available = $("#statistics_available");
 
     /**
      * Function clear fields form
@@ -84,17 +123,11 @@ $(document).ready(function () {
     function clearFieldsForm() {
         console.log("clearFieldsForm");
         $name.val("");
+        $comments.val("");
         $name.removeClass('valid');
         $name.removeClass('invalid');
-        $presidentInput.val("");
-        $boardInput.val("");
-        $('#board').val("").material_select();
-        $('#presidentId').val("").material_select();
-        $label.removeClass('active');
-        $('.boardNames li').removeClass('active');
-        $(".presidentName #presidentId [selected = 'selected']").removeAttr("selected");
-        $(".presidentName #board [selected = 'selected']").removeAttr("selected");
-
+        $formModalSelectTypeEvent.val("").material_select();
+        $statistics_available.attr('checked',false)
     }
 
     //  add club
@@ -103,9 +136,67 @@ $(document).ready(function () {
             ready: onModalShow,
             complete: onModalHide
         });
-        /*clearFieldsForm();*/
+        clearFieldsForm();
         $form.attr('action', location.pathname + '/store');
         $form.attr('method', 'post');
+    });
+
+     //  edit club
+    $('body').on('click', '.edit-form-modal-events', function () {
+        $modalForm.openModal({
+            ready: onModalShow,
+            complete: onModalHide
+        });
+
+        var eventId = $(this).parents('tr').attr('id');
+        clearFieldsForm();
+        $form.attr('action', location.pathname + '/' + eventId);
+        $form.attr('method', 'patch');
+        var currentItem = searchElementInCurrentObject(currentEvents, eventId);
+        var name = currentItem.name;
+        var date= currentItem.date;
+        $formModalSelectTypeEvent.val(currentItem.type).material_select();
+        $label.addClass('active');
+        $name.val(name);
+        $date.val(date);
+        $statistics_available.attr('checked',currentItem.statistics_available);
+
+
+    });
+
+    //  delere club
+    $('body').on('click', '.delete-form-modal-events', function () {
+        $modalDeleteForm.openModal({
+            ready: onModalShow,
+            complete: onModalHide
+        });
+        var eventId = $(this).parents('tr').attr('id');
+
+        $('.delete-form').unbind('click');
+        $('.delete-form').click( function(event){
+          event.preventDefault();
+          // ----------- ajaxRequest
+          console.log("destroy");
+
+            var url = location.pathname + '/' + eventId + '/destroy';
+            ajaxRequest(url, null, 'get',
+                function(response){
+                    ajaxRequest(location.href, null, 'get');
+                    deleteElementInCurrentObject(eventId, currentEvents);
+                    overloadTableContent(prepareContentEvents, currentEvents)
+                    $modalDeleteForm.closeModal();
+                    $('#btn-add').show();
+                }
+            );
+        });
+
+        $('.disagree_delete-form').unbind('click');
+        $('.disagree_delete-form').click( function(event) {
+          event.preventDefault();
+          console.log("disagree");
+          $modalDeleteForm.closeModal();
+          $('#btn-add').show();
+        })
     });
 
     // submit form

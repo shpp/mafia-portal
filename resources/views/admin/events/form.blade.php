@@ -7,13 +7,13 @@
 
                 <div class="row">
                     <div class="input-field col s6">
-                        {!! Form::label('name', 'Name') !!}
+                        {!! Form::label('name', 'Name',  array('class' => 'input-label'))!!}
                         {!! Form::text('name', NULL, array('class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
                     </div>
-                    <div class="input-field presidentName col s6">
+                    <div class="input-field type-event col s6">
                         {!! Form::select(
                             'type',
-                            [null => 'Choose type event', 'tournament' => 'tournament', 'championship' => 'championship'],
+                            [null => 'Choose type event', 'tourney' => 'tourney', 'championship' => 'championship'],
                             null,
                             array(
                                 'id' => 'type',
@@ -43,7 +43,7 @@
 
                 <div class="row">
                     <div class="col s6">
-                        {!! Form::checkbox('status', 'true', null , array('id' => 'statistics_available' )) !!}
+                        {!! Form::checkbox('statistics_available', 'true', null , array('id' => 'statistics_available' )) !!}
                         {!! Form::label('statistics_available', 'Statistics available',  array('class' => 'input-label')) !!}
                     </div>
                     <div class="col s6">
