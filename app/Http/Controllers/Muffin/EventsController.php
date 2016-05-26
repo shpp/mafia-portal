@@ -14,8 +14,23 @@ class EventsController extends Controller
 	const RECORD_PER_PAGE = 40;
 
 	public function index( Request $request  ) {
+		$search = $request->input('search', false);
+		$type = $request->input('type', false);
+		$status = $request->input('status', false);
+
 		if (!$request->ajax()) {
-			return view('admin.events.index', ['events' => []]);
+			$typeForSelect = Events::getTypes();
+			$statusForSelect = Events::getStatus();
+			return view(
+				'admin.events.index',
+				compact(
+					'search',
+					'type',
+					'typeForSelect',
+					'status',
+					'statusForSelect'
+				)
+			);
 		}
 
 		//  Find all users
@@ -35,8 +50,8 @@ class EventsController extends Controller
 		$this->validate($request, [
 			'name' => 'required|max:255',
 			'type' => 'required',
-			'date' => 'required',
 			'active' => 'required',
+			'date' => 'required',
 		]);
 
 		$events->create($request->all());

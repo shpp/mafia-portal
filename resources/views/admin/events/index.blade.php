@@ -9,6 +9,33 @@
     <div class="container">
 
         <div class="row">
+            {!! Form::open() !!}
+            <div class="input-field col s12 m4">
+                {!! Form::text('search', $search, array('id' => 'search')) !!}
+                {!! Form::label('search', 'Search') !!}
+            </div>
+            <div class="input-field col s12 m4">
+                {!! Form::select(
+                    'type',
+                    $typeForSelect,
+                    $type,
+                    ['placeholder' => 'Pick a type...', 'id' => 'type'])
+                !!}
+                {!! Form::label('type', 'Тип') !!}
+            </div>
+            <div class="input-field col s12 m4">
+                {!! Form::select(
+                    'status',
+                    $statusForSelect,
+                    $status,
+                    ['placeholder' => 'Pick a status...', 'id' => 'status'])
+                !!}
+                {!! Form::label('status', 'Статус') !!}
+            </div>
+            {!! Form::close() !!}
+        </div>
+
+        <div class="row">
             <table class="striped highlight responsive-table">
                 <thead>
                 <tr>

@@ -24,4 +24,19 @@ class Events extends Eloquent {
 //		$this->attributes['date'] = Carbon::createFromFormat('d-m-Y', $date);
 //	}
 
+	public static function getTypes(  ) {
+		return [
+			'tourney' => 'Турнир',
+			'championship' => 'Чемпионат',
+		];
+	}
+
+	public static function getStatus(  ) {
+		return [
+			'preparation' => 'Подготовка',
+			'during' => 'В процессе',
+			'completed' => 'Завершен',
+		];
+	}
+
 }
