@@ -3,47 +3,58 @@
         <div class="container">
             <div class="row">
 
-                {!! Form::open( array( 'route' => ['admin.events.store'] )) !!}
+                {!! Form::open(['novalidate']) !!}
 
                 <div class="row">
-                    <div class="input-field ">
+                    <div class="input-field col s6">
                         {!! Form::label('name', 'Name') !!}
                         {!! Form::text('name', NULL, array('class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="input-field ">
-                        {!! Form::label('type', 'Type') !!}
-                        {!! Form::text('type', NULL, array('class' => 'validate' . ($errors->has('type')?' invalid':''))) !!}
+                    <div class="input-field presidentName col s6">
+                        {!! Form::select(
+                            'typeEvent',
+                            [null => 'Choose type event', 'tournament' => 'tournament', 'championship' => 'championship'],
+                            null,
+                            array(
+                                'id' => 'typeEvent',
+                                'required',
+                            )
+                        ) !!}
+                        {!! Form::label('typeEvent', 'Type') !!}
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="input-field ">
-                        {!! Form::label('date', 'Date') !!}
-                        {!! Form::date('date', date('d-m-Y'), array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
+                    <div class="bane col s6">
+                        {!! Form::label('date_begin', 'Date begin',  array('class' => 'input-label')) !!}
+                        {!! Form::text('date_begin', date('d-m-Y'), array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
+                    </div>
+                     <div class="bane col s6">
+                        {!! Form::label('date_end', 'Date end',  array('class' => 'input-label')) !!}
+                        {!! Form::text('date_end', date('d-m-Y'), array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field comments col s12">
+                        {!! Form::label('comments', 'Comments',  array('class' => 'input-label') ) !!}
+                        {{ Form::textarea('comments', null, ['size' => '30x10', 'class' => 'materialize-textarea']) }}
                     </div>
                 </div>
 
-
                 <div class="row">
-                    <p class="switch">
-                        <label for="">Active:</label>
-                        <br/>
-                        <label>
-                            off
-                            {!! Form::checkbox('active', null) !!}
-                            <span class="lever"></span>
-                            on
-                        </label>
-                    </p>
+                    <div class="col s6">
+                        {!! Form::checkbox('statistics_available', 'true', null , array('id' => 'statistics_available' )) !!}
+                        {!! Form::label('statistics_available', 'Statistics available',  array('class' => 'input-label')) !!}
+                    </div>
+                    <div class="col s6">
+                        {!! Form::submit('SAVE', array('class' => 'btn btn-default')) !!}
+                    </div>
                 </div>
 
 
                 @include('errors.list')
 
-                {!! Form::submit('Add', array('class' => 'btn btn-default')) !!}
+
 
                 {!! Form::close() !!}
 
