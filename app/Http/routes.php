@@ -11,9 +11,6 @@
 |
 */
 
-//  logs
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-
 Route::get('/', 'LandingController@index');
 
 Route::get('muffin', 'Auth\AuthController@getLogin');
@@ -21,6 +18,16 @@ Route::get('/register', 'Auth\AuthController@getUserRegister');
 Route::post('/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postUserRegister']);
 Route::group([ 'prefix' => 'muffin', ], function () {
 	Route::auth();
+});
+
+Route::group(
+	[
+		'prefix' => 'muffin',
+		'middleware' => ['auth', 'admin'],
+	],
+	function () {
+		//  logs
+		Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 
 

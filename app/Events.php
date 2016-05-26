@@ -26,7 +26,7 @@ class Events extends Eloquent {
 
 	public static function getTypes(  ) {
 		return [
-			'tourney' => 'Турнир',
+			'tournament' => 'Турнир',
 			'championship' => 'Чемпионат',
 		];
 	}
