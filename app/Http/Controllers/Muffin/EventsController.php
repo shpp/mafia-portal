@@ -18,9 +18,10 @@ class EventsController extends Controller
 		$type = $request->input('type', false);
 		$status = $request->input('status', false);
 
+		$typeForSelect = Events::getTypes();
+		$statusForSelect = Events::getStatus();
+
 		if (!$request->ajax()) {
-			$typeForSelect = Events::getTypes();
-			$statusForSelect = Events::getStatus();
 			return view(
 				'admin.events.index',
 				compact(
@@ -38,7 +39,9 @@ class EventsController extends Controller
 
 		return Response::json([
 			'success' => true,
-			'data' => $events
+			'events' => $events,
+		    'types' => $typeForSelect,
+		    'status' => $statusForSelect,
 		]);
 	}
 
