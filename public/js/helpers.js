@@ -124,8 +124,10 @@ function initialCurrentEvents(events) {
       var eventItem = {};
       eventItem['name'] = event.name;
       eventItem['type'] = event.type;
-      eventItem['status'] = club.status;
-      eventItem['date'] = club.date;
+      eventItem['status'] = event.active;
+      eventItem['date'] = event.date;
+      eventItem['date_end'] = event.date_end;
+      eventItem['statistics_available'] = event.statistics_available;
       currentEvents[eventId] = eventItem;
     }
   } else {

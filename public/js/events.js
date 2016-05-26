@@ -18,7 +18,7 @@ $(document).ready(function () {
       if (response.success == true) {
         console.log(response.data);
         currentEvents = {};
-        initialCurrentEvents(response.data.data);
+        initialCurrentEvents(response.events.data);
         console.log("------------currentEvents-------------");
         console.log(currentEvents);
         console.log("-------------------------------------");
@@ -38,10 +38,11 @@ $(document).ready(function () {
         var content = $('#table-content').empty();
         for (var key in events) {
         var event = events[key];
+        var active = (event.active) ? "active" : "no active";
         content.append($('<tr>').attr('id', key)
                     .append($('<td>').text(event.name))
                     .append($('<td>').text(event.type))
-                    .append($('<td>').text(event.status))
+                    .append($('<td>').text(active))
                     .append($('<td>').text(event.date))
                     .append($('<td>')
                         .append($('<button>').addClass('btn-flat edit-form-modal-events')
@@ -124,7 +125,7 @@ $(document).ready(function () {
             type,
             function(response){
                 if (response.success === true) {
-                    ajaxRequest(location.href, null, "get", initialTableContentClubs);
+                    ajaxRequest(location.href, null, "get", initialTableContentEvents);
                     $modalForm.closeModal({
                         complete: function() {
                             $form.attr('action', '');
