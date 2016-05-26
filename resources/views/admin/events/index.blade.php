@@ -39,10 +39,21 @@
             <table class="striped highlight responsive-table">
                 <thead>
                 <tr>
-                    <th>Название</th>
+                    <th>
+                        <span class="title-sort" data-order-by="name" data-order="{{ ($isOrderNameDesc) ? 'desc' : 'asc' }}">
+                            Название
+                            <i class="material-icons right">{{ ($isOrderNameDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
+                        </span>
+                    </th>
                     <th>Тип</th>
                     <th>Статус</th>
-                    <th>Дата</th>
+                    <th>
+                        <span class="title-sort" data-order-by="name" data-order="{{ ($isOrderDateDesc) ? 'desc' : 'asc'
+                         }}">
+                            Дата
+                            <i class="material-icons right">{{ ($isOrderDateDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
+                        </span>
+                    </th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>

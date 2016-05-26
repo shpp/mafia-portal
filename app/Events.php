@@ -24,6 +24,25 @@ class Events extends Eloquent {
 //		$this->attributes['date'] = Carbon::createFromFormat('d-m-Y', $date);
 //	}
 
+
+	public function scopeSortAndFilter($query, $search, $order_by, $order, $type, $status)
+	{
+		return $query->
+			when($search, function ($query) use ($search) {
+				$query->where('name', 'like', $search . '%');
+			})
+            ->when($type, function ($query) use ($type) {
+	             $query->where('type', $type);
+             })
+             ->when($order_by, function ($query) use ($order, $order_by) {
+	             $query->orderBy($order_by, $order);
+             })
+             /*->when($hide_guest, function ($query) {
+	             $query->whereNotNull('club_id');
+             })
+             ->with('club')*/;
+	}
+
 	public static function getTypes(  ) {
 		return [
 			'tournament' => 'Турнир',

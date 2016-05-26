@@ -13,7 +13,7 @@
                     <div class="input-field type-event col s6">
                         {!! Form::select(
                             'type',
-                            [null => 'Choose type event', 'tourney' => 'tourney', 'championship' => 'championship'],
+                            array_merge([null => 'Choose type event'], App\Events::getTypes()),
                             null,
                             array(
                                 'id' => 'type',

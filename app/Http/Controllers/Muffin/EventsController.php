@@ -14,14 +14,19 @@ class EventsController extends Controller
 	const RECORD_PER_PAGE = 40;
 
 	public function index( Request $request  ) {
+		$order_by = $request->input('orderBy', 'name');
+		$order = $request->input('order', 'asc');
 		$search = $request->input('search', false);
 		$type = $request->input('type', false);
 		$status = $request->input('status', false);
 
 		$typeForSelect = Events::getTypes();
-		$statusForSelect = Events::getStatus();
 
 		if (!$request->ajax()) {
+			$statusForSelect = Events::getStatus();
+			$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
+			$isOrderDateDesc = $order_by == 'date' && $order == 'desc';
+
 			return view(
 				'admin.events.index',
 				compact(
@@ -29,19 +34,20 @@ class EventsController extends Controller
 					'type',
 					'typeForSelect',
 					'status',
-					'statusForSelect'
+					'statusForSelect',
+					'isOrderDateDesc',
+					'isOrderNameDesc'
 				)
 			);
 		}
 
 		//  Find all users
-		$events = Events::paginate(self::RECORD_PER_PAGE);
+		$events = Events::sortAndFilter($search, $order_by, $order, $type, $status)
+			->paginate(self::RECORD_PER_PAGE);
 
 		return Response::json([
 			'success' => true,
 			'events' => $events,
-		    'types' => $typeForSelect,
-		    'status' => $statusForSelect,
 		]);
 	}
 

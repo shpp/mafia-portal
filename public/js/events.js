@@ -55,6 +55,29 @@ $(document).ready(function () {
         ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents, generalErrorAjaxRequest);
     });
 
+    // sorting
+    $('.title-sort').click(function(){
+        var self = $(this);
+
+        var order = '';
+        if (self.data('order') == 'asc') {
+            order = 'desc';
+            self.children().text('arrow_drop_up');
+        } else {
+            order = 'asc';
+            self.children().text('arrow_drop_down');
+        }
+        self.data('order', order);
+
+        Request.toObject();
+        Request.object.orderBy =  self.data('order-by');
+        Request.object.order = order;
+
+        Request.prepareSearchQuery();
+        Request.updateSearchQuery();
+        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents);
+    });
+
     /**
      * Function initial table content
      * @param response array
