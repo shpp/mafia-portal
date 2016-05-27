@@ -45,9 +45,9 @@ $(document).ready(function () {
 
         Request.toObject();
         if (searchPhrase) {
-            Request.object.active = searchPhrase;
+            Request.object.status = searchPhrase;
         } else {
-            Request.deleteSearchParam('active');
+            Request.deleteSearchParam('status');
         }
 
         Request.prepareSearchQuery();
@@ -109,8 +109,8 @@ $(document).ready(function () {
         var event = events[key];
         content.append($('<tr>').attr('id', key)
                     .append($('<td>').text(event.name))
-                    .append($('<td>').text(event.type))
-                    .append($('<td>').text(event.active))
+                    .append($('<td>').text(event.type.value))
+                    .append($('<td>').text(event.status))
                     .append($('<td>').text(event.date))
                     .append($('<td>')
                         .append($('<button>').addClass('btn-flat edit-form-modal-events')
@@ -178,7 +178,7 @@ $(document).ready(function () {
         var currentItem = searchElementInCurrentObject(currentEvents, eventId);
         var name = currentItem.name;
         var date= currentItem.date;
-        $formModalSelectTypeEvent.val(currentItem.type).material_select();
+        $formModalSelectTypeEvent.val(currentItem.type.key).material_select();
         $label.addClass('active');
         $name.val(name);
         $date.val(date);

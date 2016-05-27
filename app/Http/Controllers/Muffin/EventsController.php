@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Muffin;
 
 use App\Events;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
@@ -41,9 +42,12 @@ class EventsController extends Controller
 			);
 		}
 
+//		DB::enableQueryLog();
 		//  Find all users
 		$events = Events::sortAndFilter($search, $order_by, $order, $type, $status)
 			->paginate(self::RECORD_PER_PAGE);
+
+//		dd( DB::getQueryLog() );
 
 		return Response::json([
 			'success' => true,
@@ -54,13 +58,13 @@ class EventsController extends Controller
 	public function store(Events $events, Request $request)
 	{
 		$request->merge(array('active' => $request->input('active') == 'on' ? 1 : 0));
-		$request->offsetSet('deleted', 0);
 
 		$this->validate($request, [
 			'name' => 'required|max:255',
 			'type' => 'required',
 			'active' => 'required',
 			'date' => 'required',
+			'date_end' => 'required',
 		]);
 
 		$events->create($request->all());
@@ -71,15 +75,14 @@ class EventsController extends Controller
 
 	public function update(Events $events, Request $request)
 	{
-		$request->merge(array('deleted' => $request->input('deleted') == 'on' ? 1 : 0));
 		$request->merge(array('active' => $request->input('active') == 'on' ? 1 : 0));
 
 		$this->validate($request, [
 			'name' => 'required|max:255',
 			'type' => 'required',
-			'date' => 'required',
 			'active' => 'required',
-			'deleted' => 'required',
+			'date' => 'required',
+			'date_end' => 'required',
 		]);
 
 		$events->update($request->all());

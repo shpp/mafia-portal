@@ -124,11 +124,10 @@ function initialCurrentEvents(events) {
       var eventItem = {};
       eventItem['name'] = event.name;
       eventItem['type'] = event.type;
-      eventItem['status'] = event.active;
+      eventItem['status'] = event.status;
       eventItem['date'] = event.date;
       eventItem['date_end'] = event.date_end;
       eventItem['statistics_available'] = event.statistics_available;
-      eventItem['comments'] = event.comments;
       currentEvents[eventId] = eventItem;
     }
   } else {
