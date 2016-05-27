@@ -182,12 +182,13 @@ $(document).ready(function () {
         $label.addClass('active');
         $name.val(name);
         $date.val(date);
+        $comments.val(currentItem.comments);
         $statistics_available.attr('checked',currentItem.statistics_available);
 
 
     });
 
-    //  delere club
+    //  delete events
     $('body').on('click', '.delete-form-modal-events', function () {
         $modalDeleteForm.openModal({
             ready: onModalShow,

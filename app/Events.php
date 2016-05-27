@@ -22,16 +22,8 @@ class Events extends Eloquent {
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'name', 'type', 'date', 'date_end', 'active'];
-
-//	public function setDateAttribute( $date ) {
-//		$this->attributes['date'] = Carbon::createFromFormat('d-m-Y', $date);
-//	}
-
-//	public function getDateAttribute( $date ) {
-//		return $date->toDateString($date);
-//	}
-
+	protected $fillable = [ 'name', 'type', 'date', 'date_end',
+	                        'comments', 'statistics_available'];
 
 	public function scopeSortAndFilter($query, $search, $order_by, $order, $type, $status)
 	{
@@ -53,9 +45,19 @@ class Events extends Eloquent {
 					$query->where('date', '<=', $today)
 						->where('date_end', '>=', $today);
 				} else {
-					$query->where('date_end', '<=', $today);
+					$query->where('date_end', '<', $today);
 				}
              });
+	}
+
+	public function setDateAttribute( $date ) {
+		$this->attributes['date'] = $this->fromDateTime(
+			Carbon::createFromFormat($this->getDateFormat(), $date)->startOfDay());
+	}
+
+	public function setDateEndAttribute( $date ) {
+		$this->attributes['date_end'] = $this->fromDateTime(
+			Carbon::createFromFormat($this->getDateFormat(), $date)->endOfDay());
 	}
 
 	public function getStatusAttribute()

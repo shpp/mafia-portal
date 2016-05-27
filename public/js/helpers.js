@@ -127,6 +127,7 @@ function initialCurrentEvents(events) {
       eventItem['status'] = event.status;
       eventItem['date'] = event.date;
       eventItem['date_end'] = event.date_end;
+      eventItem['comments'] = event.comments;
       eventItem['statistics_available'] = event.statistics_available;
       currentEvents[eventId] = eventItem;
     }

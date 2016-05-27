@@ -57,14 +57,15 @@ class EventsController extends Controller
 
 	public function store(Events $events, Request $request)
 	{
-		$request->merge(array('active' => $request->input('active') == 'on' ? 1 : 0));
+		$request->merge(array('statistics_available' => $request->input('statistics_available') == 'true' ? 1 : 0));
 
 		$this->validate($request, [
-			'name' => 'required|max:255',
-			'type' => 'required',
-			'active' => 'required',
+			'name' => 'required|string|max:255',
+			'type' => 'required|string',
+			'statistics_available' => 'boolean',
 			'date' => 'required',
 			'date_end' => 'required',
+			'comments' => 'string',
 		]);
 
 		$events->create($request->all());
@@ -75,14 +76,15 @@ class EventsController extends Controller
 
 	public function update(Events $events, Request $request)
 	{
-		$request->merge(array('active' => $request->input('active') == 'on' ? 1 : 0));
+//		dd($request->all());
+		$request->merge(array('statistics_available' => $request->input('statistics_available') == 'true' ? 1 : 0));
 
 		$this->validate($request, [
 			'name' => 'required|max:255',
 			'type' => 'required',
-			'active' => 'required',
+			'statistics_available' => 'boolean',
 			'date' => 'required',
-			'date_end' => 'required',
+			'comments' => 'string',
 		]);
 
 		$events->update($request->all());
