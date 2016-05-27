@@ -64,12 +64,3 @@ Route::group([
 			['as' => 'admin.events.destroy', 'uses' => 'EventsController@destroy']
 		);
 });
-
-
-Route::get('/test', function() {
-	$events = App\Events::all();
-	echo '<pre>';
-	$events->each(function($event, $key){
-		print_r($event->date);
-	});
-});

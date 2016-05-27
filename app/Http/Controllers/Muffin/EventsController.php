@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Muffin;
 
 use App\Events;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\EventRequest;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
@@ -42,12 +42,9 @@ class EventsController extends Controller
 			);
 		}
 
-//		DB::enableQueryLog();
 		//  Find all users
 		$events = Events::sortAndFilter($search, $order_by, $order, $type, $status)
 			->paginate(self::RECORD_PER_PAGE);
-
-//		dd( DB::getQueryLog() );
 
 		return Response::json([
 			'success' => true,
@@ -55,38 +52,17 @@ class EventsController extends Controller
 		]);
 	}
 
-	public function store(Events $events, Request $request)
+	public function store(Events $events, EventRequest $request)
 	{
-		$request->merge(array('statistics_available' => $request->input('statistics_available') == 'true' ? 1 : 0));
-
-		$this->validate($request, [
-			'name' => 'required|string|max:255',
-			'type' => 'required|string',
-			'statistics_available' => 'boolean',
-			'date' => 'required',
-			'date_end' => 'required',
-			'comments' => 'string',
-		]);
-
 		$events->create($request->all());
+
 		return Response::json( [
 			'success' => true
 		] );
 	}
 
-	public function update(Events $events, Request $request)
+	public function update(Events $events, EventRequest $request)
 	{
-//		dd($request->all());
-		$request->merge(array('statistics_available' => $request->input('statistics_available') == 'true' ? 1 : 0));
-
-		$this->validate($request, [
-			'name' => 'required|max:255',
-			'type' => 'required',
-			'statistics_available' => 'boolean',
-			'date' => 'required',
-			'comments' => 'string',
-		]);
-
 		$events->update($request->all());
 
 		return Response::json( [
