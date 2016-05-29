@@ -55,7 +55,6 @@ class UsersController extends Controller
 	{
 		$request->offsetSet('password', '');    //  todo: hash
 		$request->offsetSet('last_visit', null);
-		$request->offsetSet('ban_date', null);
 		$request->offsetSet('banned', 0);
 		$request->offsetSet('deleted', 0);
 

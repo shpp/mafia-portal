@@ -17,25 +17,27 @@ class User extends Eloquent implements Authenticatable
 	const ROLE_HOST = 'host';
 	const ROLE_GAMER = 'gamer';
 
-	protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at', 'bane_date'];
+	//  date format
+	protected $dateFormat = 'd-m-Y';
 	/**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+	    'phone',
+	    'password',
         'name',
-        'password',
+	    'nickname',
+	    'email',
+	    'gender',
         'role',
-        'nickname',
-        'phone',
-        'deleted',
-        'gender',
+	    'club_id',
+	    'last_visit',
+	    'bane_date',
         'vk_link',
-        'able_to_login',
-        'email',
-        'last_visit',
-        'club_id'
+        'comments',
     ];
 
     /**

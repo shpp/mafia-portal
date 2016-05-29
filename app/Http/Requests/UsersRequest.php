@@ -35,7 +35,7 @@ class UsersRequest extends Request
 		    'club_id' => 'exists:clubs,_id',
 		    'banned' => 'boolean',
 		    'deleted' => 'boolean',
-		    'comment' => 'string',
+		    'comments' => 'string',
 	    ];
 
 	    if ($this->isMethod('post')) {

@@ -72,8 +72,8 @@
 
                 <div class="row">
                     <div class="bane col s2">
-                        {!! Form::label('benned_date', 'Benned date',  array('class' => 'input-label')) !!}
-                        {!! Form::text('benned_date', date('d-m-Y'), array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
+                        {!! Form::label('bane_date', 'Banned date',  array('class' => 'input-label')) !!}
+                        {!! Form::text('bane_date', null, array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
                     </div>
                     <div class="input-field comments col s10">
                         {!! Form::label('comments', 'Comments',  array('class' => 'input-label') ) !!}

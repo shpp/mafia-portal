@@ -89,6 +89,8 @@ function initialCurrentUsers(users) {
         userItem['last_visit'] = user.last_visit;
         userItem['updated_at'] = user.updated_at;
         userItem['created_at'] = user.created_at;
+        userItem['comments'] = user.comments;
+        userItem['bane_date'] = user.bane_date;
         currentUsers[userId] = userItem;
     }
   } else {
