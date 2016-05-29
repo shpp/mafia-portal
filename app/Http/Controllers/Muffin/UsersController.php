@@ -54,9 +54,7 @@ class UsersController extends Controller
 	public function store(UsersRequest $request)
 	{
 		$request->offsetSet('password', '');    //  todo: hash
-		$request->offsetSet('last_visit', null);
 		$request->offsetSet('banned', 0);
-		$request->offsetSet('deleted', 0);
 
 		User::create($request->all());
 

@@ -27,6 +27,6 @@ class LastVisit
 	 */
 	public function handle(Login $event)
 	{
-		$event->user->update(['last_visit' => Carbon::now()]);
+		$event->user->update(['last_visit' => $event->user->fromDateTime(time())]);
 	}
 }
