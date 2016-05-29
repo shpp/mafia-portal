@@ -20,6 +20,18 @@ class UsersRequest extends Request
         return true;
     }
 
+
+	public function all()
+	{
+		$attributes = parent::all();
+		// in not set bane_date remove bane_date from request
+		if ($attributes['bane_date'] === '') {
+			unset($attributes['bane_date']);
+		}
+
+		return $attributes;
+	}
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -34,7 +46,6 @@ class UsersRequest extends Request
 		    'role' => 'required',
 		    'club_id' => 'exists:clubs,_id',
 		    'banned' => 'boolean',
-		    'deleted' => 'boolean',
 		    'comments' => 'string',
 	    ];
 
