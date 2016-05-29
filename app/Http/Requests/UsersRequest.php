@@ -43,7 +43,7 @@ class UsersRequest extends Request
 		    $rules += [
 			    'phone' => 'required|numeric|unique:users',
 			    'nickname' => 'required|string|unique:users',
-			    'email' => 'required|email|unique:users',
+			    'email' => 'email|unique:users',
 		    ];
 	    } elseif ($this->isMethod('patch')) {
 			//  update
@@ -52,7 +52,7 @@ class UsersRequest extends Request
 		    $rules += [
 			    'phone' => 'required|numeric|unique:users,phone' . $user_id . ',_id',
 			    'nickname' => 'required|string|unique:users,nickname,' . $user_id . ',_id',
-			    'email' => 'required|email|unique:users,email' . $user_id . ',_id',
+			    'email' => 'email|unique:users,email' . $user_id . ',_id',
 		    ];
 	    }
 

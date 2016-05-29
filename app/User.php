@@ -17,7 +17,7 @@ class User extends Eloquent implements Authenticatable
 	const ROLE_HOST = 'host';
 	const ROLE_GAMER = 'gamer';
 
-	protected $dates = ['deleted_at', 'bane_date'];
+	protected $dates = ['deleted_at', 'bane_date', 'last_visit'];
 	//  date format
 	protected $dateFormat = 'd-m-Y';
 	/**

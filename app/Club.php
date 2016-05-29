@@ -18,6 +18,8 @@ class Club extends Eloquent
 	protected $appends = ['board_data'];
 	//  for SoftDeleting
 	protected $dates = ['deleted_at'];
+	//  date format
+	protected $dateFormat = 'd-m-Y';
 
 	public function president()
 	{
