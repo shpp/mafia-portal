@@ -24,12 +24,14 @@ class UsersRequest extends Request
 	public function all()
 	{
 		$attributes = parent::all();
-		// in not set bane_date remove bane_date from request
-		if ($attributes['bane_date'] === '') {
+		// if not set bane_date remove bane_date from request
+		if (isset($attributes['bane_date']) && $attributes['bane_date'] === '') {
 			unset($attributes['bane_date']);
 		}
 
-		return $attributes;
+		$this->replace($attributes);
+
+		return parent::all();
 	}
 
     /**

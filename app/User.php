@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\Authenticatable;
