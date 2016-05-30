@@ -31,12 +31,12 @@ class ClubsController extends Controller
 
 		$clubs = Club::
 					when($search, function ($query) use ($search) {
-						$query->where(function($query) use ($search) {
-							$query->where('name', 'like', $search . '%');
+						return $query->where(function($query) use ($search) {
+							return $query->where('name', 'like', $search . '%');
 						});
 					})
 					->when( $order_by, function ($query) use ($order, $order_by) {
-					 $query->orderBy($order_by, $order);
+						return $query->orderBy($order_by, $order);
 					})
 					->with('president', 'users')
 					->paginate(self::RECORD_PER_PAGE);

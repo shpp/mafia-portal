@@ -29,23 +29,23 @@ class Events extends Eloquent {
 	{
 		return $query->
 			when($search, function ($query) use ($search) {
-				$query->where('name', 'like', $search . '%');
+			return $query->where('name', 'like', $search . '%');
 			})
             ->when($type, function ($query) use ($type) {
-	             $query->where('type', $type);
+	            return $query->where('type', $type);
              })
              ->when($order_by, function ($query) use ($order, $order_by) {
-	             $query->orderBy($order_by, $order);
+	             return $query->orderBy($order_by, $order);
              })
              ->when($status, function ($query) use ($status) {
                 $today = Carbon::today();
 				if ($status === 'preparation') {
-					$query->where('date', '>', $today);
+					return $query->where('date', '>', $today);
 				} elseif ($status === 'during') {
-					$query->where('date', '<=', $today)
+					return $query->where('date', '<=', $today)
 						->where('date_end', '>=', $today);
 				} else {
-					$query->where('date_end', '<', $today);
+					return $query->where('date_end', '<', $today);
 				}
              });
 	}

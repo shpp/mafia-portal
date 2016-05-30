@@ -63,20 +63,20 @@ class User extends Eloquent implements Authenticatable
 	{
 		return $query->
 			when($search, function ($query) use ($search) {
-				$query->where(function($query) use ($search) {
-					$query
+				return $query->where(function($query) use ($search) {
+					return $query
 						->where('nickname', 'like', $search . '%')
 						->orWhere('name', 'like', $search . '%');
 				});
 			})
 			->when($club, function ($query) use ($club) {
-			 $query->where('club_id', $club);
+				return $query->where('club_id', $club);
 			})
 			->when($order_by, function ($query) use ($order, $order_by) {
-			 $query->orderBy($order_by, $order);
+				return $query->orderBy($order_by, $order);
 			})
 			->when($hide_guest, function ($query) {
-			 $query->whereNotNull('club_id');
+				return $query->whereNotNull('club_id');
 			})
 			->with('club');
 	}
