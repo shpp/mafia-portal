@@ -142,10 +142,9 @@ $(document).ready(function () {
     var $phone = $('#phone');
     var $email = $('#email');
     var $comments = $('#comments');
-    var $roleInput = $(".role input");
-    var $genderInput = $(".gender input");
-    var $clubInput = $("#club_id");
-    var $baneInput = $(".bane input");
+    var $roleInput = $("#role");
+    var $genderInput = $("#gender");
+    var $clubInput = $("#club_id");   
     var $vk_link = $('#vk_link');
     var $label = $('form label.input-label');
     var $errorNickname = $('#error_nickname');
@@ -167,10 +166,11 @@ $(document).ready(function () {
         $errorNickname.text("");
         $errorPhone.text("");
         $errorEmail.text("");
-        $comments.val("");
-        $('#club_id').val("").material_select();
+        $comments.val("");        
         $formInput.removeClass('invalid');
         $formInput.removeClass('valid');        
+        $clubInput.val("").material_select();
+               
     }
 
     // --------------------------------- Functions add user --------------------------//
@@ -226,39 +226,27 @@ $(document).ready(function () {
         var email = response.email;
         var club = response.club;
 
-        var comments = response.comments;
-        /* var club = response.club_id;
-         var bane = response.bane-date;*/
-
+        var comments = response.comments;             
         $addEditUserModal.openModal({
             ready: onModalShow,
             complete: onModalHide
         });
+        clearFieldsForm();
         $label.addClass('active');
         $name.val(name);
         $nickname.val(nickname);
         $phone.val(phone);
         $email.val(email);
-        $comments.val(comments);
-        /* $clubInput.val(club);
-         $baneInput.val(bane);*/
-        $roleInput.val(role);
-        $("#role [value='" + role + "']").attr("selected", "selected");
-        $("#gender [value='" + gender + "']").attr("selected", "selected");
+        $comments.val(comments);        
+        $roleInput.val(role);       
+        $roleInput.val(role).material_select();
+        $genderInput.val(gender).material_select();
         if (club && club._id) {
             $clubInput.val(club._id).material_select();
-        }
-
-         /* $("#bane-date [value='" + bane + "']").attr("selected", "selected");*/
-        if(response.gender == "f"){
-            gender = "female";
-        } else {
-            gender = "male";
-        }
-        $genderInput.val(gender);
-        if(vk_link != undefined) {
+        }       
+        if(vk_link) {
             $vk_link.val(vk_link);
-        }
+        }        
     }
 
     /**
@@ -276,7 +264,7 @@ $(document).ready(function () {
 
 
     // --------------------------------- Functions events page-users  --------------------------//
-   /* $deleteUserModal .closeModal();*/
+   
 
     /*The event handler pushing the button delete-users*/
     $body.on('click', '.delete-form-modal', function (e) {
@@ -331,14 +319,13 @@ $(document).ready(function () {
         var userId = $(this).parents("tr").attr("id");
         var currentItem = searchElementInCurrentObject(currentUsers, userId);
         if(currentItem != undefined) {
-          openModalEditUser(currentItem);
+          openModalEditUser(currentItem);          
         }
         $('form').unbind('submit');
         $('form').submit(function(e){
             e.preventDefault();
             e.stopPropagation();
-            console.log("PATCH request edit user");
-            /*console.log($(".club input.select-dropdown").val());*/
+            console.log("PATCH request edit user");            
             var self = $(this);
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;

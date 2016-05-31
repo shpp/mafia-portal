@@ -44,7 +44,7 @@
                             'club_id',
                             $clubsForSelect = array( null => "Choose club") + $clubsForSelect,
                             null,
-                            array('id' => 'club_id')
+                            array('id' => 'club_id', 'class' => 'selectClub')
                         ) !!}
                         {!! Form::label('club', 'Club') !!}
                     </div>
