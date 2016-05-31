@@ -113,6 +113,7 @@ $(document).ready(function () {
                     .append($('<td>').text(event.type.value))
                     .append($('<td>').text(event.status))
                     .append($('<td>').text(eventDate))
+                    .append($('<td>').text(event.comments))
                     .append($('<td>')
                         .append($('<button>').addClass('btn-flat edit-form-modal-events')
                             .append($('<i>').addClass('material-icons').text('create'))

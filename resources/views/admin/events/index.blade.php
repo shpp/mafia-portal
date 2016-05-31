@@ -41,7 +41,7 @@
                 <tr>
                     <th>
                         <span class="title-sort" data-order-by="name" data-order="{{ ($isOrderNameDesc) ? 'desc' : 'asc' }}">
-                            Название
+                            Назва
                             <i class="material-icons right">{{ ($isOrderNameDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
                         </span>
                     </th>
@@ -54,6 +54,7 @@
                             <i class="material-icons right">{{ ($isOrderDateDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
                         </span>
                     </th>
+                    <th>Коментарії</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
