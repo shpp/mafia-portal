@@ -11,20 +11,20 @@
             {!! Form::open() !!}
                 <div class="input-field col s12 m4">
                     {!! Form::text('search', $search, array('id' => 'search')) !!}
-                    {!! Form::label('search', 'Search') !!}
+                    {!! Form::label('search', 'Пошук') !!}
                 </div>
                 <div class="input-field col s12 m4">
                     {!! Form::select(
                         'club',
                         $clubsForSelect,
                         $club,
-                        ['placeholder' => 'Pick a club...', 'id' => 'club'])
+                        ['placeholder' => 'Виберіть клуб...', 'id' => 'club'])
                     !!}
                     {!! Form::label('club', 'Клуб') !!}
                 </div>
                 <p class="col s12 m4">
                     {!! Form::checkbox('hide_guest', '1', $hide_guest, ['id' => 'hide_guest']) !!}
-                    {!! Form::label('hide_guest', 'Спрятать гостей') !!}
+                    {!! Form::label('hide_guest', 'Сховати гостей') !!}
                 </p>
             {!! Form::close() !!}
         </div>
@@ -36,21 +36,21 @@
                     <th>#</th>
                     <th>
                         <span class="title-sort" data-order-by="nickname" data-order="{{ ($isOrderNicknameDesc) ? 'desc' : 'asc' }}">
-                            Ник
+                            Нік
                             <i class="material-icons right">{{ ($isOrderNicknameDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
                         </span>
                     </th>
                     <th>
                         <span class="title-sort" data-order-by="name" data-order="{{ ($isOrderNameDesc) ? 'desc' : 'asc' }}">
-                            Name
+                            Ім'я
                             <i class="material-icons right">{{ ($isOrderNameDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
                         </span>
                     </th>
-                    <th>Phone</th>
+                    <th>Телефон</th>
                     <th>Клуб</th>
-                    <th>#игр</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>#ігр</th>
+                    <th></th>
+                   <!--  <th>Delete</th> -->
                 </tr>
                 </thead>
                 <tbody id="table-content"></tbody>

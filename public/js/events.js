@@ -138,9 +138,14 @@ $(document).ready(function () {
         }
     }
 
+     /**
+     * Function initial table content
+     * @param dateStart string
+     * @param dateEnd string
+     */
     function editDate(dateStart, dateEnd) {
        if(dateStart && dateEnd) {
-          return  dateStart.substring(0,5) + " до " + dateEnd;
+          return  dateStart.substring(0,5) + " -- " + dateEnd;
        } else if (dateStart) {
           return dateStart;
        } else {

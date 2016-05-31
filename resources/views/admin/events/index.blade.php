@@ -12,14 +12,14 @@
             {!! Form::open() !!}
             <div class="input-field col s12 m4">
                 {!! Form::text('search', $search, array('id' => 'search')) !!}
-                {!! Form::label('search', 'Search') !!}
+                {!! Form::label('search', 'Пошук') !!}
             </div>
             <div class="input-field col s12 m4">
                 {!! Form::select(
                     'type',
                     $typeForSelect,
                     $type,
-                    ['placeholder' => 'Pick a type...', 'id' => 'type'])
+                    ['placeholder' => 'Виберіть тип події...', 'id' => 'type'])
                 !!}
                 {!! Form::label('type', 'Тип') !!}
             </div>
@@ -28,7 +28,7 @@
                     'status',
                     $statusForSelect,
                     $status,
-                    ['placeholder' => 'Pick a status...', 'id' => 'status'])
+                    ['placeholder' => 'Виберіть статус події...', 'id' => 'status'])
                 !!}
                 {!! Form::label('status', 'Статус') !!}
             </div>
@@ -56,7 +56,6 @@
                     </th>
                     <th></th>
                     <th></th>
-                    <!-- <th>Delete</th> -->
                 </tr>
                 </thead>
                 <tbody id="table-content"></tbody>
