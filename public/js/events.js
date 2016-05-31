@@ -107,11 +107,12 @@ $(document).ready(function () {
         var content = $('#table-content').empty();
         for (var key in events) {
         var event = events[key];
+        var eventDate = editDate(event.date, event.date_end);
         content.append($('<tr>').attr('id', key)
                     .append($('<td>').text(event.name))
                     .append($('<td>').text(event.type.value))
                     .append($('<td>').text(event.status))
-                    .append($('<td>').text(event.date))
+                    .append($('<td>').text(eventDate))
                     .append($('<td>')
                         .append($('<button>').addClass('btn-flat edit-form-modal-events')
                             .append($('<i>').addClass('material-icons').text('create'))
@@ -124,6 +125,16 @@ $(document).ready(function () {
                     )
             );
         }
+    }
+
+    function editDate(dateStart, dateEnd) {
+       if(dateStart && dateEnd) {
+          return  dateStart.substring(0,5) + " до " + dateEnd;
+       } else if (dateStart) {
+          return dateStart;
+       } else {
+          return "no date";
+       }
     }
 
 
