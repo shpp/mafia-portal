@@ -80,6 +80,7 @@ function initialCurrentUsers(users) {
         userItem['name'] = user.name;
         userItem['nickname'] = user.nickname;
         userItem['club'] = user.club;
+        userItem['club_id'] = user.club_id;
         userItem['phone'] = user.phone;
         userItem['email'] = user.email;
         userItem['role'] = user.role;
@@ -237,7 +238,7 @@ function errorAjaxRequest(jqXHR, textStatus, errorThrown) {
       });
   } else {
       //  todo: add handler
-      alert(errorThrown);
+      console.log(errorThrown);
   }
 }
 
