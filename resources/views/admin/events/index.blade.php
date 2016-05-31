@@ -54,9 +54,9 @@
                             <i class="material-icons right">{{ ($isOrderDateDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
                         </span>
                     </th>
-                    <th>Коментарії</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th></th>
+                    <th></th>
+                    <!-- <th>Delete</th> -->
                 </tr>
                 </thead>
                 <tbody id="table-content"></tbody>
