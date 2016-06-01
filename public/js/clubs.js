@@ -1,7 +1,5 @@
 $(document).ready(function () {
     ajaxRequest(location.href, null, "get", initialTableContentClubs);
-    var $materializeOverlay = $('#overlay');
-    $materializeOverlay.hide();
 
     var usersInClubs = {};
 

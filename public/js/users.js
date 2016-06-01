@@ -1,7 +1,4 @@
 $(document).ready(function () {
-    // ajax preloader
-    var $materializeOverlay = $('#overlay');
-    $materializeOverlay.hide();
 
     // ajax request for content users-page
     ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest);
@@ -144,14 +141,14 @@ $(document).ready(function () {
     var $comments = $('#comments');
     var $roleInput = $("#role");
     var $genderInput = $("#gender");
-    var $clubInput = $("#club_id");   
+    var $clubInput = $("#club_id");
     var $vk_link = $('#vk_link');
     var $label = $('form label.input-label');
     var $errorNickname = $('#error_nickname');
     var $errorPhone = $('#error_phone');
     var $errorEmail = $('#error_email');
     var $deleteUserModal = $('#delete-user');
-    var $addEditUserModal = $('#add-user');    
+    var $addEditUserModal = $('#add-user');
     var $formInput = $('form input');
 
     // function clear fields form
@@ -166,11 +163,11 @@ $(document).ready(function () {
         $errorNickname.text("");
         $errorPhone.text("");
         $errorEmail.text("");
-        $comments.val("");        
+        $comments.val("");
         $formInput.removeClass('invalid');
-        $formInput.removeClass('valid');        
+        $formInput.removeClass('valid');
         $clubInput.val("").material_select();
-               
+
     }
 
     // --------------------------------- Functions add user --------------------------//
@@ -226,7 +223,7 @@ $(document).ready(function () {
         var email = response.email;
         var club = response.club;
 
-        var comments = response.comments;             
+        var comments = response.comments;
         $addEditUserModal.openModal({
             ready: onModalShow,
             complete: onModalHide
@@ -237,16 +234,16 @@ $(document).ready(function () {
         $nickname.val(nickname);
         $phone.val(phone);
         $email.val(email);
-        $comments.val(comments);        
-        $roleInput.val(role);       
+        $comments.val(comments);
+        $roleInput.val(role);
         $roleInput.val(role).material_select();
         $genderInput.val(gender).material_select();
         if (club && club._id) {
             $clubInput.val(club._id).material_select();
-        }       
+        }
         if(vk_link) {
             $vk_link.val(vk_link);
-        }        
+        }
     }
 
     /**
@@ -256,7 +253,7 @@ $(document).ready(function () {
         if( response.success == true) {
             console.log("edit user done");
             $label.removeClass('active');
-            ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest);           
+            ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest);
             $addEditUserModal.closeModal();
             $('#btn-add').show();
         }
@@ -264,7 +261,7 @@ $(document).ready(function () {
 
 
     // --------------------------------- Functions events page-users  --------------------------//
-   
+
 
     /*The event handler pushing the button delete-users*/
     $body.on('click', '.delete-form-modal', function (e) {
@@ -289,7 +286,7 @@ $(document).ready(function () {
         })
     });
 
-   
+
     /*The event handler pushing the button add-users*/
     $body.on('click', '.add-form-modal', function (e) {
         e.preventDefault();
@@ -304,7 +301,7 @@ $(document).ready(function () {
         $('form').unbind('submit');
         $('form').submit( function(e) {
             e.preventDefault();
-            console.log("POST request for add user");            
+            console.log("POST request for add user");
             var self = $(this);
             var data = self.serializeArray();
             ajaxRequest(url, data, "post",addUser, errorAjaxRequest);
@@ -319,13 +316,13 @@ $(document).ready(function () {
         var userId = $(this).parents("tr").attr("id");
         var currentItem = searchElementInCurrentObject(currentUsers, userId);
         if(currentItem != undefined) {
-          openModalEditUser(currentItem);          
+          openModalEditUser(currentItem);
         }
         $('form').unbind('submit');
         $('form').submit(function(e){
             e.preventDefault();
             e.stopPropagation();
-            console.log("PATCH request edit user");            
+            console.log("PATCH request edit user");
             var self = $(this);
             var data = self.serializeArray();
             var url = window.location.pathname + "/" + userId;

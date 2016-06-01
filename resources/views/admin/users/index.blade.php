@@ -91,7 +91,7 @@
 
 @endsection
 
-@section('preloader')
+<!-- @section('preloader')
     <div id="spinner" class="preloader-wrapper big">
         <div class="spinner-layer spinner-blue-only">
           <div class="circle-clipper left">
@@ -103,4 +103,4 @@
           </div>
         </div>
     </div>
-@endsection
+@endsection -->

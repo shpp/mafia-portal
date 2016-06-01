@@ -1,4 +1,4 @@
-var $materializeOverlay = $('#overlay');
+
 var $spinner = $('#spinner');
 var $buttonAdd = $('#btn-add');
 
@@ -6,14 +6,12 @@ var $buttonAdd = $('#btn-add');
 function showSpinner() {
     console.log("showSpinner");
     $spinner.addClass("active");
-    $materializeOverlay.show();
 }
 
 // function hide preloader for Ajax request
  function hideSpinner() {
     console.log("hideSpinner");
     $spinner.removeClass("active");
-    $materializeOverlay.hide();
 }
 
 // function event modal window close.

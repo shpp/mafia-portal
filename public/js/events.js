@@ -1,7 +1,5 @@
 $(document).ready(function () {
   ajaxRequest(location.href, null, "get", initialTableContentEvents);
-   var $materializeOverlay = $('#overlay');
-    $materializeOverlay.hide();
 
 
     // event search form submit

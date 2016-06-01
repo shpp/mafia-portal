@@ -80,8 +80,18 @@
     </nav>
 
     <main>
-        @yield('preloader')
-        @yield('content')
+      @yield('content')
+      <div id="spinner" class="preloader-wrapper big">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+      </div>
     </main>
 
     <footer class="page-footer grey lighten-1">
@@ -103,7 +113,6 @@
 
     @stack('footer-scripts')
 
-    <div id="overlay" class="lean-overlay" style="z-index: 998; display: block; opacity: 0.5;"></div>
 
 </body>
 </html>
