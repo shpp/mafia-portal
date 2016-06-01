@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Mafia</title>
+    <meta name="description" content="Кировоградский клуб настольной игры Мафия">
+    <meta name="keywords" content="мафия, настольные игры, Кировоград, куда пойти, ково">
+
+    <title>Мафия в Кировограде</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
