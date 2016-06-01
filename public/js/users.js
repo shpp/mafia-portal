@@ -48,13 +48,23 @@ $(document).ready(function () {
                       )
                       .append($('<ul>')
                         .append($('<li>')
-                          .append($('<button>').addClass('btn-floating blue edit-form-modal')
+                          .append($('<button>').addClass('btn-floating blue lighten-1 edit-form-modal')
                             .append($('<i>').addClass('material-icons').text('create'))
                           )
                         )
                         .append($('<li>')
-                          .append($('<button>').addClass('btn-floating red delete-form-modal')
+                          .append($('<button>').addClass('btn-floating red darken-4 delete-form-modal')
                             .append($('<i>').addClass('material-icons').text('delete'))
+                          )
+                        )
+                        .append($('<li>')
+                          .append($('<button>').addClass('btn-floating red lighten-1')
+                            .append($('<i>').addClass('material-icons').text('thumb_down'))
+                          )
+                        )
+                        .append($('<li>')
+                          .append($('<button>').addClass('btn-floating green lighten-1')
+                            .append($('<i>').addClass('material-icons').text('vpn_key'))
                           )
                         )
                       )
@@ -245,6 +255,7 @@ $(document).ready(function () {
         if(vk_link) {
             $vk_link.val(vk_link);
         }
+        $('.js-example-basic-single').select2();
     }
 
     /**
