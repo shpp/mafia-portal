@@ -58,12 +58,12 @@ $(document).ready(function () {
                           )
                         )
                         .append($('<li>')
-                          .append($('<button>').addClass('btn-floating red lighten-1')
+                          .append($('<button>').addClass('btn-floating red lighten-1 bane-user')
                             .append($('<i>').addClass('material-icons').text('thumb_down'))
                           )
                         )
                         .append($('<li>')
-                          .append($('<button>').addClass('btn-floating green lighten-1')
+                          .append($('<button>').addClass('btn-floating green lighten-1 generat-password')
                             .append($('<i>').addClass('material-icons').text('vpn_key'))
                           )
                         )
@@ -341,6 +341,26 @@ $(document).ready(function () {
             /*initialUserInCurrentUsers(self.serializeArray(), userId, currentUsers);*/
             ajaxRequest(url, data, "patch", editUser, errorAjaxRequest);
         });
+    });
+
+     /*The event handler pushing the button bane-user*/
+    $body.on('click', '.bane-user', function (e) {
+        e.preventDefault();
+        var userId = $(this).parents("tr").attr("id");
+        var url = location.pathname;
+        var userUrl = url + "/" + userId + "/ban";
+        console.log("GET request for bane-user");
+        ajaxRequest(userUrl,null,"get",null,generalErrorAjaxRequest);
+    });
+
+     /*The event handler pushing the button ganeret-password*/
+    $body.on('click', '.generat-password', function (e) {
+        e.preventDefault();
+        var userId = $(this).parents("tr").attr("id");
+        var url = location.pathname;
+        var userUrl = url + "/" + userId + "/generatePassword";
+        console.log("GET request for generatePassword");
+        ajaxRequest(userUrl,null,"get",null,generalErrorAjaxRequest);
     });
 
 

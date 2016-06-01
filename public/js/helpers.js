@@ -252,7 +252,7 @@ function generalErrorAjaxRequest(jqXHR, textStatus, errorThrown) {
     $('p.error_422').text(errorMesage);
   } else {
       //  todo: add handler
-      alert(errorThrown);
+      console.log(errorThrown);
   }
 }
 

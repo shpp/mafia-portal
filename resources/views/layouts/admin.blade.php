@@ -28,19 +28,19 @@
                 <ul class="right hide-on-med-and-down">
                     <li>
                         <a href="{{ route('admin.games') }}"
-                           class="{{ menuActiveRoute('admin.games') }}">Games</a>
+                           class="{{ menuActiveRoute('admin.games') }}">Ігри</a>
                     </li>
                     <li>
                         <a href="{{ route('admin.users') }}"
-                           class="{{ menuActiveRoute('admin.users') }}"> Users</a>
+                           class="{{ menuActiveRoute('admin.users') }}">Користувачі</a>
                     </li>
                     <li>
                         <a href="{{ route('admin.clubs') }}"
-                           class="{{ menuActiveRoute('admin.clubs') }}">Clubs</a>
+                           class="{{ menuActiveRoute('admin.clubs') }}">Клуби</a>
                     </li>
                     <li>
                         <a href="{{ route('admin.events') }}"
-                           class="{{ menuActiveRoute('admin.events') }}"> Events</a>
+                           class="{{ menuActiveRoute('admin.events') }}">Події</a>
                     </li>
                     <li>
                         <a class="dropdown-button" href="#!" data-activates="dropdown1">
@@ -104,6 +104,14 @@
     </footer>
 
     @yield('after-footer')
+
+              <!-- Modal Structure Error Ajax Request -->
+    <div id="error_ajaxRequest" class="modal">
+        <div class="modal-content">
+            <h5>Error 422</h5>
+            <p class="error_422"></p>
+        </div>
+    </div>
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
