@@ -83,17 +83,17 @@ class Events extends Eloquent {
 
 	public static function getTypes(  ) {
 		return [
-			'tournament' => 'Турнир',
-			'championship' => 'Чемпионат',
+			'tournament' => 'Турнір',
+			'championship' => 'Чемпіонат',
 		];
 	}
 
 	public static function getStatus(  )
 	{
 		return [
-			'preparation' => 'Подготовка',
-			'during' => 'В процессе',
-			'completed' => 'Завершен',
+			'preparation' => 'Підготовка',
+			'during' => 'В процесі',
+			'completed' => 'Завершено',
 		];
 	}
 
