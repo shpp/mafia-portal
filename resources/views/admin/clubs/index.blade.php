@@ -30,8 +30,7 @@
                     <th>Человек</th>
                     <th>Президент</th>
                     <th>Совет</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody id="table-content"></tbody>

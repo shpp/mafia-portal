@@ -40,6 +40,7 @@ $(document).ready(function () {
                   .append($('<td>').text(user['phone']))
                   .append($('<td>').text(user.club ? user.club.name : ''))
                   .append($('<td>').text("0"))
+                  .append($('<td>').text(user.comments))
                   .append($('<td>').addClass('block-fleat')
                   .append($('<div>').addClass('fixed-action-btn horizontal click-to-toggle')
                       .append($('<a>').addClass('btn-flat grey-text text-darken-2')

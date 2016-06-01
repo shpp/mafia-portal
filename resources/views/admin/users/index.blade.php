@@ -50,7 +50,7 @@
                     <th>Клуб</th>
                     <th>#ігр</th>
                     <th></th>
-                   <!--  <th>Delete</th> -->
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody id="table-content"></tbody>
