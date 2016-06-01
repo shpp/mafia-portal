@@ -26,7 +26,7 @@ $(document).ready(function () {
           var error_data = response.errors;
           $input_password.val("");
           $input_phone.val("");
-          $cin_error.text("These credentials do not match our records.");
+          $cin_error.text("Ці облікові дані не збігаються з нашими записами.");
         }
       });
 
