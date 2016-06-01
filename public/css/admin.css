@@ -71,6 +71,9 @@ nav {
 .text-right {
   text-align: right;
 }
+.form-error {
+  color: #cf253a;
+}
 .login-page {
   font-family: 'Lato', sans-serif;
   background-color: #383838;
@@ -194,9 +197,6 @@ nav {
 }
 #delete-user {
   width: 40%;
-}
-.error-mesage {
-  color: #cf253a;
 }
 td,
 th {

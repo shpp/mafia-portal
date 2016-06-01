@@ -228,10 +228,10 @@ function errorAjaxRequest(jqXHR, textStatus, errorThrown) {
   //  validation error
   if (jqXHR.status === 422) {
       $.each(jqXHR.responseJSON, function(i, e){
-          //  show error
-          $('form').find('#'+ i)
-              .addClass('invalid');
-          $('form').find('#error_' + i).text(e);
+        //  show error
+        $('form').find('#'+ i)
+          .addClass('invalid')
+          .after($('<p>').addClass('form-error').text(e));
       });
   } else {
       //  todo: add handler
@@ -246,10 +246,11 @@ function errorAjaxRequest(jqXHR, textStatus, errorThrown) {
  */
 function generalErrorAjaxRequest(jqXHR, textStatus, errorThrown) {
   //  validation error
-  if (jqXHR.status === 422) {
+  if (jqXHR.status) {
     var errorMesage = jqXHR.responseJSON;
     $('#error_ajaxRequest').openModal();
-    $('p.error_422').text(errorMesage);
+    $('#error_ajaxRequest h5').text(jqXHR.status);
+    $('p.error_message').text(errorMesage);
   } else {
       //  todo: add handler
       console.log(errorThrown);
@@ -263,5 +264,50 @@ function activeMenuLink() {
   $activeLink.css({"background-color": "rgba(0,0,0,0.1)"});
 }
 
+function  initialSearchRequest(searchPhrase, initialTableContent){
+  console.log("initialSearchRequest");
+  Request.toObject();
+  if (searchPhrase) {
+      Request.object.search = searchPhrase;
+  } else {
+      Request.deleteSearchParam('search');
+  }
+
+  Request.prepareSearchQuery();
+  Request.updateSearchQuery();
+  ajaxRequest(Request.searchQuery, null, "get", initialTableContent, generalErrorAjaxRequest);
+};
+
+function titleSortContent(self, initialTableContent) {
+  var order = '';
+  if (self.data('order') == 'asc') {
+      order = 'desc';
+      self.children().text('arrow_drop_up');
+  } else {
+      order = 'asc';
+      self.children().text('arrow_drop_down');
+  }
+  self.data('order', order);
+
+  Request.toObject();
+  Request.object.orderBy =  self.data('order-by');
+  Request.object.order = order;
+
+  Request.prepareSearchQuery();
+  Request.updateSearchQuery();
+  ajaxRequest(Request.searchQuery, null, "get",initialTableContent, generalErrorAjaxRequest);
+}
+
+function changeTypeContentSelection(searchPhrase,Request, type, initialTableContent) {
+  if (searchPhrase) {
+      Request.object[type] = searchPhrase;
+  } else {
+      Request.deleteSearchParam(type);
+  }
+
+  Request.prepareSearchQuery();
+  Request.updateSearchQuery();
+  ajaxRequest(Request.searchQuery, null, "get", initialTableContent, generalErrorAjaxRequest);
+}
 
 

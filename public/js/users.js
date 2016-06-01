@@ -78,54 +78,18 @@ $(document).ready(function () {
 
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
-
-        Request.toObject();
-        if (searchPhrase) {
-            Request.object.search = searchPhrase;
-        } else {
-            Request.deleteSearchParam('search');
-        }
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
+        initialSearchRequest(searchPhrase, initialTableContentUsers);
     });
 
     $('#club').change(function(){
         var searchPhrase = $(this).val().trim();
-
         Request.toObject();
-        if (searchPhrase) {
-            Request.object.club = searchPhrase;
-        } else {
-            Request.deleteSearchParam('club');
-        }
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentUsers, generalErrorAjaxRequest);
+        changeTypeContentSelection(searchPhrase, Request, 'club', initialTableContentUsers);
     });
 
     $('.title-sort').click(function(){
         var self = $(this);
-
-        var order = '';
-        if (self.data('order') == 'asc') {
-            order = 'desc';
-            self.children().text('arrow_drop_up');
-        } else {
-            order = 'asc';
-            self.children().text('arrow_drop_down');
-        }
-        self.data('order', order);
-
-        Request.toObject();
-        Request.object.orderBy =  self.data('order-by');
-        Request.object.order = order;
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get",initialTableContentUsers, generalErrorAjaxRequest);
+        titleSortContent(self, initialTableContentUsers);
     });
 
     $('#hide_guest').change(function () {
@@ -178,7 +142,7 @@ $(document).ready(function () {
         $formInput.removeClass('invalid');
         $formInput.removeClass('valid');
         $clubInput.val("").material_select();
-
+        $('form').find('.form-error').remove();
     }
 
     // --------------------------------- Functions add user --------------------------//

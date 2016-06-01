@@ -117,40 +117,13 @@ $(document).ready(function () {
     // event search form change
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
-
-        Request.toObject();
-        if (searchPhrase) {
-            Request.object.search = searchPhrase;
-        } else {
-            Request.deleteSearchParam('search');
-        }
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentClubs);
+        initialSearchRequest(searchPhrase, initialTableContentClubs);
     });
 
     // sorting
     $('.title-sort').click(function(){
         var self = $(this);
-
-        var order = '';
-        if (self.data('order') == 'asc') {
-            order = 'desc';
-            self.children().text('arrow_drop_up');
-        } else {
-            order = 'asc';
-            self.children().text('arrow_drop_down');
-        }
-        self.data('order', order);
-
-        Request.toObject();
-        Request.object.orderBy =  self.data('order-by');
-        Request.object.order = order;
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentClubs);
+        titleSortContent(self, initialTableContentClubs);
     });
 
     // Global variabls
@@ -279,25 +252,29 @@ $(document).ready(function () {
           event.preventDefault();
           // ----------- ajaxRequest
           console.log("destroy");
-
-            var url = location.pathname + '/' + clubId + '/destroy';
-            ajaxRequest(url, null, 'get',
-                function(response){
-                    ajaxRequest(location.href, null, 'get');
-                    deleteElementInCurrentObject(clubId, currentClubs);
-                    overloadTableContent(prepareContentClubs, currentClubs)
-                    $modalDeleteForm.closeModal();
-                    $('#btn-add').show();
-                }
-            );
+          var url = location.pathname + '/' + clubId + '/destroy';
+          ajaxRequest(
+              url,
+              null,
+              'get',
+              function(response){
+                  deleteElementInCurrentObject(clubId, currentClubs);
+                  overloadTableContent(prepareContentClubs, currentClubs)
+                  $modalDeleteForm.closeModal({
+                    complete: onModalHide
+                  })
+              },
+              generalErrorAjaxRequest
+          );
         });
 
         $('.disagree_delete-form').unbind('click');
         $('.disagree_delete-form').click( function(event) {
           event.preventDefault();
           console.log("disagree");
-          $modalDeleteForm.closeModal();
-          $('#btn-add').show();
+          $modalDeleteForm.closeModal({
+            complete: onModalHide
+          });
         })
     });
 
@@ -318,7 +295,7 @@ $(document).ready(function () {
             type,
             function(response){
                 if (response.success === true) {
-                    ajaxRequest(location.href, null, "get", initialTableContentClubs);
+                    ajaxRequest(location.href, null, "get", initialTableContentClubs,generalErrorAjaxRequest);
                     $modalForm.closeModal({
                         complete: function() {
                             $form.attr('action', '');
@@ -327,22 +304,7 @@ $(document).ready(function () {
                     });
                 }
             },
-            function(jqXHR, textStatus, errorThrown){
-                //  validation error
-                if (jqXHR.status === 422) {
-                    $.each(jqXHR.responseJSON, function(i, e){
-                        //  show error
-                        $form.find('#'+ i)
-                            .addClass('invalid')
-                            .after($('<p>').addClass('form-error').text(e));
-                    });
-                    $('#btn-add').show();
-                } else {
-                    //  todo: add handler
-                    alert(errorThrown);
-                    $('#btn-add').show();
-                }
-            }
+            errorAjaxRequest
         );
     });
 });

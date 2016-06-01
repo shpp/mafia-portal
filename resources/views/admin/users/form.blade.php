@@ -12,7 +12,7 @@
                     <div class="input-field col s6">
                         {!! Form::label('nickname', 'Nickname*', array('class' => 'input-label')) !!}
                         {!! Form::text('nickname', NULL, array('autocomplete' => 'on','id' => 'nickname','required','type' => 'text','class' => 'validate' . ($errors->has('nickname')?' invalid':''))) !!}
-                        <p class="error-mesage" id="error_nickname"></p>
+
                     </div>
                 </div>
 
@@ -20,12 +20,12 @@
                     <div class="input-field col s6">
                         {!! Form::label('phone', 'Phone*',  array('class' => 'input-label')) !!}
                         {!! Form::text('phone', NULL, array('autocomplete' => 'on','id' => 'phone','required','pattern' => '[0-9]{8,12}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
-                        <p class="error-mesage" id="error_phone"></p>
+
                     </div>
                     <div class="input-field col s6">
                         {!! Form::label('email', 'Email',  array('class' => 'input-label') ) !!}
                         {!! Form::email('email', NULL, array('autocomplete' => 'on','id' => 'email','type' => 'email','class' => 'validate' . ($errors->has('email')?' invalid':''))) !!}
-                        <p class="error-mesage" id="error_email"></p>
+
                     </div>
                 </div>
 

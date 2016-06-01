@@ -9,70 +9,26 @@ $(document).ready(function () {
      // event search form change
     $('#search').change(function(){
         var searchPhrase = $(this).val().trim();
-
-        Request.toObject();
-        if (searchPhrase) {
-            Request.object.search = searchPhrase;
-        } else {
-            Request.deleteSearchParam('search');
-        }
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents);
+        initialSearchRequest(searchPhrase, initialTableContentEvents);
     });
 
     $('#type').change(function(){
         var searchPhrase = $(this).val().trim();
-
         Request.toObject();
-        if (searchPhrase) {
-            Request.object.type = searchPhrase;
-        } else {
-            Request.deleteSearchParam('type');
-        }
+        changeTypeContentSelection(searchPhrase, Request, 'type', initialTableContentEvents);
 
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents, generalErrorAjaxRequest);
     });
 
      $('#status').change(function(){
         var searchPhrase = $(this).val().trim();
-
         Request.toObject();
-        if (searchPhrase) {
-            Request.object.status = searchPhrase;
-        } else {
-            Request.deleteSearchParam('status');
-        }
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents, generalErrorAjaxRequest);
+        changeTypeContentSelection(searchPhrase, Request, 'status', initialTableContentEvents);
     });
 
     // sorting
     $('.title-sort').click(function(){
         var self = $(this);
-
-        var order = '';
-        if (self.data('order') == 'asc') {
-            order = 'desc';
-            self.children().text('arrow_drop_up');
-        } else {
-            order = 'asc';
-            self.children().text('arrow_drop_down');
-        }
-        self.data('order', order);
-
-        Request.toObject();
-        Request.object.orderBy =  self.data('order-by');
-        Request.object.order = order;
-
-        Request.prepareSearchQuery();
-        Request.updateSearchQuery();
-        ajaxRequest(Request.searchQuery, null, "get", initialTableContentEvents);
+        titleSortContent(self, initialTableContentEvents);
     });
 
     /**
@@ -235,12 +191,12 @@ $(document).ready(function () {
             var url = location.pathname + '/' + eventId + '/destroy';
             ajaxRequest(url, null, 'get',
                 function(response){
-                    ajaxRequest(location.href, null, 'get');
                     deleteElementInCurrentObject(eventId, currentEvents);
                     overloadTableContent(prepareContentEvents, currentEvents)
                     $modalDeleteForm.closeModal();
                     $('#btn-add').show();
-                }
+                },
+                generalErrorAjaxRequest
             );
         });
 
@@ -279,22 +235,7 @@ $(document).ready(function () {
                     });
                 }
             },
-            function(jqXHR, textStatus, errorThrown){
-                //  validation error
-                if (jqXHR.status === 422) {
-                    $.each(jqXHR.responseJSON, function(i, e){
-                        //  show error
-                        $form.find('#'+ i)
-                            .addClass('invalid')
-                            .after($('<p>').addClass('form-error').text(e));
-                    });
-                    $('#btn-add').show();
-                } else {
-                    //  todo: add handler
-                    alert(errorThrown);
-                    $('#btn-add').show();
-                }
-            }
+            errorAjaxRequest
         );
     });
 

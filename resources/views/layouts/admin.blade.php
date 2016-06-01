@@ -108,8 +108,8 @@
               <!-- Modal Structure Error Ajax Request -->
     <div id="error_ajaxRequest" class="modal">
         <div class="modal-content">
-            <h5>Error 422</h5>
-            <p class="error_422"></p>
+            <h5></h5>
+            <p class="error_message"></p>
         </div>
     </div>
 
