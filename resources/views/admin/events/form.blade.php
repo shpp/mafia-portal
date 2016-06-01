@@ -1,4 +1,4 @@
-<div id="modal-form" class="modal">
+<div id="modal-form-events" class="modal">
     <div class="modal-content">
         <div class="container">
             <div class="row">

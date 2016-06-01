@@ -154,7 +154,7 @@ $(document).ready(function () {
 
 
     // Global variabls
-    var $modalForm = $('#modal-form');
+    var $modalForm = $('#modal-form-events');
     var $modalDeleteForm = $('#delete-events');
     var $form = $modalForm.find('form');
     var $label = $('form label.input-label');
@@ -162,7 +162,7 @@ $(document).ready(function () {
     var $date = $('#date');
     var $comments = $("#comments");
     var $formModaltypeEventInput = $(".type-event input");
-    var $formModalSelectTypeEvent = $("#modal-form #type");
+    var $formModalSelectTypeEvent = $("#modal-form-events #type");
     var $statistics_available = $("#statistics_available");
 
     /**

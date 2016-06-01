@@ -15,7 +15,7 @@
                     <div class="input-field presidentName col s6">
                         {!! Form::select(
                             'presidentId',
-                            [null => "Choose president"],
+                            [null => "Choose"],
                             null,
                             array(
                                 'id' => 'presidentId',
@@ -27,7 +27,7 @@
                     <div class="input-field boardNames col s6">
                         {!! Form::select(
                             'board[]',
-                            [null => "Choose board"],
+                            [null => "Choose"],
                             null,
                             array(
                                 'id' => 'board',
