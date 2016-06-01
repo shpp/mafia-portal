@@ -57,6 +57,9 @@ main #spinner {
   position: absolute;
   z-index: 1000;
 }
+nav {
+  margin-bottom: 2rem;
+}
 .title-sort {
   display: inline-block;
   cursor: pointer;
