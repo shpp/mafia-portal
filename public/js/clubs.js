@@ -53,7 +53,7 @@ $(document).ready(function () {
                           )
                           .append($('<li>')
                             .append($('<button>').addClass('btn-floating red delete-form-modal-clubs')
-                              .append($('<i>').addClass('material-icons').text('clear'))
+                              .append($('<i>').addClass('material-icons').text('delete'))
                             )
                           )
                         )
