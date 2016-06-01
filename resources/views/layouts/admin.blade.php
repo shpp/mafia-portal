@@ -14,7 +14,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('components/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('components/font-awesome/font-awesome.css') }}">
 </head>
 <body>
 
