@@ -255,7 +255,6 @@ $(document).ready(function () {
         if(vk_link) {
             $vk_link.val(vk_link);
         }
-        $('.js-example-basic-single').select2();
     }
 
     /**
