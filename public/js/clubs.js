@@ -59,16 +59,6 @@ $(document).ready(function () {
                         )
                       )
                     )
-                   /* .append($('<td>')
-                        .append($('<button>').addClass('btn-flat edit-form-modal-clubs')
-                            .append($('<i>').addClass('material-icons').text('create'))
-                        )
-                    )
-                    .append($('<td>')
-                        .append($('<button>').addClass('btn-flat delete-form-modal-clubs')
-                            .append($('<i>').addClass('material-icons').text('clear'))
-                        )
-                    )*/
             );
           index++;
         }

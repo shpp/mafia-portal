@@ -118,7 +118,6 @@ function initialCurrentClubs(clubs) {
 
 function initialCurrentEvents(events) {
   if(events.length) {
-    console.log(events.length);
     for (var key in events) {
       var event = events[key];
       var eventId = event._id;

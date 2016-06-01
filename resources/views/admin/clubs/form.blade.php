@@ -6,7 +6,7 @@
 
                 <div class="row">
                     <div class="input-field">
-                        {!! Form::label('name', 'Название', array('class' => 'input-label')) !!}
+                        {!! Form::label('name', 'Назва', array('class' => 'input-label')) !!}
                         {!! Form::text('name', NULL, array('required','id' => 'name','type' => 'text','class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
                     </div>
                 </div>

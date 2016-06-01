@@ -83,7 +83,6 @@ $(document).ready(function () {
     function initialTableContentEvents(response) {
       console.log("initialTableContentEvents");
       if (response.success == true) {
-        console.log(response.events.data);
         currentEvents = {};
         initialCurrentEvents(response.events.data);
         console.log("------------currentEvents-------------");
