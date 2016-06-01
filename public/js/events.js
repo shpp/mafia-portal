@@ -1,7 +1,6 @@
 $(document).ready(function () {
   ajaxRequest(location.href, null, "get", initialTableContentEvents);
 
-
     // event search form submit
     $('#search-form').submit(function(e){
         e.preventDefault();
@@ -164,6 +163,9 @@ $(document).ready(function () {
     var $formModalSelectTypeEvent = $("#modal-form-events #type");
     var $statistics_available = $("#statistics_available");
 
+
+
+
     /**
      * Function clear fields form
      */
@@ -186,6 +188,10 @@ $(document).ready(function () {
         clearFieldsForm();
         $form.attr('action', location.pathname + '/store');
         $form.attr('method', 'post');
+    });
+
+    $('body').on('click', 'td', function () {
+        console.log("hello");
     });
 
      //  edit club

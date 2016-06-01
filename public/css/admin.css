@@ -215,6 +215,6 @@ th {
 .block-fleat .fixed-action-btn.horizontal ul {
   top: -2%;
 }
-#modal-form-events {
-  height: 80%;
+#modal-form-events .picker__date-display {
+  display: none;
 }

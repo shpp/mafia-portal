@@ -7,6 +7,13 @@ $(document).ready(function() {
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
         format: 'd-mm-yyyy',
+        closeOnSelect: false,
+        close: 'Save',
+        onSet: function() {
+          console.log("hello");
+        },
+
+
     });
 
     $('#comments').trigger('autoresize');
