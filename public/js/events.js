@@ -1,7 +1,6 @@
 $(document).ready(function () {
   ajaxRequest(location.href, null, "get", initialTableContentEvents);
 
-
     // event search form submit
     $('#search-form').submit(function(e){
         e.preventDefault();
@@ -83,7 +82,6 @@ $(document).ready(function () {
     function initialTableContentEvents(response) {
       console.log("initialTableContentEvents");
       if (response.success == true) {
-        console.log(response.events.data);
         currentEvents = {};
         initialCurrentEvents(response.events.data);
         console.log("------------currentEvents-------------");
@@ -125,7 +123,7 @@ $(document).ready(function () {
                     )
                     .append($('<li>')
                       .append($('<button>').addClass('btn-floating red delete-form-modal-events')
-                        .append($('<i>').addClass('material-icons').text('clear'))
+                        .append($('<i>').addClass('material-icons').text('delete'))
                       )
                     )
                   )
@@ -165,6 +163,9 @@ $(document).ready(function () {
     var $formModalSelectTypeEvent = $("#modal-form-events #type");
     var $statistics_available = $("#statistics_available");
 
+
+
+
     /**
      * Function clear fields form
      */
@@ -187,6 +188,10 @@ $(document).ready(function () {
         clearFieldsForm();
         $form.attr('action', location.pathname + '/store');
         $form.attr('method', 'post');
+    });
+
+    $('body').on('click', 'td', function () {
+        console.log("hello");
     });
 
      //  edit club

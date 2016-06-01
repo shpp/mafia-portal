@@ -79,14 +79,6 @@
         </div>
     </div>
 
-            <!-- Modal Structure Error Ajax Request -->
-    <div id="error_ajaxRequest" class="modal">
-        <div class="modal-content">
-            <h5>Error 422</h5>
-            <p class="error_422"></p>
-        </div>
-    </div>
-
     @include('admin.users.form')
 
 @endsection

@@ -118,7 +118,6 @@ function initialCurrentClubs(clubs) {
 
 function initialCurrentEvents(events) {
   if(events.length) {
-    console.log(events.length);
     for (var key in events) {
       var event = events[key];
       var eventId = event._id;
@@ -253,7 +252,7 @@ function generalErrorAjaxRequest(jqXHR, textStatus, errorThrown) {
     $('p.error_422').text(errorMesage);
   } else {
       //  todo: add handler
-      alert(errorThrown);
+      console.log(errorThrown);
   }
 }
 

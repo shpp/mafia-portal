@@ -11,23 +11,23 @@
             {!! Form::open(['id' => 'search-form']) !!}
                 <div class="input-field col s12 m4">
                     {!! Form::text('search', $search, array('id' => 'search')) !!}
-                    {!! Form::label('search', 'Search') !!}
+                    {!! Form::label('search', 'Пошук') !!}
                 </div>
             {!! Form::close() !!}
         </div>
 
         <div class="row">
-            <table class="striped highlight responsive-table">
+            <table class="striped highlight ">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>
                         <span class="title-sort" data-order-by="name" data-order="{{ ($isOrderNameDesc) ? 'desc' : 'asc' }}">
-                            Название
+                            Назва
                             <i class="material-icons right">{{ ($isOrderNameDesc) ? 'arrow_drop_up' : 'arrow_drop_down' }}</i>
                         </span>
                     </th>
-                    <th>Человек</th>
+                    <th>Членів клубу</th>
                     <th>Президент</th>
                     <th>Совет</th>
                     <th></th>
