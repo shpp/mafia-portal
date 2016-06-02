@@ -55,8 +55,14 @@ class User extends Eloquent implements Authenticatable
 		return $this->hasOne('App\Club', '_id', 'club_id')->select('_id', 'name');
 	}
 
-	public function isAdmin(  ) {
-		return auth()->user()->role === 'admin';
+	public function is( $role )
+	{
+		return $this->role === $role;
+	}
+
+	public function isBanned()
+	{
+		return isset($this->bane_date);
 	}
 
 	public function scopeSortAndFilter($query, $search, $order_by, $order, $club, $hide_guest)
@@ -76,7 +82,11 @@ class User extends Eloquent implements Authenticatable
 				return $query->orderBy($order_by, $order);
 			})
 			->when($hide_guest, function ($query) {
-				return $query->whereNotNull('club_id');
+				return $query->where(function($query) {
+					return $query->whereNotNull('club_id')
+					             ->orWhere('club_id', "");
+				});
+
 			})
 			->with('club');
 	}

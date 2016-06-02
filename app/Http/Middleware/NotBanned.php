@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\User;
 use Closure;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
-class Admin
+class NotBanned
 {
     /**
      * Handle an incoming request.
@@ -16,9 +17,11 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-	    if (!auth()->check() || !auth()->user()->is(User::ROLE_ADMIN)) {
-		    $message = 'Доступ заборонено';
-		    if($request->ajax() || $request->wantsJson()){
+	    if ( Auth::check() && Auth::user()->isBanned() ) {
+		    Auth::logout();
+
+		    $message = 'Користувач заблокований';
+		    if($request->ajax()){
 			    return Response::json(
 				    [
 					    'success' => false,
@@ -33,6 +36,6 @@ class Admin
 		    return redirect('/');
 	    }
 
-        return $next($request);
+	    return $next($request);
     }
 }

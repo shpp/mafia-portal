@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use App\User;
 use Closure;
 
-class Admin
+class Host
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-	    if (!auth()->check() || !auth()->user()->is(User::ROLE_ADMIN)) {
+	    if ( !auth()->check() && !auth()->user()->is(User::ROLE_HOST) ) {
 		    $message = 'Доступ заборонено';
 		    if($request->ajax() || $request->wantsJson()){
 			    return Response::json(

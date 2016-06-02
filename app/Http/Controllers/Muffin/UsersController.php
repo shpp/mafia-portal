@@ -53,7 +53,6 @@ class UsersController extends Controller
 
 	public function store(UsersRequest $request)
 	{
-		$request->offsetSet('password', '');    //  todo: hash
 		$request->offsetSet('banned', 0);
 
 		User::create($request->all());
@@ -79,5 +78,23 @@ class UsersController extends Controller
 	{
 		$user->delete();
 		return redirect(route('admin.users'));
+	}
+
+	public function generatePassword( User $user, Request $request )
+	{
+		$user->update(['password' => $request->password]);
+
+		return Response::json( [
+			'success' => true
+		] );
+	}
+
+	public function ban( User $user )
+	{
+		$user->update(['bane_date' => $user->fromDateTime(time())]);
+
+		return Response::json( [
+			'success' => true
+		] );
 	}
 }

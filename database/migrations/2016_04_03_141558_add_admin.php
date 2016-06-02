@@ -20,8 +20,6 @@ class AddAdmin extends Migration
 		    'phone' => '11111',
 		    'password' => 'admin',
 		    'role' => 'admin',
-		    'deleted' => 0,
-		    'able_to_login' => 1,
 	    ]);
     }
 

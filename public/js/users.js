@@ -321,9 +321,9 @@ $(document).ready(function () {
         e.preventDefault();
         var userId = $(this).parents("tr").attr("id");
         var url = location.pathname;
-        var userUrl = url + "/" + userId + "/generatePassword";
-        console.log("GET request for generatePassword");
-        ajaxRequest(userUrl,null,"get",null,generalErrorAjaxRequest);
+        var userUrl = url + "/" + userId + "/password";
+        console.log("POST request for generatePassword");
+        ajaxRequest(userUrl,{'password': 123},"post",null,generalErrorAjaxRequest);
     });
 
 

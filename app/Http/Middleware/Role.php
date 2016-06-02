@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\User;
 use Closure;
+use Illuminate\Support\Facades\Response;
 
-class Admin
+class Role
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,12 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-	    if (!auth()->check() || !auth()->user()->is(User::ROLE_ADMIN)) {
+	    $args = func_get_args();
+		//  remove two first args
+	    array_shift($args);
+	    array_shift($args);
+		//  in $args remained roles for comparison
+	    if ( !auth()->check() || !in_array(auth()->user()->role, $args)) {
 		    $message = 'Доступ заборонено';
 		    if($request->ajax() || $request->wantsJson()){
 			    return Response::json(

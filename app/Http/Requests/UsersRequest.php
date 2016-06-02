@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class UsersRequest extends Request
@@ -14,7 +15,7 @@ class UsersRequest extends Request
      */
     public function authorize()
     {
-	    if (Auth::guest() || !Auth::user()->isAdmin()) {
+	    if (Auth::guest() || !Auth::user()->is(User::ROLE_ADMIN)) {
 	        return false;
         }
         return true;
