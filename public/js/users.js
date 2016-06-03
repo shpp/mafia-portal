@@ -323,8 +323,8 @@ $(document).ready(function () {
                     $('#table-content tr.currentBane').css("background-color","#EF5350");
                 }
             },
-            generalErrorAjaxRequest);
-        /*$(this).parents("tr").css("background-color","red");*/
+            generalErrorAjaxRequest
+        );
     });
 
 
@@ -337,11 +337,6 @@ $(document).ready(function () {
         var userUrl = url + "/" + userId + "/password";
         console.log("POST request for generatePassword");
         ajaxRequest(userUrl,{'password': 123},"post",null,generalErrorAjaxRequest);
-    });
-
-    $('#bane_date_root').on('click', '.picker__day', function () {
-        console.log("hello");
-        $('.picker__close').trigger('click');
     });
 
 

@@ -205,6 +205,9 @@ th {
 #add-user .picker__date-display {
   display: none;
 }
+#add-user .picker__footer {
+  display: none;
+}
 #table-content tr.bane {
   background-color: #EF5350;
 }
@@ -222,5 +225,8 @@ th {
   top: -2%;
 }
 #modal-form-events .picker__date-display {
+  display: none;
+}
+#modal-form-events .picker__footer {
   display: none;
 }

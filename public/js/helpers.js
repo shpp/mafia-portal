@@ -257,12 +257,6 @@ function generalErrorAjaxRequest(jqXHR, textStatus, errorThrown) {
   }
 }
 
-// Function active current menu link
-function activeMenuLink() {
-  var currentUrl = location.pathname;
-  var $activeLink = $('a[href*="' + currentUrl + '"]');
-  $activeLink.css({"background-color": "rgba(0,0,0,0.1)"});
-}
 
 function  initialSearchRequest(searchPhrase, initialTableContent){
   console.log("initialSearchRequest");
