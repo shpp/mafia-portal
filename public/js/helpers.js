@@ -229,7 +229,7 @@ function errorAjaxRequest(jqXHR, textStatus, errorThrown) {
   if (jqXHR.status === 422) {
       $.each(jqXHR.responseJSON, function(i, e){
         //  show error
-        $('form').find('#'+ i)
+        $('.modal-form').find('#'+ i)
           .addClass('invalid')
           .after($('<p>').addClass('form-error').text(e));
       });

@@ -6,7 +6,8 @@ $(document).ready(function() {
 
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
-        format: 'd-mm-yyyy',
+        format:  'dd-mm-yyyy',
+        formatSubmit: 'dd-mm-yyyy',
         closeOnSelect: false,
         close: 'Save',
         onSet: function() {

@@ -1,7 +1,7 @@
 <div id="modal-form" class="modal">
     <div class="modal-content">
         <div class="row">
-            {!! Form::open(['novalidate']) !!}
+            {!! Form::open(['class' => 'modal-form' , 'novalidate']) !!}
 
             <div class="row">
                 <div class="input-field">

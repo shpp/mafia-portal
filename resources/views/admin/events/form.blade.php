@@ -2,7 +2,7 @@
   <div class="modal-content">
     <div class="row">
 
-      {!! Form::open(['novalidate']) !!}
+      {!! Form::open(['class' => 'modal-form' , 'novalidate']) !!}
 
       <div class="row">
         <div class="input-field col s6">
@@ -27,12 +27,13 @@
         <div class="bane col s6">
           {!! Form::label('date', 'Date begin',  array('class' => 'input-label')) !!}
           {!! Form::text('date', date('d-m-Y'),
-          array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
+          array('class' => 'datepicker' . ($errors->has('date')?' invalid':''))) !!}
         </div>
         <div class="bane col s6">
           {!! Form::label('date_end', 'Date end',  array('class' => 'input-label')) !!}
           {!! Form::text('date_end',date('d-m-Y'),
-          array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
+          array('class' => 'datepicker' . ($errors->has('date')?' invalid':''))) !!}
+
         </div>
       </div>
       <div class="row">

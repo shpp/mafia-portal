@@ -1,7 +1,7 @@
 <div id="add-user" class="modal">
     <div class="modal-content">
         <div class="row">
-            {!! Form::open( array( 'route' => ['admin.users.store'] )) !!}
+            {!! Form::open( array( 'class' => 'modal-form' , 'route' => ['admin.users.store'] )) !!}
 
             <div class="row ">
                 <div class="input-field col s6">
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="bane col s4">
                     {!! Form::label('bane_date', 'Banned date',  array('class' => 'input-label')) !!}
-                    {!! Form::text('bane_date', null, array('class' => 'validate datepicker' . ($errors->has('date')?' invalid':''))) !!}
+                    {!! Form::text('bane_date', null, array('class' => 'datepicker' . ($errors->has('date')?' invalid':''))) !!}
                 </div>
                 <div class="input-field role col s4">
                     {!! Form::select(
