@@ -5,15 +5,12 @@ $(document).ready(function() {
     $(".button-collapse").sideNav();
 
     $('.datepicker').pickadate({
-        selectMonths: true, // Creates a dropdown to control month
-        format: 'd-mm-yyyy',
-        closeOnSelect: false,
-        close: 'Save',
-        onSet: function() {
-          /*console.log("hello");*/
-        },
-
-
+      selectMonths: true, // Creates a dropdown to control month
+      format: 'd-mm-yyyy',
+      close: 'Save',
+      onSet: function() {
+        this.close();
+      }
     });
 
     $('#comments').trigger('autoresize');
@@ -21,6 +18,3 @@ $(document).ready(function() {
     activeMenuLink();
 
 });
-
-
-

@@ -146,16 +146,6 @@ $(document).ready(function () {
         $form.attr('method', 'post');
     });
 
-    $('#date_root').on('click', '.picker__day', function () {
-        console.log("hello");
-        $('.picker__close').trigger('click');
-    });
-
-    $('#date_end_root').on('click', '.picker__day', function () {
-        console.log("hello");
-        $('.picker__close').trigger('click');
-    });
-
      //  edit club
     $('body').on('click', '.edit-form-modal-events', function () {
         $modalForm.openModal({
