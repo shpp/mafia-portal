@@ -10,7 +10,7 @@ $(document).ready(function() {
         closeOnSelect: false,
         close: 'Save',
         onSet: function() {
-          this.close();
+          console.log("hello");
         },
 
 
@@ -18,6 +18,7 @@ $(document).ready(function() {
 
     $('#comments').trigger('autoresize');
 
+    activeMenuLink();
 
 });
 
