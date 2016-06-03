@@ -146,8 +146,14 @@ $(document).ready(function () {
         $form.attr('method', 'post');
     });
 
-    $('body').on('click', 'td', function () {
+    $('#date_root').on('click', '.picker__day', function () {
         console.log("hello");
+        $('.picker__close').trigger('click');
+    });
+
+    $('#date_end_root').on('click', '.picker__day', function () {
+        console.log("hello");
+        $('.picker__close').trigger('click');
     });
 
      //  edit club
