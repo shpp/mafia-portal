@@ -326,5 +326,10 @@ $(document).ready(function () {
         ajaxRequest(userUrl,{'password': 123},"post",null,generalErrorAjaxRequest);
     });
 
+    $('#bane_date_root').on('click', '.picker__day', function () {
+        console.log("hello");
+        $('.picker__close').trigger('click');
+    });
+
 
 });
