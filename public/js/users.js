@@ -314,9 +314,20 @@ $(document).ready(function () {
         var url = location.pathname;
         var userUrl = url + "/" + userId + "/ban";
         console.log("GET request for bane-user");
-        ajaxRequest(userUrl,null,"get",null,generalErrorAjaxRequest);
-        $(this).parents("tr").css("background-color","red");
+        $(this).parents("tr").addClass('currentBane');
+        ajaxRequest(userUrl,
+            null,
+            "get",
+            function (response) {
+                if (response.success === true) {
+                    $('#table-content tr.currentBane').css("background-color","#EF5350");
+                }
+            },
+            generalErrorAjaxRequest);
+        /*$(this).parents("tr").css("background-color","red");*/
     });
+
+
 
      /*The event handler pushing the button ganeret-password*/
     $body.on('click', '.generat-password', function (e) {
