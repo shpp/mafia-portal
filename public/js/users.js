@@ -365,6 +365,7 @@ $(document).ready(function () {
             $('#password').val("");
             $('#password').removeClass("valid");
             $('#password').removeClass("invalid");
+            $('#generate-result').text("");
             $('#btn-add').show();
         })
 
