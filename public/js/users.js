@@ -126,6 +126,7 @@ $(document).ready(function () {
     var $deleteUserModal = $('#delete-user');
     var $addEditUserModal = $('#add-user');
     var $formInput = $('form input');
+    var $formGeneratePassword = $('#generate-user-password');
 
     // function clear fields form
     function clearFieldsForm() {
@@ -333,10 +334,40 @@ $(document).ready(function () {
     $body.on('click', '.generat-password', function (e) {
         e.preventDefault();
         var userId = $(this).parents("tr").attr("id");
-        var url = location.pathname;
-        var userUrl = url + "/" + userId + "/password";
         console.log("POST request for generatePassword");
-        ajaxRequest(userUrl,{'password': 123},"post",null,generalErrorAjaxRequest);
+        $formGeneratePassword.openModal({
+            ready: onModalShow,
+            complete: onModalHide
+        });
+        $('form').unbind('submit');
+        $('form').submit(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("PATCH request generate user password");
+            var self = $(this);
+            var data = self.serializeArray();
+            var url = window.location.pathname + "/" + userId + "/password";
+            ajaxRequest(
+                url,
+                data,
+                "post",
+                function (response) {
+                    if (response.success === true) {
+                        $('#generate-result').text("Generate password well done!!!");
+                    }
+                },
+                generalErrorAjaxRequest);
+        });
+
+        $('#done-generate').click(function (event) {
+            event.preventDefault();
+            $formGeneratePassword.closeModal();
+            $('#password').val("");
+            $('#password').removeClass("valid");
+            $('#password').removeClass("invalid");
+            $('#btn-add').show();
+        })
+
     });
 
 

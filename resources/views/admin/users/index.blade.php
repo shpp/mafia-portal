@@ -79,6 +79,31 @@
         </div>
     </div>
 
+            <!-- Modal Structure Delete User -->
+    <div id="generate-user-password" class="modal">
+        <div class="modal-content">
+          <div class="row">
+          {!! Form::open(['class' => 'modal-form','id' => 'form-generate-password' , 'novalidate']) !!}
+            <div class="row">
+              <div class="input-field col s12">
+                {!! Form::label('password', 'Пароль',  array('class' => 'input-label'))!!}
+                {!! Form::text('password', NULL, array('class' => 'validate')) !!}
+              </div>
+              <p id="generate-result"></p>
+            </div>
+            <div class="row">
+              <div class="col s6">
+                {!! Form::submit('SAVE', array('class' => 'btn btn-default')) !!}
+              </div>
+              <div class="col s6">
+                {!! Form::button('DONE', array('class' => 'btn btn-default','id' => 'done-generate')) !!}
+              </div>
+            </div>
+          {!! Form::close() !!}
+          </div>
+      </div>
+    </div>
+
     @include('admin.users.form')
 
 @endsection

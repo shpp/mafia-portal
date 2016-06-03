@@ -211,6 +211,13 @@ th {
 #table-content tr.bane {
   background-color: #EF5350;
 }
+#generate-user-password {
+  width: 25%;
+}
+#generate-user-password #generate-result {
+  text-align: center;
+  color: green;
+}
 .block-fleat {
   position: relative;
   padding: 1rem;
