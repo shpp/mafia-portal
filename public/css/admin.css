@@ -205,6 +205,9 @@ th {
 #add-user .picker__date-display {
   display: none;
 }
+#table-content tr.bane {
+  background-color: #EF5350;
+}
 .block-fleat {
   position: relative;
   padding: 1rem;

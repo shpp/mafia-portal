@@ -33,7 +33,8 @@ $(document).ready(function () {
       var index = 1;
       for (var key in users) {
         var user = users[key];
-        content.append($('<tr>').attr('id', key)
+        var classBane = (user['bane_date']) ? 'bane' : 'no-bane';
+        content.append($('<tr>').attr('id', key).addClass(classBane)
                   .append($('<td>').text(index))
                   .append($('<td>').text(user['nickname'] ))
                   .append($('<td>').text(user['name']))
@@ -314,6 +315,7 @@ $(document).ready(function () {
         var userUrl = url + "/" + userId + "/ban";
         console.log("GET request for bane-user");
         ajaxRequest(userUrl,null,"get",null,generalErrorAjaxRequest);
+        $(this).parents("tr").css("background-color","red");
     });
 
      /*The event handler pushing the button ganeret-password*/
