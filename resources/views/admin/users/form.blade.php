@@ -5,11 +5,11 @@
 
             <div class="row ">
                 <div class="input-field col s6">
-                    {!! Form::label('name', 'Name*', array('class' => 'input-label')) !!}
+                    {!! Form::label('name', "Ім'я*", array('class' => 'input-label')) !!}
                     {!! Form::text('name', NULL, array('required','id' => 'name','type' => 'text','class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
                 </div>
                 <div class="input-field col s6">
-                    {!! Form::label('nickname', 'Nickname*', array('class' => 'input-label')) !!}
+                    {!! Form::label('nickname', 'Нікнейм*', array('class' => 'input-label')) !!}
                     {!! Form::text('nickname', NULL, array('autocomplete' => 'on','id' => 'nickname','required','type' => 'text','class' => 'validate' . ($errors->has('nickname')?' invalid':''))) !!}
 
                 </div>
@@ -17,12 +17,12 @@
 
             <div class="row">
                 <div class="input-field col s6">
-                    {!! Form::label('phone', 'Phone*',  array('class' => 'input-label')) !!}
+                    {!! Form::label('phone', 'Номер телефону*',  array('class' => 'input-label')) !!}
                     {!! Form::text('phone', NULL, array('autocomplete' => 'on','id' => 'phone','required','pattern' => '[0-9]{8,12}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
 
                 </div>
                 <div class="input-field col s6">
-                    {!! Form::label('email', 'Email',  array('class' => 'input-label') ) !!}
+                    {!! Form::label('email', 'Емейл',  array('class' => 'input-label') ) !!}
                     {!! Form::email('email', NULL, array('autocomplete' => 'on','id' => 'email','type' => 'email','class' => 'validate' . ($errors->has('email')?' invalid':''))) !!}
 
                 </div>
@@ -30,7 +30,7 @@
 
             <div class="row">
                 <div class="bane col s4">
-                    {!! Form::label('bane_date', 'Banned date',  array('class' => 'input-label')) !!}
+                    {!! Form::label('bane_date', 'Дата бану',  array('class' => 'input-label')) !!}
                     {!! Form::text('bane_date', null, array('class' => 'datepicker' . ($errors->has('date')?' invalid':''))) !!}
                 </div>
                 <div class="input-field role col s4">
@@ -40,7 +40,7 @@
                         null,
                         array('id' => 'role','required')
                     ) !!}
-                    {!! Form::label('role', 'Role') !!}
+                    {!! Form::label('role', 'Роль') !!}
                 </div>
                 <div class="input-field club col s4">
                     {!! Form::select(
@@ -49,7 +49,7 @@
                         null,
                         array('id' => 'club_id', 'class' => 'selectClub')
                     ) !!}
-                    {!! Form::label('club', 'Club') !!}
+                    {!! Form::label('club', 'Клуб') !!}
                 </div>
             </div>
 
@@ -61,10 +61,10 @@
                         null,
                         array('id' => 'gender','required')
                     ) !!}
-                    {!! Form::label('gender', 'Gender') !!}
+                    {!! Form::label('gender', 'Стать') !!}
                 </div>
                 <div class="input-field col s6">
-                    {!! Form::label('vk_link', 'VK' , array('class' => 'input-label')) !!}
+                    {!! Form::label('vk_link', 'ВК' , array('class' => 'input-label')) !!}
                     {!! Form::text(
                         'vk_link',
                         NULL,
@@ -75,7 +75,7 @@
 
             <div class="row">
                 <div class="input-field comments">
-                    {!! Form::label('comments', 'Comments',  array('class' => 'input-label') ) !!}
+                    {!! Form::label('comments', 'Коментарії',  array('class' => 'input-label') ) !!}
                     {{ Form::textarea('comments', null, ['size' => '30x10', 'class' => 'materialize-textarea']) }}
                 </div>
             </div>
