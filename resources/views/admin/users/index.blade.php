@@ -93,10 +93,10 @@
             </div>
             <div class="row">
               <div class="col s6">
-                {!! Form::submit('SAVE', array('class' => 'btn btn-default')) !!}
+                {!! Form::submit('ЗБЕРЕГТИ', array('class' => 'btn btn-default green accent-2')) !!}
               </div>
               <div class="col s6">
-                {!! Form::button('DONE', array('class' => 'btn btn-default','id' => 'done-generate')) !!}
+                {!! Form::button('ВИХІД', array('class' => 'btn btn-default red accent-1','id' => 'done-generate')) !!}
               </div>
             </div>
           {!! Form::close() !!}

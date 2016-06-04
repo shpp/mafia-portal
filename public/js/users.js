@@ -333,6 +333,7 @@ $(document).ready(function () {
      /*The event handler pushing the button ganeret-password*/
     $body.on('click', '.generat-password', function (e) {
         e.preventDefault();
+        clearFormGenerPassw();
         var userId = $(this).parents("tr").attr("id");
         console.log("POST request for generatePassword");
         $formGeneratePassword.openModal({
@@ -346,28 +347,37 @@ $(document).ready(function () {
             console.log("PATCH request generate user password");
             var self = $(this);
             var data = self.serializeArray();
-            var url = window.location.pathname + "/" + userId + "/password";
-            ajaxRequest(
-                url,
-                data,
-                "post",
-                function (response) {
-                    if (response.success === true) {
-                        $('#generate-result').text("Generate password well done!!!");
-                    }
-                },
-                generalErrorAjaxRequest);
+            if(data[1].value) {
+               var url = window.location.pathname + "/" + userId + "/password";
+                ajaxRequest(
+                    url,
+                    data,
+                    "post",
+                    function (response) {
+                        if (response.success === true) {
+                            $('#generate-result').text("Пароль створенно!!!");
+                        }
+                    },
+                    generalErrorAjaxRequest);
+            } else {
+                 $('#generate-result').text("Ведіть пароль!!!");
+            }
+
         });
 
         $('#done-generate').click(function (event) {
             event.preventDefault();
             $formGeneratePassword.closeModal();
+            clearFormGenerPassw();
+            $('#btn-add').show();
+        })
+
+        function clearFormGenerPassw() {
             $('#password').val("");
             $('#password').removeClass("valid");
             $('#password').removeClass("invalid");
             $('#generate-result').text("");
-            $('#btn-add').show();
-        })
+        }
 
     });
 
