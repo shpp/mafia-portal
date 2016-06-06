@@ -127,6 +127,7 @@ $(document).ready(function () {
     var $addEditUserModal = $('#add-user');
     var $formInput = $('form input');
     var $formGeneratePassword = $('#generate-user-password');
+    var $formGeneratePasswordLabels = $('#generate-user-password label');
 
     // function clear fields form
     function clearFieldsForm() {
@@ -321,7 +322,7 @@ $(document).ready(function () {
             "get",
             function (response) {
                 if (response.success === true) {
-                    $('#table-content tr.currentBane').css("background-color","#EF5350");
+                    $('#table-content tr.currentBane').css("border-left","5px solid #EF5350");
                 }
             },
             generalErrorAjaxRequest
@@ -355,7 +356,9 @@ $(document).ready(function () {
                     "post",
                     function (response) {
                         if (response.success === true) {
-                            $('#generate-result').text("Пароль створенно!!!");
+                            $formGeneratePassword.closeModal();
+                            clearFormGenerPassw();
+                            $('#btn-add').show();
                         }
                     },
                     generalErrorAjaxRequest);
@@ -365,18 +368,12 @@ $(document).ready(function () {
 
         });
 
-        $('#done-generate').click(function (event) {
-            event.preventDefault();
-            $formGeneratePassword.closeModal();
-            clearFormGenerPassw();
-            $('#btn-add').show();
-        })
-
         function clearFormGenerPassw() {
             $('#password').val("");
             $('#password').removeClass("valid");
             $('#password').removeClass("invalid");
             $('#generate-result').text("");
+            $formGeneratePasswordLabels.removeClass('active');
         }
 
     });

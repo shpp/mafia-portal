@@ -79,7 +79,7 @@
         </div>
     </div>
 
-            <!-- Modal Structure Delete User -->
+            <!-- Modal Structure Create Password -->
     <div id="generate-user-password" class="modal">
         <div class="modal-content">
           <div class="row">
@@ -94,9 +94,6 @@
             <div class="row">
               <div class="col s6">
                 {!! Form::submit('ЗБЕРЕГТИ', array('class' => 'btn btn-default green accent-2')) !!}
-              </div>
-              <div class="col s6">
-                {!! Form::button('ВИХІД', array('class' => 'btn btn-default red accent-1','id' => 'done-generate')) !!}
               </div>
             </div>
           {!! Form::close() !!}

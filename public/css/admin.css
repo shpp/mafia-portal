@@ -209,7 +209,7 @@ th {
   display: none;
 }
 #table-content tr.bane {
-  background-color: #EF5350;
+  border-left: 5px solid #EF5350;
 }
 #generate-user-password {
   width: 25%;
