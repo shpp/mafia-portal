@@ -17,8 +17,8 @@
 
             <div class="row">
                 <div class="input-field col s6">
-                    {!! Form::label('phone', 'Номер телефону*',  array('class' => 'input-label')) !!}
-                    {!! Form::text('phone', NULL, array('autocomplete' => 'on','id' => 'phone','required','pattern' => '[0-9]{8,12}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
+                    {!! Form::label('phone', 'Номер телефону* в форматі: 0957382143',  array('class' => 'input-label')) !!}
+                    {!! Form::text('phone', NULL, array( 'autocomplete' => 'on','id' => 'phone','required','pattern' => '[0-9]{8,12}','type' => 'tel','class' => 'validate' . ($errors->has('phone')?' invalid':''))) !!}
 
                 </div>
                 <div class="input-field col s6">
