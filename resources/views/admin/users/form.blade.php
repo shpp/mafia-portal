@@ -75,14 +75,14 @@
 
             <div class="row">
                 <div class="input-field comments">
-                    {!! Form::label('comments', 'Коментарії',  array('class' => 'input-label') ) !!}
+                    {!! Form::label('comments', 'Коментарі',  array('class' => 'input-label') ) !!}
                     {{ Form::textarea('comments', null, ['size' => '30x10', 'class' => 'materialize-textarea']) }}
                 </div>
             </div>
 
             @include('errors.list')
 
-            {!! Form::submit('Save', array('class' => 'btn btn-default add-user grey lighten-1')) !!}
+            {!! Form::submit('ЗБЕРЕГТИ', array('class' => 'btn btn-default add-user grey lighten-1')) !!}
 
             {!! Form::close() !!}
         </div>

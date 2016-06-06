@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            {!! Form::submit('SAVE', array('class' => 'btn btn-default add-user grey lighten-1')) !!}
+            {!! Form::submit('ЗБЕРЕГТИ', array('class' => 'btn btn-default add-user grey lighten-1')) !!}
 
             {!! Form::close() !!}
         </div>

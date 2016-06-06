@@ -25,12 +25,12 @@
       </div>
       <div class="row">
         <div class="bane col s6">
-          {!! Form::label('date', 'Date begin',  array('class' => 'input-label')) !!}
+          {!! Form::label('date', 'Дата початку',  array('class' => 'input-label')) !!}
           {!! Form::text('date', date('d-m-Y'),
           array('class' => 'datepicker' . ($errors->has('date')?' invalid':''))) !!}
         </div>
         <div class="bane col s6">
-          {!! Form::label('date_end', 'Date end',  array('class' => 'input-label')) !!}
+          {!! Form::label('date_end', 'Дата закінчення',  array('class' => 'input-label')) !!}
           {!! Form::text('date_end',date('d-m-Y'),
           array('class' => 'datepicker' . ($errors->has('date')?' invalid':''))) !!}
 
@@ -38,17 +38,17 @@
       </div>
       <div class="row">
         <div class="input-field comments col s12">
-          {!! Form::label('comments', 'Comments',  array('class' => 'input-label') ) !!}
+          {!! Form::label('comments', 'Коментарі',  array('class' => 'input-label') ) !!}
           {{ Form::textarea('comments', null, ['size' => '30x10', 'class' => 'materialize-textarea']) }}
         </div>
       </div>
       <div class="row">
         <div class="col s6">
           {!! Form::checkbox('statistics_available', 'true', null , array('id' => 'statistics_available' )) !!}
-          {!! Form::label('statistics_available', 'Statistics available',  array('class' => 'input-label')) !!}
+          {!! Form::label('statistics_available', 'Статистичні дані',  array('class' => 'input-label')) !!}
         </div>
         <div class="col s6">
-          {!! Form::submit('SAVE', array('class' => 'btn btn-default')) !!}
+          {!! Form::submit('ЗБЕРЕГТИ', array('class' => 'btn btn-default')) !!}
         </div>
       </div>
 
