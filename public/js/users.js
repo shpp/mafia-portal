@@ -274,7 +274,7 @@ $(document).ready(function () {
             complete: onModalHide
         });
         clearFieldsForm();
-        $('label[class~=active]').removeClass('active');
+        $('.modal-form label[class~=active]').removeClass('active');
         $('form').unbind('submit');
         $('form').submit( function(e) {
             e.preventDefault();
