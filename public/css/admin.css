@@ -74,6 +74,10 @@ nav {
 .form-error {
   color: #cf253a;
 }
+td,
+th {
+  text-align: center;
+}
 .login-page {
   font-family: 'Lato', sans-serif;
   background-color: #383838;
@@ -197,10 +201,6 @@ nav {
 }
 #delete-user {
   width: 40%;
-}
-td,
-th {
-  text-align: center;
 }
 #add-user .picker__date-display {
   display: none;
