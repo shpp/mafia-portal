@@ -235,4 +235,12 @@ $(document).ready(function () {
         );
     });
 
+    $('body').on('click', 'div.fixed-action-btn.horizontal.click-to-toggle a', function (e) {
+        if($(this).parent().hasClass('active')) {
+            $(this).closeFAB();
+        }
+        $('.fixed-action-btn').closeFAB();
+
+    })
+
 });

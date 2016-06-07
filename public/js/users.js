@@ -124,8 +124,11 @@ $(document).ready(function () {
     var $errorPhone = $('#error_phone');
     var $errorEmail = $('#error_email');
     var $deleteUserModal = $('#delete-user');
+
     var $addEditUserModal = $('#add-user');
+    var $form = $addEditUserModal.find('form');
     var $formInput = $('form input');
+
     var $formGeneratePassword = $('#generate-user-password');
     var $formGeneratePasswordLabels = $('#generate-user-password label');
     var $formBaneUsers = $('#form-bane-users');
@@ -148,21 +151,6 @@ $(document).ready(function () {
         $formInput.removeClass('valid');
         $clubInput.val("").material_select();
         $('form').find('.form-error').remove();
-    }
-
-    // --------------------------------- Functions add user --------------------------//
-
-    /**
-     * @param json type var response
-     */
-    function addUser(response) {
-        if (response.success === true) {
-            console.log('done add user');
-            initialCurrentUsers(response.data.data);
-            overloadTableContent(prepareContentUsers, currentUsers);
-            $addEditUserModal.closeModal();
-            $('#btn-add').show();
-        }
     }
 
     // --------------------------------- Functions delete user --------------------------//
@@ -226,20 +214,6 @@ $(document).ready(function () {
         }
     }
 
-    /**
-     * @param json var response
-     */
-    function editUser(response) {
-        if( response.success == true) {
-            console.log("edit user done");
-            $label.removeClass('active');
-            ajaxRequest(location.href,null,"get", initialTableContentUsers, generalErrorAjaxRequest);
-            $addEditUserModal.closeModal();
-            $('#btn-add').show();
-        }
-    }
-
-
     // --------------------------------- Functions events page-users  --------------------------//
 
 
@@ -271,21 +245,14 @@ $(document).ready(function () {
     $body.on('click', '.add-form-modal', function (e) {
         e.preventDefault();
         console.log("start add user");
-        var url = $(this).data('create-url');
         $addEditUserModal.openModal({
             ready: onModalShow,
             complete: onModalHide
         });
         clearFieldsForm();
-        $('.modal-form label[class~=active]').removeClass('active');
-        $('form').unbind('submit');
-        $('form').submit( function(e) {
-            e.preventDefault();
-            console.log("POST request for add user");
-            var self = $(this);
-            var data = self.serializeArray();
-            ajaxRequest(url, data, "post",addUser, errorAjaxRequest);
-        })
+        $label.removeClass('active');
+        $form.attr('action', location.pathname + '/store');
+        $form.attr('method', 'post');
     });
 
 
@@ -298,17 +265,8 @@ $(document).ready(function () {
         if(currentItem != undefined) {
           openModalEditUser(currentItem);
         }
-        $('form').unbind('submit');
-        $('form').submit(function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("PATCH request edit user");
-            var self = $(this);
-            var data = self.serializeArray();
-            var url = window.location.pathname + "/" + userId;
-            /*initialUserInCurrentUsers(self.serializeArray(), userId, currentUsers);*/
-            ajaxRequest(url, data, "patch", editUser, errorAjaxRequest);
-        });
+        $form.attr('action', location.pathname + '/' + userId);
+        $form.attr('method', 'patch');
     });
 
      /*The event handler pushing the button bane-user*/
@@ -329,7 +287,7 @@ $(document).ready(function () {
             var self = $(this);
             var data = self.serializeArray();
             if(data[1].value) {
-               var url = window.location.pathname + "/" + userId + "/ban";;
+               var url = window.location.pathname + "/" + userId + "/ban";
                 ajaxRequest(
                     url,
                     data,
@@ -413,5 +371,36 @@ $(document).ready(function () {
         $('.fixed-action-btn').closeFAB();
 
     })
+
+    // submit form
+    $form.submit(function(e){
+        e.preventDefault();
+        //  clear errors
+        $form.find('.invalid').removeClass('invalid');
+        $form.find('.form-error').remove();
+
+        var self = $(this);
+        var data = self.serializeArray();
+        var type = $form.attr('method');
+        console.log( type + " request for " + self.attr('action') + " users");
+        ajaxRequest(
+            self.attr('action'),
+            data,
+            type,
+            function(response){
+                if (response.success === true) {
+                    console.log("REQUEST DONE WELL");
+                    ajaxRequest(location.href, null, "get", initialTableContentUsers);
+                    $addEditUserModal.closeModal({
+                        complete: function() {
+                            $form.attr('action', '');
+                            $('#btn-add').show();
+                        }
+                    });
+                }
+            },
+            errorAjaxRequest
+        );
+    });
 
 });
