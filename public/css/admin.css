@@ -78,6 +78,19 @@ td,
 th {
   text-align: center;
 }
+.block-fleat {
+  position: relative;
+  padding: 1.5rem;
+}
+.block-fleat .fixed-action-btn.horizontal {
+  position: absolute;
+  display: inline-block;
+  right: -7px;
+  top: 7px;
+}
+.block-fleat .fixed-action-btn.horizontal ul {
+  top: -2%;
+}
 .login-page {
   font-family: 'Lato', sans-serif;
   background-color: #383838;
@@ -220,7 +233,7 @@ th {
 }
 .block-fleat {
   position: relative;
-  padding: 1rem;
+  padding: 1.5rem;
 }
 .block-fleat .fixed-action-btn.horizontal {
   position: absolute;
