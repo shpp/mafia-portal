@@ -128,6 +128,8 @@ $(document).ready(function () {
     var $formInput = $('form input');
     var $formGeneratePassword = $('#generate-user-password');
     var $formGeneratePasswordLabels = $('#generate-user-password label');
+    var $formBaneUsers = $('#form-bane-users');
+    var $formBaneUsersLabels = $('#form-bane-users label');
 
     // function clear fields form
     function clearFieldsForm() {
@@ -312,24 +314,40 @@ $(document).ready(function () {
      /*The event handler pushing the button bane-user*/
     $body.on('click', '.bane-user', function (e) {
         e.preventDefault();
+        clearFormBaneUsers();
         var userId = $(this).parents("tr").attr("id");
-        var url = location.pathname;
-        var userUrl = url + "/" + userId + "/ban";
-        console.log("GET request for bane-user");
         $(this).parents("tr").addClass('currentBane');
-        var result = confirm("Dima are you sure?");
-        if(result) {
-             ajaxRequest(userUrl,
-                null,
-                "get",
-                function (response) {
-                    if (response.success === true) {
-                        $('#table-content tr.currentBane').css("border-left","5px solid #EF5350");
-                    }
-                },
-                generalErrorAjaxRequest
-            );
-        }
+        $formBaneUsers.openModal({
+            ready: onModalShow,
+            complete: onModalHide
+        });
+        $('form').unbind('submit');
+        $('form').submit(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("GET request for bane-user");
+            var self = $(this);
+            var data = self.serializeArray();
+            if(data[1].value) {
+               var url = window.location.pathname + "/" + userId + "/ban";;
+                ajaxRequest(
+                    url,
+                    data,
+                    "get",
+                    function (response) {
+                        if (response.success === true) {
+                            $formBaneUsers.closeModal();
+                            clearFormBaneUsers();
+                            $('#table-content tr.currentBane').css("border-left","5px solid #EF5350");
+                            $('#btn-add').show();
+                        }
+                    },
+                    generalErrorAjaxRequest);
+            } else {
+                console.log("dddd");
+                $('#form-bane-users #generate-result').text("Ведіть кількість днів!!!");
+            }
+        });
     });
 
 
@@ -339,7 +357,6 @@ $(document).ready(function () {
         e.preventDefault();
         clearFormGenerPassw();
         var userId = $(this).parents("tr").attr("id");
-        console.log("POST request for generatePassword");
         $formGeneratePassword.openModal({
             ready: onModalShow,
             complete: onModalHide
@@ -348,7 +365,7 @@ $(document).ready(function () {
         $('form').submit(function(e){
             e.preventDefault();
             e.stopPropagation();
-            console.log("PATCH request generate user password");
+            console.log("POST request generate user password");
             var self = $(this);
             var data = self.serializeArray();
             if(data[1].value) {
@@ -371,18 +388,25 @@ $(document).ready(function () {
 
         });
 
-        function clearFormGenerPassw() {
-            $('#password').val("");
-            $('#password').removeClass("valid");
-            $('#password').removeClass("invalid");
-            $('#generate-result').text("");
-            $formGeneratePasswordLabels.removeClass('active');
-        }
-
     });
 
-    $body.on('click', 'div.fixed-action-btn.horizontal.click-to-toggle a', function (e) {
+    function clearFormGenerPassw() {
+        $('#password').val("");
+        $('#password').removeClass("valid");
+        $('#password').removeClass("invalid");
+        $('#generate-result').text("");
+        $formGeneratePasswordLabels.removeClass('active');
+    }
 
+    function clearFormBaneUsers() {
+        $('#days').val("");
+        $('#days').removeClass("valid");
+        $('#days').removeClass("invalid");
+        $('#generate-result').text("");
+        $formBaneUsersLabels.removeClass('active');
+    }
+
+    $body.on('click', 'div.fixed-action-btn.horizontal.click-to-toggle a', function (e) {
         if($(this).parent().hasClass('active')) {
             $(this).closeFAB();
         }

@@ -101,6 +101,28 @@
       </div>
     </div>
 
+              <!-- Modal Structure Bane Users -->
+    <div id="form-bane-users" class="modal">
+        <div class="modal-content">
+          <div class="row">
+          {!! Form::open(['class' => 'modal-form','id' => 'bane-users' , 'novalidate']) !!}
+            <div class="row">
+              <div class="input-field col s12">
+                {!! Form::label('days', 'Кількість днів',  array('class' => 'input-label'))!!}
+                {!! Form::number('days', NULL, array('class' => 'validate','min' => '1','max' => '14')) !!}
+              </div>
+              <p id="generate-result"></p>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                {!! Form::submit('ЗБЕРЕГТИ', array('class' => 'btn btn-default green accent-2')) !!}
+              </div>
+            </div>
+          {!! Form::close() !!}
+          </div>
+      </div>
+    </div>
+
     @include('admin.users.form')
 
 @endsection

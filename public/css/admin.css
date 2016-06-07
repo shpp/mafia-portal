@@ -227,9 +227,12 @@ th {
 #generate-user-password {
   width: 25%;
 }
-#generate-user-password #generate-result {
+#form-bane-users {
+  width: 25%;
+}
+#generate-result {
   text-align: center;
-  color: green;
+  color: red;
 }
 .block-fleat {
   position: relative;
