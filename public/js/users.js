@@ -317,16 +317,19 @@ $(document).ready(function () {
         var userUrl = url + "/" + userId + "/ban";
         console.log("GET request for bane-user");
         $(this).parents("tr").addClass('currentBane');
-        ajaxRequest(userUrl,
-            null,
-            "get",
-            function (response) {
-                if (response.success === true) {
-                    $('#table-content tr.currentBane').css("border-left","5px solid #EF5350");
-                }
-            },
-            generalErrorAjaxRequest
-        );
+        var result = confirm("Dima are you sure?");
+        if(result) {
+             ajaxRequest(userUrl,
+                null,
+                "get",
+                function (response) {
+                    if (response.success === true) {
+                        $('#table-content tr.currentBane').css("border-left","5px solid #EF5350");
+                    }
+                },
+                generalErrorAjaxRequest
+            );
+        }
     });
 
 
@@ -379,7 +382,11 @@ $(document).ready(function () {
     });
 
     $body.on('click', 'div.fixed-action-btn.horizontal.click-to-toggle a', function (e) {
-        $('div.fixed-action-btn.horizontal.click-to-toggle').removeClass('active');
+
+        if($(this).parent().hasClass('active')) {
+            $(this).closeFAB();
+        }
+        $('.fixed-action-btn').closeFAB();
 
     })
 
