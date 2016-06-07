@@ -378,5 +378,9 @@ $(document).ready(function () {
 
     });
 
+    $body.on('click', 'div.fixed-action-btn.horizontal.click-to-toggle a', function (e) {
+        $('div.fixed-action-btn.horizontal.click-to-toggle').removeClass('active');
+
+    })
 
 });
