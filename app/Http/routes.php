@@ -37,26 +37,27 @@ Route::group([
 		'namespace' => 'Muffin'
 	], function () {
 	//  games
-//		Route::get('games', ['as' => 'admin.games', 'uses' => 'GamesController@index']);
+		Route::get('games', ['as' => 'admin.games', 'uses' => 'GamesController@index']);
 
 	//	users
-//		Route::get('users', ['as' => 'admin.users', 'uses' => 'UsersController@index']);
+		Route::get('users', ['as' => 'admin.users', 'uses' => 'UsersController@index']);
 		Route::get('users/create', ['as' => 'admin.users.create', 'uses' => 'UsersController@create']);
 		Route::post('users/store', ['as' => 'admin.users.store', 'uses' => 'UsersController@store']);
 		Route::get('users/{user_id}/edit', ['as' => 'admin.users.edit', 'uses' => 'UsersController@edit']);
 		Route::patch('users/{user_id}', ['as' => 'admin.users.update', 'uses' => 'UsersController@update']);
 		Route::get('users/{user_id}/destroy', ['as' => 'admin.users.destroy', 'uses' => 'UsersController@destroy']);
-		Route::post( 'users/{user_id}/password', 'UsersController@generatePassword' );
-		Route::get( 'users/{user_id}/ban', 'UsersController@ban' );
+		Route::patch( 'users/{user_id}/password', 'UsersController@generatePassword' );
+		Route::patch( 'users/{user_id}/ban', 'UsersController@ban' );
+		Route::patch( 'users/{user_id}/unban', 'UsersController@unban' );
 
 	//	clubs
-//		Route::get('clubs', ['as' => 'admin.clubs', 'uses' => 'ClubsController@index']);
+		Route::get('clubs', ['as' => 'admin.clubs', 'uses' => 'ClubsController@index']);
 		Route::post('clubs/store', ['as' => 'admin.clubs.store', 'uses' => 'ClubsController@store']);
 		Route::patch('clubs/{club_id}', ['as' => 'admin.clubs.update', 'uses' => 'ClubsController@update']);
 		Route::get('clubs/{club_id}/destroy', ['as' => 'admin.clubs.destroy', 'uses' => 'ClubsController@destroy']);
 
 	//	events
-//		Route::get('events', ['as' => 'admin.events', 'uses' => 'EventsController@index']);
+		Route::get('events', ['as' => 'admin.events', 'uses' => 'EventsController@index']);
 		Route::get('events/create', ['as' => 'admin.events.create', 'uses' => 'EventsController@create']);
 		Route::post('events/store', ['as' => 'admin.events.store', 'uses' => 'EventsController@store']);
 		Route::get('events/{event_id}/edit', ['as' => 'admin.events.edit', 'uses' => 'EventsController@edit']);
@@ -69,19 +70,11 @@ Route::group([
 
 //  host
 Route::group([
-		'prefix' => 'muffin',
-		'middleware' => ['auth', 'notBanned', 'role:host,admin'],
-		'namespace' => 'Muffin'
+		'middleware' => ['auth', 'notBanned', 'role:host'],
+//		'namespace' => 'Muffin'
 	], function () {
 	//  games
-		Route::get('games', ['as' => 'admin.games', 'uses' => 'GamesController@index']);
+//		Route::get('games', ['as' => 'games', 'uses' => 'GamesController@index']);
 
-	//	users
-		Route::get('users', ['as' => 'admin.users', 'uses' => 'UsersController@index']);
 
-	//	clubs
-		Route::get('clubs', ['as' => 'admin.clubs', 'uses' => 'ClubsController@index']);
-
-	//	events
-		Route::get('events', ['as' => 'admin.events', 'uses' => 'EventsController@index']);
 });

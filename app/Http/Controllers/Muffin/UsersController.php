@@ -6,6 +6,7 @@ use App\Club;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UsersRequest;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
@@ -89,9 +90,20 @@ class UsersController extends Controller
 		] );
 	}
 
-	public function ban( User $user )
+	public function ban( User $user, Request $request )
 	{
-		$user->update(['bane_date' => $user->fromDateTime(time())]);
+		$days = intval($request->input('days', 14));
+
+		$user->update(['bane_date' => $user->fromDateTime(Carbon::today()->addDays($days))]);
+
+		return Response::json( [
+			'success' => true
+		] );
+	}
+
+	public function unban( User $user )
+	{
+		$user->unset('bane_date');
 
 		return Response::json( [
 			'success' => true

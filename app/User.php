@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
@@ -21,6 +22,8 @@ class User extends Eloquent implements Authenticatable
 	protected $dates = ['deleted_at', 'bane_date', 'last_visit'];
 	//  date format
 	protected $dateFormat = 'd-m-Y';
+	//  for JSON
+	protected $appends = ['banned'];
 	/**
      * The attributes that are mass assignable.
      *
@@ -62,7 +65,12 @@ class User extends Eloquent implements Authenticatable
 
 	public function isBanned()
 	{
-		return isset($this->bane_date);
+		return isset($this->bane_date) && $this->bane_date >= Carbon::today();
+	}
+
+	public function getBannedAttribute()
+	{
+		return $this->isBanned();
 	}
 
 	public function scopeSortAndFilter($query, $search, $order_by, $order, $club, $hide_guest)

@@ -291,7 +291,7 @@ $(document).ready(function () {
                 ajaxRequest(
                     url,
                     data,
-                    "get",
+                    "patch",
                     function (response) {
                         if (response.success === true) {
                             $formBaneUsers.closeModal();
@@ -331,7 +331,7 @@ $(document).ready(function () {
                 ajaxRequest(
                     url,
                     data,
-                    "post",
+                    "patch",
                     function (response) {
                         if (response.success === true) {
                             $formGeneratePassword.closeModal();
