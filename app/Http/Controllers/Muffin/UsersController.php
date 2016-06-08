@@ -8,6 +8,7 @@ use App\Http\Requests\UsersRequest;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 
@@ -40,7 +41,6 @@ class UsersController extends Controller
 				)
 			);
 		}
-
 		//  Find users
 		$users = User::sortAndFilter($search, $order_by, $order, $club, $hide_guest)
 						->paginate(self::RECORD_PER_PAGE);
