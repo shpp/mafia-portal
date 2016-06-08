@@ -23,7 +23,7 @@ class Events extends Eloquent {
 	 * @var array
 	 */
 	protected $fillable = [ 'name', 'type', 'date', 'date_end',
-	                        'comments', 'statistics_available'];
+	                        'comments', 'statistics_available', 'club_id'];
 
 	public function scopeSortAndFilter($query, $search, $order_by, $order, $type, $status)
 	{

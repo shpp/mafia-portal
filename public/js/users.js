@@ -114,6 +114,7 @@ $(document).ready(function () {
     var $nickname = $('#nickname');
     var $phone = $('#phone');
     var $email = $('#email');
+    var $bane_date = $('#bane_date');
     var $comments = $('#comments');
     var $roleInput = $("#role");
     var $genderInput = $("#gender");
@@ -141,6 +142,7 @@ $(document).ready(function () {
         $nickname.val("");
         $phone.val("");
         $email.val("");
+        $bane_date.val("");
         $clubInput.val("");
         $vk_link.val("");
         $errorNickname.text("");
@@ -189,6 +191,7 @@ $(document).ready(function () {
         var nickname = response.nickname;
         var phone = response.phone;
         var email = response.email;
+        var bane_date = response.bane_date;
         var club = response.club;
 
         var comments = response.comments;
@@ -202,6 +205,7 @@ $(document).ready(function () {
         $nickname.val(nickname);
         $phone.val(phone);
         $email.val(email);
+        $bane_date.val(bane_date);
         $comments.val(comments);
         $roleInput.val(role);
         $roleInput.val(role).material_select();

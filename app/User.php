@@ -99,6 +99,14 @@ class User extends Eloquent implements Authenticatable
 			->with('club');
 	}
 
+	public function scopeNotBanned($query)
+	{
+		return $query->where(function($query) {
+			return $query->whereNull('bane_date')
+			             ->orWhere('bane_date', '<', Carbon::today());
+		});
+	}
+
 	public function setPasswordAttribute($value){
 		$this->attributes['password'] = Hash::make($value);
 	}

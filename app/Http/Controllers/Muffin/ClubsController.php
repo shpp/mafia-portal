@@ -43,6 +43,7 @@ class ClubsController extends Controller
 
 		$usersInClubs = User::whereNotNull('club_id')
 		                    ->select('_id', 'gender', 'nickname', 'name', 'role', 'club_id')
+							->notBanned()
 							->orderBy('nickname')
 							->get()
 							->groupBy('club_id');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Muffin;
 
+use App\Club;
 use App\Events;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
@@ -46,9 +47,12 @@ class EventsController extends Controller
 		$events = Events::sortAndFilter($search, $order_by, $order, $type, $status)
 			->paginate(self::RECORD_PER_PAGE);
 
+		$clubs = Club::all();
+
 		return Response::json([
 			'success' => true,
 			'events' => $events,
+			'clubs' => $clubs,
 		]);
 	}
 
