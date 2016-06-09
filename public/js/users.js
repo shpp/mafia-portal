@@ -33,7 +33,8 @@ $(document).ready(function () {
       var index = 1;
       for (var key in users) {
         var user = users[key];
-        var classBane = (user['bane_date']) ? 'bane' : 'no-bane';
+        var classBane = (user['bane_date']) ? 'bane' : 'unbane';
+        var iconBane = (classBane == 'bane') ? 'thumb_up' : 'thumb_down';
         content.append($('<tr>').attr('id', key).addClass(classBane)
                   .append($('<td>').text(index))
                   .append($('<td>').text(user['nickname'] ))
@@ -60,7 +61,7 @@ $(document).ready(function () {
                         )
                         .append($('<li>')
                           .append($('<button>').addClass('btn-floating red lighten-1 bane-user')
-                            .append($('<i>').addClass('material-icons').text('thumb_down'))
+                            .append($('<i>').addClass('material-icons banestatus').text(iconBane))
                           )
                         )
                         .append($('<li>')
@@ -279,37 +280,57 @@ $(document).ready(function () {
         clearFormBaneUsers();
         var userId = $(this).parents("tr").attr("id");
         $(this).parents("tr").addClass('currentBane');
-        $formBaneUsers.openModal({
+        if( $(this).parents("tr").hasClass('bane')) {
+            var url = window.location.pathname + "/" + userId + "/unban";
+            ajaxRequest(
+            url,
+            null,
+            "patch",
+            function (response) {
+                if (response.success === true) {
+                    $('#table-content tr.currentBane').removeClass("bane");
+                    $('#table-content tr.currentBane').addClass("unbane");
+                    $('#table-content tr.currentBane i.banestatus').text("thumb_down");
+                    $('#btn-add').show();
+                }
+            },
+            generalErrorAjaxRequest);
+        } else {
+            $formBaneUsers.openModal({
             ready: onModalShow,
             complete: onModalHide
-        });
-        $('form').unbind('submit');
-        $('form').submit(function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("GET request for bane-user");
-            var self = $(this);
-            var data = self.serializeArray();
-            if(data[1].value) {
-               var url = window.location.pathname + "/" + userId + "/ban";
-                ajaxRequest(
-                    url,
-                    data,
-                    "patch",
-                    function (response) {
-                        if (response.success === true) {
-                            $formBaneUsers.closeModal();
-                            clearFormBaneUsers();
-                            $('#table-content tr.currentBane').css("border-left","5px solid #EF5350");
-                            $('#btn-add').show();
-                        }
-                    },
-                    generalErrorAjaxRequest);
-            } else {
-                console.log("dddd");
-                $('#form-bane-users #generate-result').text("Ведіть кількість днів!!!");
-            }
-        });
+            });
+            var url = window.location.pathname + "/" + userId + "/ban";
+
+            $('form').unbind('submit');
+            $('form').submit(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("PATCH request for bane-user");
+                var self = $(this);
+                var data = self.serializeArray();
+                if(data[1].value) {
+                    ajaxRequest(
+                        url,
+                        data,
+                        "patch",
+                        function (response) {
+                            if (response.success === true) {
+                                $formBaneUsers.closeModal();
+                                clearFormBaneUsers();
+                                $('#table-content tr.currentBane').addClass("bane");
+                                $('#table-content tr.currentBane i.banestatus').text("thumb_up");
+                                $('#btn-add').show();
+                            }
+                        },
+                        generalErrorAjaxRequest);
+                } else {
+                    $('#form-bane-users #generate-result').text("Ведіть кількість днів!!!");
+                }
+            });
+        }
+
+
     });
 
 

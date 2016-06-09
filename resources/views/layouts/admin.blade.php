@@ -109,7 +109,7 @@
     <div id="error_ajaxRequest" class="modal">
         <div class="modal-content">
             <h5></h5>
-            <p class="error_message"></p>
+            <p class="error_message">Whoops, looks like something went wrong.</p>
         </div>
     </div>
 
