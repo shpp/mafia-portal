@@ -14,5 +14,6 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
 	    'muffin/users/*/password',
 	    'muffin/users/*/ban',
+      'muffin/users/*/unban',
     ];
 }

@@ -5,11 +5,11 @@
       {!! Form::open(['class' => 'modal-form' , 'novalidate']) !!}
 
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s4">
           {!! Form::label('name', 'Name',  array('class' => 'input-label'))!!}
           {!! Form::text('name', NULL, array('class' => 'validate' . ($errors->has('name')?' invalid':''))) !!}
         </div>
-        <div class="input-field type-event col s6">
+        <div class="input-field type-event col s4">
           {!! Form::select(
             'type',
             array_merge([null => 'Choose type event'], App\Events::getTypes()),
@@ -22,6 +22,7 @@
 
           {!! Form::label('type', 'Type') !!}
         </div>
+
       </div>
       <div class="row">
         <div class="bane col s6">

@@ -281,7 +281,7 @@ $(document).ready(function () {
         var userId = $(this).parents("tr").attr("id");
         $(this).parents("tr").addClass('currentBane');
         if( $(this).parents("tr").hasClass('bane')) {
-            var url = window.location.pathname + "/" + userId + "/unban";
+            var url = location.pathname + "/" + userId + "/unban";
             ajaxRequest(
             url,
             null,
