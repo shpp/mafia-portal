@@ -28,6 +28,8 @@ class EventsController extends Controller
 			$statusForSelect = Events::getStatus();
 			$isOrderNameDesc = $order_by == 'name' && $order == 'desc';
 			$isOrderDateDesc = $order_by == 'date' && $order == 'desc';
+      $clubs = Club::select('_id', 'name')->orderBy('name')->get();
+      $clubsForSelect = array_pluck($clubs, 'name', '_id');
 
 			return view(
 				'admin.events.index',
@@ -38,7 +40,8 @@ class EventsController extends Controller
 					'status',
 					'statusForSelect',
 					'isOrderDateDesc',
-					'isOrderNameDesc'
+					'isOrderNameDesc',
+          'clubsForSelect'
 				)
 			);
 		}

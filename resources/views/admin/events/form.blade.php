@@ -19,8 +19,16 @@
               'required',
             )
           )!!}
-
           {!! Form::label('type', 'Type') !!}
+        </div>
+        <div class="input-field club col s4">
+          {!! Form::select(
+              'club_id',
+              $clubsForSelect,
+              null,
+              array('id' => 'club_id', 'class' => 'selectClub')
+          ) !!}
+          {!! Form::label('club', 'Клуб') !!}
         </div>
 
       </div>
