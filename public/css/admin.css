@@ -218,10 +218,12 @@ th {
 #delete-user {
   width: 40%;
 }
-#add-user .picker__date-display {
-  display: none;
+#add-user {
+  /* .picker__footer {
+    display:none;
+  } */
 }
-#add-user .picker__footer {
+#add-user .picker__date-display {
   display: none;
 }
 #table-content tr.bane {
@@ -237,9 +239,11 @@ th {
   text-align: center;
   color: red;
 }
-#modal-form-events .picker__date-display {
-  display: none;
+#modal-form-events {
+  /*   .picker__footer {
+  display:none;
+} */
 }
-#modal-form-events .picker__footer {
+#modal-form-events .picker__date-display {
   display: none;
 }
