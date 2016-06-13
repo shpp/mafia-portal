@@ -24,7 +24,7 @@
         <div class="input-field club col s4">
           {!! Form::select(
               'club_id',
-              $clubsForSelect,
+              $clubsForSelect = array( null => "Виберіть клуб") + $clubsForSelect,
               null,
               array('id' => 'club_id', 'class' => 'selectClub')
           ) !!}
